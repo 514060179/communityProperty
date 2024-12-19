@@ -48,7 +48,7 @@
 		saveMyAuditOrders
 	} from '../../api/resource/resource.js'
 	// 防止多次点击
-	import {preventClick} from '../../lib/java110/utils/common.js';
+	import {preventClick} from '../../lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 	
@@ -85,7 +85,7 @@
 					applyOrderId: this.applyOrderId,
 					resOrderType: this.resOrderType
 				};
-				queryPurchaseApplyList(this,_objData)
+				queryPurchaseApplyList(this,_objData, JSON.stringify(this.itemOutOrderInfo) == '{}')
 				.then(function(res){
 					_that.itemOutOrderInfo = res.purchaseApplys[0];
 					_that.itemOutOrderInfo.purchaseApplyDetailVo.forEach((item) => {
@@ -122,7 +122,7 @@
 					return;
 				}
 				this.itemOutOrderInfo.taskId =this.taskId;
-				saveResourceOut(this,this.itemOutOrderInfo)
+				saveResourceOut(this,this.itemOutOrderInfo, true)
 				.then(function(res){
 					uni.showToast({
 						title:res.msg,

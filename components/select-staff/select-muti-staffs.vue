@@ -3,7 +3,8 @@
 		<view class="cu-dialog">
 			<view class="cu-bar bg-white ">
 				<view class="action">
-					<text class="cuIcon-title text-orange "></text>选择员工
+					<!-- 选择员工 -->
+					<text class="cuIcon-title text-orange "></text>{{$t('choose_staff')}}
 				</view>
 				<view class="action">
 				</view>
@@ -36,6 +37,7 @@
 		queryStaffListInfo
 	} from '../../api/common/common.js';
 	import {
+		getCurrentCommunity,
 		getCommunityId
 	} from '../../api/community/community.js'
 
@@ -57,9 +59,11 @@
 			switchShow: function(_staffs) {
 				this.showModel = !this.showModel;
 				//this.selectStaffIds = _staffs;
-				console.log('_staffs',_staffs)
+				console.log('_staffs', _staffs)
 				this.checkboxChange({
-					detail:{value:_staffs},
+					detail: {
+						value: _staffs
+					},
 				})
 			},
 
@@ -69,11 +73,12 @@
 					page: 1,
 					row: 50,
 					communityId: getCommunityId(),
+					// communityId: this.communityId,
 				};
-				queryStaffListInfo(this, _data)
+				queryStaffListInfo(this, _data, this.staffs.length == 0)
 					.then(function(res) {
 						let _tempStaffs = res.data.staffs;
-						_tempStaffs.forEach(_t=>{
+						_tempStaffs.forEach(_t => {
 							_t.staffId = _t.userId;
 							_t.staffName = _t.name;
 						})
@@ -88,7 +93,7 @@
 				this.staffs.forEach((item, index) => {
 					if (values.includes(item.staffId)) {
 						item.checked = true;
-					}else{
+					} else {
 						item.checked = false;
 					}
 				});

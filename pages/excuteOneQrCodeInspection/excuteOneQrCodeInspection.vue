@@ -5,7 +5,7 @@
 				<text class=" cuIcon-warnfill light text-orange no-data-icon"></text>
 			</view>
 			<view class="">
-				<text class="text-gray">当前没有巡检任务或者没到巡检时间</text>
+				<text class="text-gray">{{$t('当前没有巡检任务或者没到巡检时间')}}</text>
 			</view>
 		</view>
 	</view>
@@ -13,7 +13,11 @@
 
 <script>
 	import url from '../../constant/url.js'
-	import {formatDate,formatTime,addDay} from '../../lib/java110/utils/DateUtil.js'
+	import {
+		formatDate,
+		formatTime,
+		addDay
+	} from '../../lib/com/newland/property/utils/DateUtil.js'
 	import {
 		getCurrentCommunity
 	} from '../../api/community/community.js'
@@ -28,7 +32,7 @@
 				communityId: '',
 				userName: '',
 				userId: '',
-				taskDetails:[]
+				taskDetails: []
 			}
 		},
 		onLoad(options) {
@@ -56,7 +60,7 @@
 						planUserId: this.userId,
 						inspectionId: this.inspectionId,
 						state: '20200405',
-						qrCodeTime:formatTime(new Date()),
+						qrCodeTime: formatTime(new Date()),
 					},
 					success: function(res) {
 						// TODO 判断
@@ -66,28 +70,29 @@
 						if (!_that.taskDetails || _that.taskDetails.length < 1) {
 							return;
 						}
-						
+
 						let _item = _that.taskDetails[0];
 						uni.navigateTo({
 							url: '/pages/excuteOneInspection/excuteOneInspection?taskDetailId=' +
 								_item.taskDetailId + "&taskId=" + _item.taskId +
 								"&inspectionId=" + _that.inspectionId + "&inspectionName=" + _that
-								.inspectionName + "&itemId=" + _that.itemId+"&fromPage=QrCode"
+								.inspectionName + "&itemId=" + _that.itemId + "&fromPage=QrCode"
 						});
 
 					}
-				});
+				}, this.taskDetails.length == 0);
 			},
 		}
 	}
 </script>
 
 <style>
-	.no-data-icon{
+	.no-data-icon {
 		font-size: 200upx;
 	}
-	.margin-top-100{
+
+	.margin-top-100 {
 		margin-top: 200upx;
-		
+
 	}
 </style>

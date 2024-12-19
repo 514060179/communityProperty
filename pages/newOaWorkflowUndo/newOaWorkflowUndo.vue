@@ -1,25 +1,29 @@
 <template>
 	<view class="user-container margin-top">
-		<view class="cu-list menu" v-if="undos.length > 0" v-for="(undo, idx) in undos" :key="idx"
-			:data-item="undo" @click="gotoDetail(undo)">
-			<view class="cu-item arrow">
-				<view class="content padding-tb-sm">
-					<view>
-						<text class="cuIcon-notification text-cut text-green margin-right-xs"></text>
-						<view class="text-cut" style="width:220px">{{undo.create_user_name}}申请的{{flowName}}单</view>
+		<template v-if="undos.length > 0">
+			<view class="cu-list menu" v-for="(undo, idx) in undos" :key="idx" :data-item="undo"
+				@click="gotoDetail(undo)">
+				<view class="cu-item arrow">
+					<view class="content padding-tb-sm">
+						<view>
+							<text class="cuIcon-notification text-cut text-blue margin-right-xs"></text>
+							<view class="text-cut" style="width:220px">
+								{{undo.create_user_name}}{{$t('申请的')}}{{flowName}}{{$t('单')}}
+							</view>
+						</view>
+						<view class="text-gray text-sm">
+							<text class="margin-right-xs">{{$t('申请时间')}}：</text> {{undo.create_time}}
+						</view>
 					</view>
-					<view class="text-gray text-sm">
-						<text class="margin-right-xs">申请时间：</text> {{undo.create_time}}
-					</view>
+					<view class="action">{{_getNewOaWorkflowUndoState(undo)}}</view>
 				</view>
-				<view class="action" >{{_getNewOaWorkflowUndoState(undo)}}</view>
 			</view>
-		</view>
+		</template>
 		<view class="cu-list menu" v-else>
 			<view class="cu-item">
 				<view class="content">
 					<text class="cuIcon-notification text-grey"></text>
-					<text class="text-grey">暂无数据</text>
+					<text class="text-grey">{{$t('暂无数据')}}</text>
 				</view>
 				<view class="action">
 				</view>
@@ -40,7 +44,7 @@
 				currPageIndex: 0,
 				pageSize: 10,
 				flowId: '',
-				flowName:''
+				flowName: ''
 			};
 		},
 		onLoad: function(options) {
@@ -60,13 +64,14 @@
 					page: 1,
 					row: 100,
 					flowId: this.flowId
-				}).then(_data => {
+				}, this.undos.length == 0).then(_data => {
 					_that.undos = _data.data;
 				})
 			},
-			gotoDetail:function(_undo){
+			gotoDetail: function(_undo) {
 				this.context.navigateTo({
-					url:'/pages/newOaWorkflowDetail/newOaWorkflowDetail?flowId='+this.flowId+"&id="+_undo.id+"&action=Audit&taskId="+_undo.taskId
+					url: '/pages/newOaWorkflowDetail/newOaWorkflowDetail?flowId=' + this.flowId + "&id=" +
+						_undo.id + "&action=Audit&taskId=" + _undo.taskId
 				})
 			},
 			_getNewOaWorkflowUndoState: function(_undo) {
@@ -74,21 +79,21 @@
 				 * 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结
 				 */
 				if (!_undo.hasOwnProperty('state')) {
-					return "未知";
+					this.$t('未知')
 				}
 				switch (_undo.state) {
 					case '1001':
-						return "申请";
+						return this.$t('申请');
 					case '1002':
-						return "待审核";
+						return this.$t('待审核');
 					case '1003':
-						return "退回";
+						return this.$t('退回');
 					case '1004':
-						return "委托";
+						return this.$t('委托');
 					case '1005':
-						return "办结";
+						return this.$t('办结');
 				}
-				return "未知"
+				return this.$t('未知')
 			}
 		}
 	};

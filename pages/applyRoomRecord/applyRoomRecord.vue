@@ -5,7 +5,7 @@
 				<view class="cu-item arrow">
 					<view class="item-content">
 						<view class="text-grey">
-							<text class="cuIcon-notification text-cut text-green margin-right-xs"></text>
+							<text class="cuIcon-notification text-cut text-blue margin-right-xs"></text>
 						 {{item.stateName}}-{{item.createTime}}
 						</view>
 						<view class="text-gray text-sm flex">
@@ -89,7 +89,7 @@
 					roomName: this.applyRoomInfo.roomName,
 					roomId: this.applyRoomInfo.roomId
 				};
-				queryApplyRoomRecord(this,_objData)
+				queryApplyRoomRecord(this,_objData, this.applyRoomRecordList.length == 0)
 				.then(function(res){
 					_that.applyRoomRecordList = _that.applyRoomRecordList.concat(res.data)
 					_that.page ++;

@@ -25,12 +25,12 @@
 </template>
 
 <script>
-	import * as TanslateImage from '../../lib/java110/utils/translate-image.js';
+	import * as TanslateImage from '../../lib/com/newland/property/utils/translate-image.js';
 	import conf from '../../conf/config.js'
-	const context = require("../../lib/java110/Java110Context.js");
+	const context = require("../../lib/com/newland/property/Java110Context.js");
 	const factory = context.factory;
 	export default {
-		name:"vc-upload",
+		name: "vc-upload",
 		data() {
 			return {
 				photos: [],
@@ -81,15 +81,15 @@
 				deep: true
 			}
 		},
-		watch:{
-			photos:function(val){
+		watch: {
+			photos: function(val) {
 				this.sendData();
 			},
 			deep: true
 		},
 		mounted() {
 			this.imgList = this.sendImgList;
-			if(this.imgList.length > 0){
+			if (this.imgList.length > 0) {
 				uni.showLoading({
 					title: "图片加载中...",
 					mask: true
@@ -97,9 +97,9 @@
 			}
 			this.imgList.forEach((item, index) => {
 				let url = '';
-				if(item.indexOf("http") != -1){
+				if (item.indexOf("http") != -1) {
 					url = item;
-				}else{
+				} else {
 					url = conf.commonBaseUrl + item;
 				}
 				uni.request({
@@ -110,7 +110,7 @@
 						let base64 = wx.arrayBufferToBase64(res.data); //把arraybuffer转成base64
 						let Base64Url = 'data:image/jpeg;base64,' + base64; //不加上这串字符，在页面无法显示
 						this.photos.push(Base64Url);
-						if(this.photos.length == this.imgList.length){
+						if (this.photos.length == this.imgList.length) {
 							uni.hideLoading();
 						}
 					}
@@ -134,7 +134,7 @@
 				// })
 			})
 		},
-		methods:{
+		methods: {
 			// 向父组件传递base64数据
 			sendData() {
 				this.$emit('sendImagesData', this.photos)
@@ -153,28 +153,28 @@
 					sourceType: this.sourceType, // 相册或拍摄
 					success: (res) => {
 						var tempFilePaths = res.tempFilePaths[0]
-						
+
 						that.imgList.push(tempFilePaths);
 						that.$forceUpdate();
-					
+
 						TanslateImage.translate(tempFilePaths, (url) => {
 							that.photos.push(url);
 						})
-						
+
 					}
 				});
 			},
 			// 预览
-			preview: function(index){
+			preview: function(index) {
 				let urls = this.imgList;
 				// 空集合 return
-				if(urls.length < 1){
+				if (urls.length < 1) {
 					return;
 				}
 				// domain拼接
 				urls.forEach((item, index) => {
 					let start = item.indexOf("/callComponent");
-					if(start == 0){
+					if (start == 0) {
 						urls[index] = conf.commonBaseUrl + item;
 					}
 				})

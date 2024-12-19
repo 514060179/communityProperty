@@ -14,7 +14,7 @@
 		<uploadImageAsync ref="vcUploadRef" :communityId="communityId" :maxPhotoNum="uploadImage.maxPhotoNum" :canEdit="uploadImage.canEdit" :title="uploadImage.imgTitle" @sendImagesData="sendImagesData"></uploadImageAsync>
 
 		<view class="flex flex-direction margin-top">
-			<button  class="cu-btn bg-green margin-tb-sm lg" @click="_dispatchRecord()">提交</button>
+			<button  class="cu-btn bg-blue margin-tb-sm lg" @click="_dispatchRecord()">提交</button>
 		</view>
 
 	</view>
@@ -25,7 +25,7 @@
 		saveApplyRoomDiscountRecord
 	} from '../../api/apply/apply.js'
 	import {getCurrentCommunity} from '../../api/community/community.js'
-	import * as TanslateImage from '../../lib/java110/utils/translate-image.js';
+	import * as TanslateImage from '../../lib/com/newland/property/utils/translate-image.js';
 	import uploadImageAsync from "../../components/vc-upload-async/vc-upload-async.vue";
 	export default {
 		data() {
@@ -120,7 +120,7 @@
 					});
 					return;
 				}
-				saveApplyRoomDiscountRecord(this, params)
+				saveApplyRoomDiscountRecord(this, params, true)
 					.then(function() {
 						uni.showToast({
 							title:"保存成功"

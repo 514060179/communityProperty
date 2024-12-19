@@ -4,7 +4,7 @@ import url from '../../constant/url.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function loadRooms(_that,_data){
+export function loadRooms(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryRooms,
@@ -14,16 +14,16 @@ export function loadRooms(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function loadRoomAndOwner(_that,_data){
+export function loadRoomAndOwner(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url:url.listRoomAndOwner,
@@ -33,11 +33,11 @@ export function loadRoomAndOwner(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	})
 }

@@ -105,7 +105,7 @@
 					//communityId: getCurrentCommunity().communityId,
 					isShow: true
 				};
-				listStoreHouses(this, _data)
+				listStoreHouses(this, _data, this.storeHouses.length == 0)
 					.then(function(res) {
 						res.data.forEach(item=>{
 							if(item.shId != _that.shId){

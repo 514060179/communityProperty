@@ -11,69 +11,67 @@
 </template>
 
 <script>
-	import {getHeaders} from '../../lib/java110/api/SystemApi.js';
-	import url from '@/constant/url.js'
-	
+	import {
+		getHeaders
+	} from '../../lib/com/newland/property/api/SystemApi.js'
+
 	export default {
-		name:"vcUploadFile",
+		name: "vcUploadFile",
 		data() {
 			return {
-				fileName:'',
+				fileName: '',
 			};
 		},
-		methods:{
-			_setFileName:function(_fileName){
+		methods: {
+			_setFileName: function(_fileName) {
 				this.fileName = _fileName;
 			},
 			_doUploadFile: function() {
-				let _that = this;
-				uni.chooseMessageFile({
+				uni.chooseFile({
 					count: 1, //默认100
-					type:'all',
-					extension: ['.zip','.jpg','.png','.xlsx','.doc','docx','.xls'],
+					extension: ['.zip', '.jpg', '.png', '.xlsx', '.doc', 'docx', '.xls'],
 					success: (res) => {
 						console.log(res);
 						if (res.tempFiles[0].size / 1024 / 1024 > 20) {
-							_that.$refs.uToast.show({
+							this.$refs.uToast.show({
 								title: '附件大小不能超过20M',
 								type: 'warning',
 							})
 							return;
 						}
-				 	   _that.resultPath(res.tempFiles[0].path, res.tempFiles[0].name);
+						this.resultPath(res.tempFilePaths[0], res.tempFiles[0].name);
 					}
 				});
 			},
-			resultPath(path,fileName) {
-			    let _that = this;
-			    uni.showLoading({
-			      title: '上传中...',
-			    });
-			    uni.uploadFile({
-			        url: url.uploadVideo, 
-			        filePath: path,
+			resultPath(path, fileName) {
+				let _that = this;
+				uni.showLoading({
+					title: '上传中...',
+				});
+				uni.uploadFile({
+					url: '/callComponent/upload/uploadVedio/upload',
+					filePath: path,
 					name: 'uploadFile',
-			        header:getHeaders(),
-			        formData: {
-			            // 'user': 'test'
-			        },
-			        success: (uploadFileRes) => {
+					header: getHeaders(),
+					formData: {
+						// 'user': 'test'
+					},
+					success: (uploadFileRes) => {
 						uni.hideLoading();
-			             let obj = JSON.parse(uploadFileRes.data);
-			             _that.fileName = obj.fileName;
-						 _that.realFileName = obj.realFileName;
-						 _that.$emit('uploadFile',obj);
-						 
-			         },
-			         fail:(err) =>{
-						 console.log(err)
-						 uni.showToast({
-						 	icon:'none',
-							title:'上传失败'
-						 })
-			             uni.hideLoading();
-			         }
-			    });
+						let obj = JSON.parse(uploadFileRes.data);
+						_that.fileName = obj.fileName;
+						_that.realFileName = obj.realFileName;
+						_that.$emit('uploadFile', obj);
+
+					},
+					fail: (err) => {
+						this.$refs.uToast.show({
+							title: '上传失败',
+							type: 'error',
+						});
+						uni.hideLoading();
+					}
+				});
 			}
 		}
 	}

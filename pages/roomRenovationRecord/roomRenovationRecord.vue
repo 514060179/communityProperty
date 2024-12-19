@@ -1,16 +1,17 @@
 <template>
 	<view>
 		<view class="margin-top" v-if="renovationRecordList.length > 0">
-			<view class="cu-list menu-avatar " v-for="(item,index) in renovationRecordList" :key="index" @tap="_showDetail(item)">
+			<view class="cu-list menu-avatar " v-for="(item,index) in renovationRecordList" :key="index"
+				@tap="_showDetail(item)">
 				<view class="cu-item arrow">
 					<view class="item-content">
 						<view class="text-grey">
-							<text class="cuIcon-notification text-cut text-green margin-right-xs"></text>
-						 {{item.stateName}}-{{item.createTime}}
+							<text class="cuIcon-notification text-cut text-blue margin-right-xs"></text>
+							{{item.stateName}}-{{item.createTime}}
 						</view>
 						<view class="text-gray text-sm flex">
 							<view class="text-cut">
-								操作人员：{{item.staffName}}
+								{{$t('operator')}}：{{item.staffName}}
 							</view>
 						</view>
 					</view>
@@ -35,21 +36,29 @@
 <script>
 	import noDataPage from '@/components/no-data-page/no-data-page.vue'
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-	import {queryRoomRenovationRecord} from '../../api/renovation/renovation.js'
-	import {getCurrentCommunity} from '../../api/community/community.js'
+	import {
+		queryRoomRenovationRecord
+	} from '../../api/renovation/renovation.js'
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
 	export default {
 		data() {
+			const translate = (key) => {
+				return this.$t(key);
+			};
+
 			return {
 				renovationInfo: [],
 				communityId: '',
 				renovationRecordList: [],
 				page: 1,
-				loadingStatus : 'loading',
+				loadingStatus: 'loading',
 				loadingContentText: {
-					contentdown: '上拉加载更多',
-					contentrefresh: '加载中',
-					contentnomore: '没有更多'
-				}
+					contentdown: translate('pull_up_to_load_more'),
+					contentrefresh: translate('loading'),
+					contentnomore: translate('no_more')
+				},
 			}
 		},
 		components: {
@@ -62,14 +71,14 @@
 			_that.renovationInfo = JSON.parse(options.apply);
 			console.log(_that.renovationInfo);
 		},
-		onShow: function(){
+		onShow: function() {
 			this.page = 1;
 			this.renovationRecordList = [];
 			this.communityId = getCurrentCommunity().communityId;
-			this.loadApply();	
+			this.loadApply();
 		},
-		onReachBottom : function(){
-			if(this.loadingStatus == 'noMore'){
+		onReachBottom: function() {
+			if (this.loadingStatus == 'noMore') {
 				return;
 			}
 			this.loadApply();
@@ -78,7 +87,7 @@
 			/**
 			 * 加载数据
 			 */
-			loadApply: function(){
+			loadApply: function() {
 				this.loadingStatus = 'more';
 				let _that = this;
 				let _objData = {
@@ -89,30 +98,32 @@
 					roomName: this.renovationInfo.roomName,
 					roomId: this.renovationInfo.roomId
 				};
-				queryRoomRenovationRecord(this,_objData)
-				.then(function(res){
-					_that.renovationRecordList = _that.renovationRecordList.concat(res.data)
-					_that.page ++;
-					if(_that.renovationRecordList.length == res.total){
-						_that.loadingStatus = 'noMore';
-						return;
-					}
-				})
+				queryRoomRenovationRecord(this, _objData, this.renovationRecordList.length == 0)
+					.then(function(res) {
+						_that.renovationRecordList = _that.renovationRecordList.concat(res.data)
+						_that.page++;
+						if (_that.renovationRecordList.length == res.total) {
+							_that.loadingStatus = 'noMore';
+							return;
+						}
+					})
 			},
-			
+
 			/**
 			 * 跳转详情页
 			 */
-			_addRecord: function(){
+			_addRecord: function() {
 				uni.navigateTo({
-					url: '/pages/roomRenovationRecordHandle/roomRenovationRecordHandle?apply=' + JSON.stringify(this.renovationInfo)
+					url: '/pages/roomRenovationRecordHandle/roomRenovationRecordHandle?apply=' + JSON
+						.stringify(this.renovationInfo)
 				});
 			},
-			
-			_showDetail: function(_item){
+
+			_showDetail: function(_item) {
 				_item.communityId = this.renovationInfo.communityId;
 				uni.navigateTo({
-					url: '/pages/roomRenovationRecordDetail/roomRenovationRecordDetail?apply=' + JSON.stringify(_item)
+					url: '/pages/roomRenovationRecordDetail/roomRenovationRecordDetail?apply=' + JSON
+						.stringify(_item)
 				});
 			}
 		}
@@ -120,18 +131,20 @@
 </script>
 
 <style>
-	.record-add{
+	.record-add {
 		position: fixed;
 		right: 10rpx;
 		bottom: 50rpx;
 		width: 100rpx;
 		height: 100rpx;
 	}
-	.record-add img{
+
+	.record-add img {
 		width: 100%;
 		height: 100%;
 	}
-	.item-content{
+
+	.item-content {
 		width: 100%;
 		margin-left: 20rpx;
 		line-height: 1.6em;

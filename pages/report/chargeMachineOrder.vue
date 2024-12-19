@@ -111,7 +111,7 @@
 					row:100,
 					personName:this.personName,
 					iotApiCode:'listChargeMachineOrderBmoImpl'
-				}).then(_data=>{
+				}, this.orders.length == 0).then(_data=>{
 					_that.orders = _data.data;
 				})
 			},
@@ -122,7 +122,7 @@
 					page:1,
 					row:100,
 					iotApiCode:'listChargeMachineBmoImpl'
-				}).then(_data=>{
+				}, this.machines.length == 0).then(_data=>{
 					_that.machines = _data.machines;
 				})
 			},

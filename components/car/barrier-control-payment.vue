@@ -4,7 +4,7 @@
 			<view class="bg-white margin-bottom padding-sm margin-sm radius-sm" v-for="(item,index) in payments" :key="index" >
 				<view class="apply-title flex justify-between">
 					<view>
-						<text class="cuIcon-goods text-cut text-green margin-right-xs"></text>
+						<text class="cuIcon-goods text-cut text-blue margin-right-xs"></text>
 						<text class="text-bold">{{item.carNum}}</text>
 						<text class="margin-left-sm">({{item.stateName}})</text>
 					</view>
@@ -65,7 +65,7 @@
 					communityId:this.getCommunityId(),
 					paNum:this.paNum,
 					iotApiCode:'listCarInoutPaymentBmoImpl'
-				}).then(_data=>{
+				}, this.payments.length == 0).then(_data=>{
 					_that.payments = _data.data;
 				})
 			}

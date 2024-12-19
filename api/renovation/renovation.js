@@ -4,7 +4,7 @@ import url from '../../constant/url.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryRoomRenovation(_that,_data){
+export function queryRoomRenovation(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryRoomRenovation,
@@ -15,7 +15,7 @@ export function queryRoomRenovation(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -23,19 +23,19 @@ export function queryRoomRenovation(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 提交审核操作
  */
-export function updateRoomToExamine(_that, _data){
+export function updateRoomToExamine(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.updateRoomToExamine,
@@ -45,7 +45,7 @@ export function updateRoomToExamine(_that, _data){
 					reslove();
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -53,19 +53,19 @@ export function updateRoomToExamine(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 提交验收操作
  */
-export function saveRoomRenovationDetail(_that, _data){
+export function saveRoomRenovationDetail(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveRoomRenovationDetail,
@@ -75,7 +75,7 @@ export function saveRoomRenovationDetail(_that, _data){
 					reslove();
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -83,12 +83,12 @@ export function saveRoomRenovationDetail(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -97,7 +97,7 @@ export function saveRoomRenovationDetail(_that, _data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryRoomRenovationRecord(_that,_data){
+export function queryRoomRenovationRecord(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryRoomRenovationRecord,
@@ -107,7 +107,7 @@ export function queryRoomRenovationRecord(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -115,19 +115,19 @@ export function queryRoomRenovationRecord(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 添加跟踪记录操作
  */
-export function updateRoomDecorationRecord(_that, _data){
+export function updateRoomDecorationRecord(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.updateRoomDecorationRecord,
@@ -137,7 +137,7 @@ export function updateRoomDecorationRecord(_that, _data){
 					reslove();
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -145,12 +145,12 @@ export function updateRoomDecorationRecord(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -158,7 +158,7 @@ export function updateRoomDecorationRecord(_that, _data){
  * 跟踪记录
  * 视频上传操作
  */
-export function uploadVideo(_that, _data){
+export function uploadVideo(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.uploadVideo,
@@ -171,7 +171,7 @@ export function uploadVideo(_that, _data){
 					reslove();
 				}else{
 					wx.showToast({
-						title: "服务器异常了1",
+						title: '服务器异常了1',
 						icon: 'none',
 						duration: 2000
 					})
@@ -180,12 +180,12 @@ export function uploadVideo(_that, _data){
 			fail: function(e) {
 				console.log(e);
 				wx.showToast({
-					title: "服务器异常了2",
+					title: '服务器异常了2',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -194,7 +194,7 @@ export function uploadVideo(_that, _data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryRoomRenovationRecordDetail(_that,_data){
+export function queryRoomRenovationRecordDetail(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryRoomRenovationRecordDetail,
@@ -204,7 +204,7 @@ export function queryRoomRenovationRecordDetail(_that,_data){
 					reslove(res.data.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -212,19 +212,19 @@ export function queryRoomRenovationRecordDetail(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 添加跟踪记录操作
  */
-export function updateRoomRenovationState(_that, _data){
+export function updateRoomRenovationState(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.updateRoomRenovationState,
@@ -242,12 +242,12 @@ export function updateRoomRenovationState(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -256,7 +256,7 @@ export function updateRoomRenovationState(_that, _data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryDictInfo(_that,_data){
+export function queryDictInfo(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryDictInfo,
@@ -266,19 +266,19 @@ export function queryDictInfo(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 删除跟踪记录操作
  */
-export function deleteRoomRenovationRecord(_that, _data){
+export function deleteRoomRenovationRecord(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.deleteRoomRenovationRecord,
@@ -288,7 +288,7 @@ export function deleteRoomRenovationRecord(_that, _data){
 					reslove();
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -296,11 +296,11 @@ export function deleteRoomRenovationRecord(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

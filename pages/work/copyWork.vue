@@ -2,24 +2,27 @@
 	<view>
 		<scroll-view scroll-x class="bg-white nav">
 			<view class="flex text-center">
+				<!-- 待处理 -->
 				<view class="cu-item flex-sub" :class="active==0?'text-blue cur':''" @tap="tabSelect(0)">
-					待处理
+					{{$t('pending')}}
 				</view>
+				<!-- 已处理 -->
 				<view class="cu-item flex-sub" :class="active==1?'text-blue cur':''" @tap="tabSelect(1)">
-					已处理
+					{{$t('processed')}}
 				</view>
 			</view>
 		</scroll-view>
 
 		<view class="q-query flex justify-start flex-wrap margin-top-sm">
 			<view class="q-item">
-				<input type="text" class="q-input" placeholder="题目" v-model="workNameLike"></input>
+				<input type="text" class="q-input" :placeholder="$t('title')" v-model="workNameLike"></input>
 			</view>
 			<view class="q-item">
-				<input type="text" class="q-input" placeholder="发起人" v-model="createUserNameLike"></input>
+				<input type="text" class="q-input" :placeholder="$t('processor')" v-model="createUserNameLike"></input>
 			</view>
 			<view class="q-item-btn">
-				<button class="cu-btn  line-blue round q-input" @click="_loadStartWork">搜索</button>
+				<!-- 搜索 -->
+				<button class="cu-btn  line-blue round q-input" @click="_loadStartWork">{{$t('search')}}</button>
 			</view>
 		</view>
 		<view class="margin-top" v-if="copys.length > 0">
@@ -30,29 +33,34 @@
 						<text class="text-bold">{{work.workId}}({{work.stateName}})</text>
 					</view>
 					<view class="flex justify-start">
-						<button class="cu-btn round sm line-black margin-left-sm" v-if="work.state == 'D'" @tap="_todoCopyWork(work)">已阅</button>
-						<button class="cu-btn round sm line-black margin-left-sm" @tap="_toWorkDetail(work)">详情</button>
+						<!-- 已阅 -->
+						<button class="cu-btn round sm line-black margin-left-sm" v-if="work.state == 'D'"
+							@tap="_todoCopyWork(work)">{{$t('have_read')}}</button>
+						<button class="cu-btn round sm line-black margin-left-sm"
+							@tap="_toWorkDetail(work)">{{$t('btn_details')}}</button>
 					</view>
 				</view>
 				<view class="apply-content flex justify-start flex-wrap">
 					<view class="item">
-						<text>题目:</text>
+						<text>{{$t('title')}}:</text>
 						<text class="margin-left-sm">{{work.workName}}</text>
 					</view>
 					<view class="item-half">
-						<text>标识:</text>
-						<text class="margin-left-sm">{{work.workCycle == '1001'?'一次性工单':'周期性工单'}}</text>
+						<text>{{$t('identifier')}}:</text>
+						<text
+							class="margin-left-sm">{{work.workCycle == '1001'?$t('one_time_work_order'):$t('periodic_work_order')}}</text>
 					</view>
 					<view class="item-half">
-						<text>处理人:</text>
-						<text class="margin-left-sm">{{work.staffName || '-'}}</text>
+						<text>{{$t('processor')}}:</text>
+						<!-- <text class="margin-left-sm">{{work.staffName || '-'}}</text> -->
+						<text class="margin-left-sm">{{work.curStaffName || '-'}}</text>
 					</view>
 					<view class="item">
-						<text>创建时间:</text>
+						<text>{{$t('creation_time')}}:</text>
 						<text class="margin-left-sm">{{work.createTime}}</text>
 					</view>
 					<view class="item">
-						<text>有效期:</text>
+						<text>{{$t('validity_period')}}:</text>
 						<text class="margin-left-sm">{{work.startTime}}~{{work.endTime}}</text>
 					</view>
 
@@ -81,12 +89,15 @@
 				createUserNameLike: '',
 				copys: [],
 				staffId: '',
-				active:0
+				active: 0
 			}
+		},
+		computed: {
+
 		},
 		onLoad() {
 			this.staffId = getStaffId();
-			
+
 		},
 		onShow() {
 			this._loadCopyWork();
@@ -95,37 +106,37 @@
 			_loadCopyWork: function() {
 				let _that = this;
 				let _state = 'D';
-				if(this.active == 1){
+				if (this.active == 1) {
 					_state = 'C';
 				}
 				getCopyWork(this, {
 					page: 1,
 					row: 100,
-					state:_state,
+					state: _state,
 					workNameLike: this.workNameLike,
 					createUserNameLike: this.createUserNameLike
-				}).then(_data => {
+				}, this.copys.length == 0).then(_data => {
 					_that.copys = _data.data;
 				});
 			},
 			_toWorkDetail: function(_work) {
 				uni.navigateTo({
-					url: '/pages/work/workTask?workId=' + _work.workId 
+					url: '/pages/work/workTask?workId=' + _work.workId
 				})
 
 			},
-			tabSelect:function(_active){
+			tabSelect: function(_active) {
 				this.active = _active;
 				let _that = this;
 				this.works = [];
 				this._loadCopyWork();
 			},
-			_loadStartWork:function(){
+			_loadStartWork: function() {
 				this._loadCopyWork();
 			},
-			_todoCopyWork:function(_work){
+			_todoCopyWork: function(_work) {
 				uni.navigateTo({
-					url:'/pages/work/doCopyWork?workId='+_work.workId+'&copyId='+_work.copyId
+					url: '/pages/work/doCopyWork?workId=' + _work.workId + '&copyId=' + _work.copyId
 				})
 			}
 		}

@@ -79,7 +79,7 @@
 					communityId:this.getCommunityId(),
 					paNum:this.paNum,
 					iotApiCode:'listCarInoutDetailBmoImpl'
-				}).then(_data=>{
+				}, this.inouts.length == 0).then(_data=>{
 					_that.inouts = _data.data;
 				})
 			}

@@ -78,7 +78,7 @@
 					resOrderType: this.resOrderType,
 					applyOrderId: this.applyOrderId
 				};
-				queryPurchaseApplyList(this, _objData)
+				queryPurchaseApplyList(this, _objData, this.purchaseApplyDetailVo.length == 0)
 					.then(function(res) {
 						let _app = res.purchaseApplys[0];
 						_that.description = _app.description;
@@ -117,7 +117,7 @@
 					communityId: this.getCommunityId(),
 					applyOrderId: this.applyOrderId
 				};
-				updatePurchaseApply(this, _data)
+				updatePurchaseApply(this, _data, true)
 					.then(function(res) {
 						uni.showToast({
 							icon: 'none',

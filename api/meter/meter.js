@@ -4,7 +4,7 @@ import url from '../../constant/url.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryFeeTypesItems(_that,_data){
+export function queryFeeTypesItems(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryFeeTypesItems,
@@ -14,7 +14,7 @@ export function queryFeeTypesItems(_that,_data){
 					reslove(res.data.feeConfigs);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -22,19 +22,19 @@ export function queryFeeTypesItems(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 查询上期水电缴费信息
  */
-export function listMeterType(_that, _data){
+export function listMeterType(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listMeterType,
@@ -44,7 +44,7 @@ export function listMeterType(_that, _data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -52,19 +52,19 @@ export function listMeterType(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 查询上期水电缴费信息
  */
-export function queryPreMeterWater(_that, _data){
+export function queryPreMeterWater(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryPreMeterWater,
@@ -74,7 +74,7 @@ export function queryPreMeterWater(_that, _data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -82,19 +82,19 @@ export function queryPreMeterWater(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 提交抄表
  */
-export function saveMeterWater(_that, _data){
+export function saveMeterWater(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveMeterWater,
@@ -105,7 +105,7 @@ export function saveMeterWater(_that, _data){
 				}else{
 					_that.onoff = true;
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -114,11 +114,11 @@ export function saveMeterWater(_that, _data){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

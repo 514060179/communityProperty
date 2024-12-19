@@ -141,7 +141,7 @@
 					row: 1000,
 					staffId: staffId,
 					date: this.curYear + '-' + this.curMonth,
-				}).then(_data => {
+				}, this.attendances.length == 0).then(_data => {
 					_that.attendances = _data.data;
 				})
 			}

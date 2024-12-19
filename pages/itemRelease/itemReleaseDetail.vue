@@ -108,7 +108,7 @@
 					row: 1,
 					irId: this.irId,
 					communityId: getCurrentCommunity().communityId
-				}).then(_data => {
+				}, JSON.stringify(this.order) === '{}').then(_data => {
 					_that.order = _data[0];
 					_that._loadComment();
 				}).then(() => {
@@ -130,7 +130,7 @@
 					row: 100,
 					irId: this.irId,
 					communityId: getCurrentCommunity().communityId
-				}).then(_data => {
+				}, this.resNames.length == 0).then(_data => {
 					_that.resNames = _data;
 				})
 			},
@@ -142,7 +142,7 @@
 					id: this.irId,
 					communityId: getCurrentCommunity().communityId,
 					flowId: this.order.flowId
-				}).then(_data => {
+				}, this.comments.length == 0).then(_data => {
 					_that.comments = _data;
 				})
 			}

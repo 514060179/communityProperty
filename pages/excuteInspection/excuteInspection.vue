@@ -2,26 +2,30 @@
 	<view>
 		<view class="block__title">{{inspectionPlanName}}</view>
 		<view class="cu-timeline margin-left-xs margin-right-xs">
-			<view class="cu-time">巡检点</view>
-			<view class="cu-item cuIcon-noticefill" :class="(item.state == '20200407'?'text-green':'')" v-for="(item,index) in taskDetails"
-			 :key="index">
-				<view class="content shadow-blur" :class="(item.state == '20200407'?'bg-green':'')">
+			<view class="cu-time">{{$t('巡检点')}}</view>
+			<view class="cu-item cuIcon-noticefill" :class="(item.state == '20200407'?'text-blue':'')"
+				v-for="(item,index) in taskDetails" :key="index">
+				<view class="content shadow-blur" :class="(item.state == '20200407'?'bg-blue':'')">
 					{{item.inspectionName}}
-					<text v-show="item.state != '20200407' && item.pointStartTime && item.pointEndTime">({{item.pointStartTime}} - {{item.pointEndTime}})</text>
+					<text
+						v-show="item.state != '20200407' && item.pointStartTime && item.pointEndTime">({{item.pointStartTime}}
+						- {{item.pointEndTime}})</text>
 				</view>
-				<view class="bg-green content" v-if="item.state == '20200407'">
-					<text>处理意见：</text> {{item.description}}
+				<view class="bg-blue content" v-if="item.state == '20200407'">
+					<text>{{$t('处理意见')}}：</text> {{item.description}}
 				</view>
-				<view class="margin-top grid text-center col-3 grid-square" v-if="item.state == '20200407' && item.photos.length > 0">
+				<view class="margin-top grid text-center col-3 grid-square"
+					v-if="item.state == '20200407' && item.photos.length > 0">
 					<view class="" v-for="(_itemc,pindex) in item.photos" :key="pindex">
-						<image mode="scaleToFill" :data-url="_itemc.url" :src="_itemc.url" @tap="preview(index,pindex)"></image>
+						<image mode="scaleToFill" :data-url="_itemc.url" :src="_itemc.url" @tap="preview(index,pindex)">
+						</image>
 					</view>
 				</view>
 
 
 				<view class="text-right" v-if="item.state != '20200407'">
-					<button class="cu-btn  line-green block margin-tb-sm lg " @click="_excuteInspection(item)">
-						<text class="cuIcon-upload"></text>巡检</button>
+					<button class="cu-btn  line-blue block margin-tb-sm lg " @click="_excuteInspection(item)">
+						<text class="cuIcon-upload"></text>{{$t('巡检')}}</button>
 				</view>
 				<!-- <view class="margin-top-sm margin-right grid text-center col-3 grid-square">
 					<view class="" v-for="(_item,pindex) in item.photos" :key="pindex">
@@ -34,7 +38,9 @@
 </template>
 
 <script>
-	import {getCurrentCommunity} from '../../api/community/community.js'
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
 	import url from '../../constant/url.js'
 	export default {
 		data() {
@@ -89,7 +95,7 @@
 						// })
 						_that.taskDetails = _inspectionTaskDetails;
 					}
-				});
+				}, this.taskDetails.length == 0);
 			},
 
 			ScrollSteps() {
@@ -98,14 +104,16 @@
 			_excuteInspection: function(_item) {
 				console.log('巡检点', _item);
 				uni.navigateTo({
-					url: '/pages/excuteOneInspection/excuteOneInspection?taskDetailId=' + _item.taskDetailId + "&taskId=" + _item.taskId +
-						"&inspectionId=" + _item.inspectionId + "&inspectionName=" + _item.inspectionName+"&itemId="+_item.itemId
+					url: '/pages/excuteOneInspection/excuteOneInspection?taskDetailId=' + _item.taskDetailId +
+						"&taskId=" + _item.taskId +
+						"&inspectionId=" + _item.inspectionId + "&inspectionName=" + _item.inspectionName +
+						"&itemId=" + _item.itemId
 				});
 			},
 			preview: function(index, pindex) {
 				let urls = [];
 				this.taskDetails.forEach((item, i) => {
-					if(i == index){
+					if (i == index) {
 						item.photos.forEach((i) => {
 							urls.push(i.url);
 						})

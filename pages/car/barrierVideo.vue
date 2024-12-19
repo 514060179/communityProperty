@@ -29,7 +29,7 @@
 					machineId: this.machineId,
 					communityId: this.communityId,
 					iotApiCode: 'getBarrierCloudVideoBmoImpl',
-				}).then(_data => {
+				}, this.machines.length == 0).then(_data => {
 					_that.machines = _data.data;
 					let _url = conf.commonBaseUrl+"/h5/jessibuca/video.html?tt="
 					+encodeURI(_data.data.url)

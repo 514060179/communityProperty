@@ -25,16 +25,19 @@
 </template>
 
 <script>
-	import * as TanslateImage from '../../lib/java110/utils/translate-image.js';
+	import * as TanslateImage from '../../lib/com/newland/property/utils/translate-image.js';
 	import conf from '../../conf/config.js'
 	import {
 		uploadImageAsync
 	} from '../../api/common/common.js'
-	const context = require("../../lib/java110/Java110Context.js");
+	const context = require("../../lib/com/newland/property/Java110Context.js");
 	const factory = context.factory;
 	export default {
 		name: "vc-upload",
 		data() {
+			const translate = (key) => {
+				return this.$t(key);
+			};
 			return {
 				photos: [],
 				imgList: [],
@@ -49,7 +52,7 @@
 			},
 			title: {
 				type: String,
-				default: '图片上传'
+				default: 'image_upload' //'图片上传'
 			},
 			maxPhotoNum: {
 				type: Number,
@@ -62,7 +65,7 @@
 			sizeType: {
 				type: Array,
 				default () {
-					return ['original', 'compressed']
+					return ['compressed']
 				}
 			},
 			sourceType: {
@@ -88,13 +91,13 @@
 		methods: {
 			_initImageList: function(_imageLists) {
 				this.sendImgList = _imageLists;
-				
+
 				this.sendImgList.forEach((item, index) => {
 					if (item.indexOf('base64,') > -1) {
 						this.imgList.push(_photo);
 					}
 					if (item.indexOf("https") > -1 || item.indexOf("http") > -1 || item.indexOf(this
-						.photoUrl) > -1) {
+							.photoUrl) > -1) {
 						this.imgList.push(item);
 						let urlParams = this._getUrlParams(item);
 						if (urlParams['fileId']) {
@@ -112,7 +115,7 @@
 						});
 					}
 				})
-				
+
 				console.log(this.imgList);
 			},
 			// 向父组件传递base64数据
@@ -147,19 +150,38 @@
 					sizeType: this.sizeType, //原图或压缩图
 					sourceType: this.sourceType, // 相册或拍摄
 					success: (upImgRes) => {
-						var tempFilePaths = upImgRes.tempFilePaths[0]
-						that.imgList.push(tempFilePaths);
-						that.$forceUpdate();
-
-						TanslateImage.translate(tempFilePaths, (base64) => {
-							let _objData = {
-								uploadFile: base64,
-								communityId: that.communityId
-							}
-							uploadImageAsync(_objData, that).then((res) => {
-								that.photos.push(res);
-							})
-						})
+            var tempFilePaths = upImgRes.tempFilePaths[0]
+            
+            TanslateImage.translate(tempFilePaths, async (base64) => {
+              try {
+                uni.showLoading({
+                  title: this.$t('正在上传')
+                })
+                let _objData = {
+                  uploadFile: base64,
+                  communityId: that.communityId
+                }
+                const res = await uploadImageAsync(_objData, that, true)
+                
+                uni.showToast({
+                  title: this.$t('上传成功')
+                })
+                
+                that.photos.push(res);
+                
+                that.imgList.push(tempFilePaths);
+                
+                that.$forceUpdate();
+              } catch (e) {
+                uni.showToast({
+                  icon: 'none',
+                  title: e || this.$t('上传失败')
+                })
+                console.log('chooseImage', e)
+              } finally {
+                uni.hideLoading()
+              }
+            })
 					}
 				});
 			},

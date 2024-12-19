@@ -3,8 +3,9 @@
 		<view class="cu-list menu margin-top">
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-edit text-green"></text>
-					<text class="text-grey">报修ID</text>
+					<text class="cuIcon-edit text-blue"></text>
+					<!-- 报修ID -->
+					<text class="text-grey">{{$t('repair_id')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{repairDetailInfo.repairId}}</text>
@@ -12,8 +13,9 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-ticket text-green"></text>
-					<text class="text-grey">报修类型</text>
+					<text class="cuIcon-ticket text-blue"></text>
+					<!-- 报修类型 -->
+					<text class="text-grey">{{$t('repair_type')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{repairDetailInfo.repairTypeName}}</text>
@@ -21,8 +23,9 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-profile text-green"></text>
-					<text class="text-grey">报修人</text>
+					<text class="cuIcon-profile text-blue"></text>
+					<!-- 报修人 -->
+					<text class="text-grey">{{$t('repairer')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{repairDetailInfo.repairName}}</text>
@@ -30,8 +33,9 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-phone text-green"></text>
-					<text class="text-grey">联系方式</text>
+					<text class="cuIcon-phone text-blue"></text>
+					<!-- 联系方式 -->
+					<text class="text-grey">{{$t('contact_information')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{repairDetailInfo.tel}}</text>
@@ -39,8 +43,9 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-footprint text-green"></text>
-					<text class="text-grey">报修位置</text>
+					<text class="cuIcon-footprint text-blue"></text>
+					<!-- 报修位置 -->
+					<text class="text-grey">{{$t('repair_location')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{repairDetailInfo.repairObjName}}</text>
@@ -48,8 +53,9 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-time text-green"></text>
-					<text class="text-grey">预约时间</text>
+					<text class="cuIcon-time text-blue"></text>
+					<!-- 预约时间 -->
+					<text class="text-grey">{{$t('appointment_time')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{repairDetailInfo.appointmentTime}}</text>
@@ -57,8 +63,9 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-time text-green"></text>
-					<text class="text-grey">状态</text>
+					<text class="cuIcon-time text-blue"></text>
+					<!-- 状态 -->
+					<text class="text-grey">{{$t('status')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{repairDetailInfo.stateName}}</text>
@@ -66,8 +73,9 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-time text-green"></text>
-					<text class="text-grey">报修内容</text>
+					<text class="cuIcon-time text-blue"></text>
+					<!-- 报修内容 -->
+					<text class="text-grey">{{$t('repair_content')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{repairDetailInfo.context}}</text>
@@ -75,13 +83,14 @@
 			</view>
 			<view class="cu-item" v-if="repairDetailInfo.repairPhotos&& repairDetailInfo.repairPhotos.length > 0">
 				<view class="content">
-					<text class="cuIcon-pic text-green"></text>
-					<text class="text-grey">业主报修图片</text>
+					<text class="cuIcon-pic text-blue"></text>
+					<!-- 业主报修图片 -->
+					<text class="text-grey">{{$t('owner_repair_images')}}</text>
 				</view>
 			</view>
 			<view class="cu-item" v-if="repairDetailInfo.repairPhotos&&repairDetailInfo.repairPhotos.length > 0">
 				<!-- <view class="repair-img-title">业主报修图片</view> -->
-				<view class="margin-top grid text-center col-4 grid-square" >
+				<view class="margin-top grid text-center col-4 grid-square">
 					<view class="" v-for="(_item,index) in repairDetailInfo.repairPhotos" :key="index">
 						<image mode="widthFix" :data-url="_item.url" :src="_item.url" @tap="preview"></image>
 					</view>
@@ -89,13 +98,14 @@
 			</view>
 			<view class="cu-item" v-if="repairDetailInfo.beforePhotos&&repairDetailInfo.beforePhotos.length > 0">
 				<view class="content">
-					<text class="cuIcon-pic text-green"></text>
-					<text class="text-grey">维修前图片</text>
+					<text class="cuIcon-pic text-blue"></text>
+					<!-- 维修前图片 -->
+					<text class="text-grey">{{$t('maintenance_before_images')}}</text>
 				</view>
 			</view>
 			<view class="cu-item" v-if="repairDetailInfo.beforePhotos&&repairDetailInfo.beforePhotos.length > 0">
 				<!-- <view class="repair-img-title">维修前图片</view> -->
-				<view class="margin-top grid text-center col-4 grid-square" >
+				<view class="margin-top grid text-center col-4 grid-square">
 					<view class="" v-for="(_item,index) in repairDetailInfo.beforePhotos" :key="index">
 						<image mode="widthFix" :data-url="_item.url" :src="_item.url" @tap="preview"></image>
 					</view>
@@ -103,13 +113,14 @@
 			</view>
 			<view class="cu-item" v-if="repairDetailInfo.afterPhotos&&repairDetailInfo.afterPhotos.length > 0">
 				<view class="content">
-					<text class="cuIcon-pic text-green"></text>
-					<text class="text-grey">维修后图片</text>
+					<text class="cuIcon-pic text-blue"></text>
+					<!-- 维修后图片 -->
+					<text class="text-grey">{{$t('maintenance_after_images')}}</text>
 				</view>
 			</view>
 			<view class="cu-item" v-if="repairDetailInfo.afterPhotos&&repairDetailInfo.afterPhotos.length > 0">
 				<!-- <view class="repair-img-title">维修后图片</view> -->
-				<view class="margin-top grid text-center col-4 grid-square" >
+				<view class="margin-top grid text-center col-4 grid-square">
 					<view class="" v-for="(_item,index) in repairDetailInfo.afterPhotos" :key="index">
 						<image mode="widthFix" :data-url="_item.url" :src="_item.url" @tap="preview"></image>
 					</view>
@@ -118,26 +129,32 @@
 		</view>
 
 		<view class="cu-timeline margin-top">
-			<view class="cu-time">工单</view>
+			<!-- 工单 -->
+			<view class="cu-time">{{$t('work_order')}}</view>
 			<view class="cu-item " v-for="(item,index) in staffs" :key="index">
 				<view class="bg-cyan content">
-					<text>{{item.startTime}} </text> 到达 {{item.staffName}} 工位 - {{item.stateName}}
+					<!-- 到达 -工位-->
+					<text>{{item.startTime}} </text> {{$t('arrive')}} {{item.staffName}} {{$t('workstation')}} -
+					{{item.stateName}}
 				</view>
 				<view class="bg-cyan content" v-if="item.endTime != undefined">
-					<text>处理意见：</text> {{item.context}}
+					<!-- 处理意见 -->
+					<text>{{$t('handling_comments')}}：</text> {{item.context}}
 					<block v-if="item.state == '12000' && item.payTypeName != undefined">
 						({{item.payTypeName}})
 					</block>
 				</view>
 				<!-- 待支付状态 - 详情描述 -->
 				<view class="bg-cyan content" v-if="item.state == '10009'">
-					<text>处理意见：</text> {{item.context}}
+					<!-- 处理意见 -->
+					<text>{{$t('handling_comments')}}：</text> {{item.context}}
 					<block v-if="item.payTypeName != undefined">({{item.payTypeName}})</block>
 				</view>
 				<view v-if="item.state == '10007'" class="flex justify-between margin-top-sm">
 					<view></view>
-					<view  class="rob-order text-df text-white bg-green text-center" @click="_replyRepairAppraise(item)">
-						回复
+					<!-- 回复 -->
+					<view class="rob-order text-df text-white bg-blue text-center" @click="_replyRepairAppraise(item)">
+						{{$t('reply')}}
 					</view>
 				</view>
 			</view>
@@ -161,7 +178,10 @@
 
 <script>
 	import url from '../../constant/url.js'
-	import {getCurrentCommunity} from '../../api/community/community.js'
+	import api from "@/lib/com/newland/property/utils/request.js";
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
 	export default {
 		data() {
 			return {
@@ -199,7 +219,23 @@
 					communityId: _communityInfo.communityId,
 					repairId: this.repairId
 				};
-				uni.request({
+
+				api
+					.get('app/ownerRepair.listRepairStaffs', dataObj, this.java110Context.getHeaders(), this.staffs.length == 0) // 使用封装的 post 方法
+					.then((data) => {
+						if (data.code == 0) {
+							_that.staffs = data.data;
+						}
+					})
+					.catch((error) => {
+						wx.showToast({
+							title: _that.$t('server_error'), //"服务器异常了",
+							icon: 'none',
+							duration: 2000
+						});
+					});
+
+				/*uni.request({
 					url: url.listRepairStaffs,
 					header: this.java110Context.getHeaders(),
 					method: "GET",
@@ -213,12 +249,12 @@
 					},
 					fail: function(e) {
 						wx.showToast({
-							title: "服务器异常了",
+							title: _that.$t('server_error'), //"服务器异常了",
 							icon: 'none',
 							duration: 2000
 						});
 					}
-				});
+				});*/
 			},
 			_queryRepairDetail: function() {
 				let _that = this;
@@ -248,12 +284,12 @@
 					},
 					fail: function(e) {
 						wx.showToast({
-							title: "服务器异常了",
+							title: _that.$t('server_error'), //"服务器异常了",
 							icon: 'none',
 							duration: 2000
 						});
 					}
-				});
+				}, JSON.stringify(this.repairDetailInfo) == '{}');
 			},
 			preview: function(e) {
 				console.log('图片地址', e);
@@ -264,9 +300,10 @@
 			closeViewImage: function() {
 				this.viewImage = false;
 			},
-			_replyRepairAppraise:function(_repairUser){
+			_replyRepairAppraise: function(_repairUser) {
 				uni.navigateTo({
-					url: "/pages/repairOrder/replyRepairAppraise?ruId=" + _repairUser.ruId + '&repairId=' + _repairUser.repairId
+					url: "/pages/repairOrder/replyRepairAppraise?ruId=" + _repairUser.ruId + '&repairId=' +
+						_repairUser.repairId
 				});
 			}
 		}
@@ -274,7 +311,7 @@
 </script>
 
 <style>
-	.rob-order{
+	.rob-order {
 		width: 80upx;
 		height: 60upx;
 		line-height: 60upx;

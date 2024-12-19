@@ -1,6 +1,6 @@
 import url from '../../constant/url.js'
 
-import dateObj from '../../lib/java110/utils/date.js'
+import dateObj from '../../lib/com/newland/property/utils/date.js'
 
 
 /**
@@ -8,7 +8,7 @@ import dateObj from '../../lib/java110/utils/date.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryOwnerCars(_that,_data){
+export function queryOwnerCars(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryOwnerCars,
@@ -18,12 +18,12 @@ export function queryOwnerCars(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -32,7 +32,7 @@ export function queryOwnerCars(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryParkingAreas(_that,_data){
+export function queryParkingAreas(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listParkingAreas,
@@ -42,12 +42,12 @@ export function queryParkingAreas(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -56,7 +56,7 @@ export function queryParkingAreas(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function getParkingAreaMachines(_that,_data){
+export function getParkingAreaMachines(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listParkingAreaMachines,
@@ -66,17 +66,17 @@ export function getParkingAreaMachines(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 
-export function openDoor(_that,_data){
+export function openDoor(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.openDoor,
@@ -86,15 +86,15 @@ export function openDoor(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function closeDoor(_that,_data){
+export function closeDoor(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.closeDoor,
@@ -104,15 +104,15 @@ export function closeDoor(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function customCarInOut(_that,_data){
+export function customCarInOut(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.customCarInOut,
@@ -122,12 +122,12 @@ export function customCarInOut(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -138,7 +138,7 @@ export function customCarInOut(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function getCarInParkingArea(_that,_data){
+export function getCarInParkingArea(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listCarInParkingArea,
@@ -148,16 +148,16 @@ export function getCarInParkingArea(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function getParkingCouponCar(_that,_data){
+export function getParkingCouponCar(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listParkingCouponCar,
@@ -167,15 +167,15 @@ export function getParkingCouponCar(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function getTempCarFeeOrder(_that,_data){
+export function getTempCarFeeOrder(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.getTempCarFeeOrder,
@@ -185,16 +185,16 @@ export function getTempCarFeeOrder(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function getCarInoutDetail(_that,_data){
+export function getCarInoutDetail(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listCarInoutDetail,
@@ -204,15 +204,15 @@ export function getCarInoutDetail(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function getCarInoutPayment(_that,_data){
+export function getCarInoutPayment(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listCarInoutPayment,
@@ -222,12 +222,12 @@ export function getCarInoutPayment(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 

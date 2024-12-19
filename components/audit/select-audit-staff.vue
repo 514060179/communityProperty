@@ -52,7 +52,7 @@
 				queryFirstAuditStaff(this, {
 					communityId: this.getCommunityId(),
 					flowId: _flowId
-				}).then(_data => {
+				}, true).then(_data => {
 					_that.audit.assignee = _data.data[0].assignee;
 					if(_that.audit.assignee == '-2'){
 						_that._loadStaffList();
@@ -69,7 +69,7 @@
 					row: 100,
 					communityId: this.communityId,
 				};
-				queryStaffListInfo(this, _data)
+				queryStaffListInfo(this, _data, this.staffCloums.length == 0)
 					.then(function(res) {
 						_that.staffCloums = _that.staffCloums.concat(res.data.staffs);
 					});

@@ -1,23 +1,15 @@
 {
-    "name" : "物业版",
-    "appid" : "__UNI__29E0560",
+    "name" : "動脈物業版",
+    "appid" : "__UNI__CF70B80",
     "description" : "",
-    "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionName" : "1.1.0",
+    "versionCode" : 14,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
         "usingComponents" : true,
         "nvueCompiler" : "uni-app",
         "compilerVersion" : 3,
-        "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
-            "waiting" : true,
-            "autoclose" : true,
-            "delay" : 0
-        },
-        /* 模块配置 */
-        "modules" : {},
         /* 应用发布信息 */
         "distribute" : {
             /* android打包配置 */
@@ -25,7 +17,6 @@
                 "permissions" : [
                     "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
                     "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
                     "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
@@ -45,23 +36,113 @@
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "excludePermissions" : [
+                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>"
+                ],
+                "abiFilters" : [ "armeabi-v7a", "arm64-v8a" ],
+                "minSdkVersion" : 22,
+                "targetSdkVersion" : 34
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false,
+                "privacyDescription" : {
+                    "NSMicrophoneUsageDescription" : "访问麦克风",
+                    "NSBluetoothAlwaysUsageDescription" : "持续使用蓝牙的许可描述",
+                    "NSPhotoLibraryUsageDescription" : "允許應用訪問您的相冊，以便您能夠正常使用文件上傳選擇圖片、代客報修等服務。",
+                    "NSUserTrackingUsageDescription" : "为了给您个性化推荐内容，我们需要用到您的唯一标识（idfa）。可在手机设置-->隐私-->跟踪服务中取消授予动脉物业版该权限",
+                    "NSCameraUsageDescription" : "允許應用訪問您的相機，以便您能夠正常使用發工作單、場地核銷、核銷預約、代客報修等服務。",
+                    "NSContactsUsageDescription" : "允許應用訪問您的通訊錄，以便您能夠正常使用通訊錄撥打電話功能。",
+                    "NSLocationWhenInUseUsageDescription" : "允許應用訪問您的位置信息，以便您能夠正常使用巡檢打卡服務。",
+                    "NSLocationAlwaysUsageDescription" : "允許應用訪問您的位置信息，以便您能夠正常使用巡檢打卡服務。",
+                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "允許應用訪問您的位置信息，以便您能夠正常使用巡檢打卡服務。",
+                    "NSPhotoLibraryAddUsageDescription" : "允許應用訪問您的相冊，以便您能夠正常使用文件上傳選擇圖片、代客報修等服務。"
+                }
+            },
             /* SDK配置 */
             "sdkConfigs" : {
-                "ad" : {}
+                "ad" : {},
+                "geolocation" : {
+                    "system" : {
+                        "__platform__" : [ "ios", "android" ]
+                    }
+                },
+                "maps" : {}
+            },
+            "splashscreen" : {
+                "androidStyle" : "default",
+                "iosStyle" : "storyboard",
+                "ios" : {
+                    "storyboard" : "static/image/LaunchScreen.zip"
+                },
+                "useOriginalMsgbox" : false,
+                "android" : {
+                    "hdpi" : "static/image/splash/splash@480x762.png",
+                    "xhdpi" : "static/image/splash/splash@720x1242.png",
+                    "xxhdpi" : "static/image/splash/splash@1080x1882.png"
+                }
+            },
+            "icons" : {
+                "android" : {
+                    "hdpi" : "unpackage/res/icons/72x72.png",
+                    "xhdpi" : "unpackage/res/icons/96x96.png",
+                    "xxhdpi" : "unpackage/res/icons/144x144.png",
+                    "xxxhdpi" : "unpackage/res/icons/192x192.png"
+                },
+                "ios" : {
+                    "appstore" : "unpackage/res/icons/1024x1024.png",
+                    "ipad" : {
+                        "app" : "unpackage/res/icons/76x76.png",
+                        "app@2x" : "unpackage/res/icons/152x152.png",
+                        "notification" : "unpackage/res/icons/20x20.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "proapp@2x" : "unpackage/res/icons/167x167.png",
+                        "settings" : "unpackage/res/icons/29x29.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "spotlight" : "unpackage/res/icons/40x40.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png"
+                    },
+                    "iphone" : {
+                        "app@2x" : "unpackage/res/icons/120x120.png",
+                        "app@3x" : "unpackage/res/icons/180x180.png",
+                        "notification@2x" : "unpackage/res/icons/40x40.png",
+                        "notification@3x" : "unpackage/res/icons/60x60.png",
+                        "settings@2x" : "unpackage/res/icons/58x58.png",
+                        "settings@3x" : "unpackage/res/icons/87x87.png",
+                        "spotlight@2x" : "unpackage/res/icons/80x80.png",
+                        "spotlight@3x" : "unpackage/res/icons/120x120.png"
+                    }
+                }
             }
+        },
+        "splashscreen" : {
+            "alwaysShowBeforeRender" : true,
+            "waiting" : true,
+            "autoclose" : true,
+            "delay" : 0
+        },
+        "safearea" : {
+            // 安全區域配置,仅ios平台生效
+            "bottom" : {
+                // 底部安全區域配置
+                "offset" : "none" //底部安全区域偏移 'none'表示不空出安全区域
+            }
+        },
+        /* 模块配置 */
+        "modules" : {
+            "Geolocation" : {},
+            "Camera" : {}
         }
     },
     /* 快应用特有相关 */
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wx6660fe034331f309",
+        "appid" : "wxd8711e9024d13ce7",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : true,
+            "es6" : false
         },
         "usingComponents" : true,
         "permission" : {
@@ -87,25 +168,39 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/app" : {
-                    "target" : "http://192.168.100.108:8088", //目标接口域名http://192.168.1.16:8012
+                    //目标接口域名
+                    //开发
+                    //"target": "http://192.168.8.213:8008/",
+                    //测试
+                    "target" : "https://propertyuatmo.newlandgo.com/",
+                    //正式
+                    //"target": "https://property.newlandgo.com/",
                     "changeOrigin" : true, //是否跨域
                     "secure" : true // 设置支持https协议的代理
                 },
                 "/callComponent" : {
-                    "target" : "http://192.168.100.108:8088", //目标接口域名http://192.168.1.16:8012
+                    //开发
+                    //"target": "http://192.168.8.213:8008/",
+                    //测试
+                    "target" : "https://propertyuatmo.newlandgo.com/",
+                    //正式
+                    //"target": "https://property.newlandgo.com/",
                     "changeOrigin" : true, //是否跨域
                     "secure" : true // 设置支持https协议的代理
                 }
             }
         },
-        "domain" : "http://property.homecommunity.cn",
+        // "domain": "http://192.168.8.213:8008",
+        "domain" : "http://192.168.8.213:8008",
         "title" : "物业版",
         "sdkConfigs" : {
             "maps" : {
                 "qqmap" : {
-                    "key" : "4KSBZ-JOBCJ-ADKFY-FENTH-L2CF2-ULBAP"
+                    "key" : "YJXBZ-UES3J-BVSFR-XO372-4KVBO-XLB6C"
                 }
             }
         }
-    }
+    },
+    "locale" : "zh-Hant",
+    "fallbackLocale" : "zh-Hans"
 }

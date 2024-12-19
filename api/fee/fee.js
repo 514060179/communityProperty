@@ -1,12 +1,12 @@
 import url from '../../constant/url.js'
 
-import dateObj from '../../lib/java110/utils/date.js'
+import dateObj from '../../lib/com/newland/property/utils/date.js'
 /**
  * 查询费用信息
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function loadFees(_that,_data){
+export function loadFees(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listFee,
@@ -16,16 +16,16 @@ export function loadFees(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function toPayOweFee(_that,_data){
+export function toPayOweFee(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.toQrOweFeePay,
@@ -35,12 +35,12 @@ export function toPayOweFee(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -49,7 +49,7 @@ export function toPayOweFee(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryFeeDetail(_that,_data){
+export function queryFeeDetail(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryFeeDetail,
@@ -59,12 +59,12 @@ export function queryFeeDetail(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -72,7 +72,7 @@ export function queryFeeDetail(_that,_data){
  * 查询欠费信息
  * @param {Object} _objData 欠费对象
  */
-export function getRoomOweFees(_that,_objData) {
+export function getRoomOweFees(_that,_objData, isShowLoad) {
 	return new Promise((resolve, reject) => {
 		_that.context.get({
 			url: url.listOweFees,
@@ -80,7 +80,7 @@ export function getRoomOweFees(_that,_objData) {
 			success: function(res) {
 				if (res.statusCode == 200) {
 					//成功情况下跳转
-					let _roomFees = res.data.data;
+					const _roomFees = res.data.data;
 					if (_roomFees.length < 1) {
 						//_that.noData = true;
 						reject();
@@ -97,7 +97,7 @@ export function getRoomOweFees(_that,_objData) {
 			fail: function(e) {
 				reject();
 			}
-		});
+		}, isShowLoad);
 	})
 }
 
@@ -106,7 +106,7 @@ export function getRoomOweFees(_that,_objData) {
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listFeeDetail(_that,_data){
+export function listFeeDetail(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listFeeDetail,
@@ -116,16 +116,16 @@ export function listFeeDetail(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function saveRoomCreateFee(_that,_data){
+export function saveRoomCreateFee(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveRoomCreateFee,
@@ -135,11 +135,11 @@ export function saveRoomCreateFee(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

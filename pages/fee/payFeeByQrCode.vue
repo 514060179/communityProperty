@@ -5,7 +5,7 @@
 		</view>
 	
 		<view class="padding flex flex-direction margin-top">
-			<button class="cu-btn bg-green margin-tb-sm lg" @tap="_closePayModal()">已支付</button>
+			<button class="cu-btn bg-blue margin-tb-sm lg" @tap="_closePayModal()">已支付</button>
 		</view>
 	</view>
 </template>
@@ -48,7 +48,7 @@
 					feeIds:this.feeIds
 				}
 			
-				toPayOweFee(this, _data)
+				toPayOweFee(this, _data, true)
 					.then((res) => {
 						let _data = res.data;
 						if (_data.code != 0) {

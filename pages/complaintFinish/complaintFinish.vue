@@ -1,33 +1,42 @@
 <template>
 	<view>
 		<view v-if="noData==false">
-			<view v-for="(item,index) in orders" :key="index" class="bg-white margin-top margin-right-xs radius margin-left-xs padding">
+			<view
+v-for="(item,index) in orders"
+:key="index"
+				class="bg-white margin-top margin-right-xs radius margin-left-xs padding">
 				<view class="flex padding-bottom-xs solid-bottom justify-between">
-					<view>{{item.complaintId}}</view>
-					<view class="text-gray">{{item.tel}}</view>
+					<view>{{ item.complaintId }}</view>
+					<view class="text-gray">{{ item.tel }}</view>
 				</view>
 				<view class="flex margin-top justify-between">
-					<view class="text-gray">投诉类型</view>
-					<view class="text-gray">{{item.typeName}}</view>
+					<!-- 投诉类型 -->
+					<view class="text-gray">{{ $t('complaint_type') }}</view>
+					<view class="text-gray">{{ item.typeName }}</view>
 				</view>
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">投诉人</view>
-					<view class="text-gray">{{item.complaintName}}</view>
+					<!-- 投诉人 -->
+					<view class="text-gray">{{ $t('complainant') }}</view>
+					<view class="text-gray">{{ item.complaintName }}</view>
 				</view>
+				<!-- 房间 -->
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">房间</view>
-					<view class="text-gray">{{item.roomName}}</view>
+					<view class="text-gray">{{ $t('home') }}</view>
+					<view class="text-gray">{{ item.roomName }}</view>
 				</view>
+				<!-- 投诉时间 -->
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">投诉时间</view>
-					<view class="text-gray">{{item.createTime }}</view>
+					<view class="text-gray">{{ $t('complainant_time') }}</view>
+					<view class="text-gray">{{ item.createTime }}</view>
 				</view>
+				<!-- 投诉内容 -->
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">投诉内容</view>
-					<view class="text-gray">{{item.context}}</view>
+					<view class="text-gray">{{ $t('complainant_content') }}</view>
+					<view class="text-gray">{{ item.context }}</view>
 				</view>
 				<view class="solid-top flex justify-end margin-top padding-top-sm ">
-					<button class="cu-btn sm line-gray" @click="_complaintDetail(item)">详情</button>
+					<!-- 详情 -->
+					<button class="cu-btn sm line-gray" @click="_complaintDetail(item)">{{ $t('btn_details') }}</button>
 				</view>
 			</view>
 		</view>
@@ -42,9 +51,11 @@
 		loadCompaintFinish
 	} from '../../api/complaint/complaint.js'
 	import noDataPage from '@/components/no-data-page/no-data-page.vue'
-	
-	import {getCurrentCommunity} from '../../api/community/community.js'
-	
+
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
+
 	import conf from '../../conf/config.js'
 
 	export default {
@@ -61,16 +72,16 @@
 		},
 		onLoad() {
 			this.java110Context.onLoad();
-			
+
 			this._loadComplaintOrder();
 		},
 		methods: {
 			_loadComplaintOrder: function() {
 				//
-				let _that = this;
-				let _userInfo = this.java110Context.getUserInfo();
-				let storeId = _userInfo.storeId;
-				let _objData = {
+				const _that = this;
+				const _userInfo = this.java110Context.getUserInfo();
+				const storeId = _userInfo.storeId;
+				const _objData = {
 					page: 1,
 					row: 15,
 					storeId: storeId,
@@ -78,37 +89,37 @@
 					communityId: getCurrentCommunity().communityId
 				};
 
-				loadCompaintFinish(this, _objData)
+				loadCompaintFinish(this, _objData, this.orders.length == 0)
 					.then(function(res) {
 						if (res.statusCode != 200) {
-							// uni.showToast({
-							// 	icon: 'none',
-							// 	title: res.data
-							// });
-							uni.navigateTo({
-								url:'/pages/login/login'
-							})
+							uni.showToast({
+								icon: 'none',
+								title: res.data
+							});
+							/*uni.navigateTo({
+								url: '/pages/login/login'
+							})*/
 							return;
 						}
-						let _data = res.data;
+						const _data = res.data;
 						_that.orders = _data.data;
 						if (_that.orders.length < 1) {
 							_that.noData = true;
 							return;
 						}
 						_that.orders.forEach(function(item) {
-							let dateStr = item.createTime;
-							let _startTime = dateStr.replace(/\-/g, "/")
-							let _date = new Date(_startTime);
+							const dateStr = item.createTime;
+							const _startTime = dateStr.replace(/\-/g, '/')
+							const _date = new Date(_startTime);
 							item.createTime = (_date.getMonth() + 1) + '-' + _date.getDate();
 						});
 					})
 			},
 			_complaintDetail: function(_item) {
 				console.log('_item', _item);
-				uni.setStorageSync("_complaintOrderDetail_" + _item.complaintId, _item);
+				uni.setStorageSync('_complaintOrderDetail_' + _item.complaintId, _item);
 				uni.navigateTo({
-					url: "/pages/complaintOrderDetail/complaintOrderDetail?complaintId=" + _item.complaintId
+					url: '/pages/complaintOrderDetail/complaintOrderDetail?complaintId=' + _item.complaintId
 				});
 			},
 		}

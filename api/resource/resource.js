@@ -6,7 +6,7 @@ import url from '../../constant/url.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryMyResourceStoreInfo(_that,_data){
+export function queryMyResourceStoreInfo(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryResourceStoreResName,
@@ -16,12 +16,12 @@ export function queryMyResourceStoreInfo(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -30,7 +30,7 @@ export function queryMyResourceStoreInfo(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryPurchaseApplyList(_that,_data){
+export function queryPurchaseApplyList(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryPurchaseApplyList,
@@ -40,12 +40,12 @@ export function queryPurchaseApplyList(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -54,7 +54,7 @@ export function queryPurchaseApplyList(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryResourceStoreList(_that,_data){
+export function queryResourceStoreList(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryResourceStoreList,
@@ -64,12 +64,12 @@ export function queryResourceStoreList(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -78,7 +78,7 @@ export function queryResourceStoreList(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryResourceStoreAndTimes(_that,_data){
+export function queryResourceStoreAndTimes(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listResourceStoresAndTimes,
@@ -88,12 +88,12 @@ export function queryResourceStoreAndTimes(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -104,7 +104,7 @@ export function queryResourceStoreAndTimes(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryResourceSupplier(_that,_data){
+export function queryResourceSupplier(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryResourceSupplier,
@@ -114,12 +114,12 @@ export function queryResourceSupplier(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -128,7 +128,7 @@ export function queryResourceSupplier(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryFirstStaff(_that,_data){
+export function queryFirstStaff(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryFirstStaff,
@@ -138,12 +138,12 @@ export function queryFirstStaff(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -155,7 +155,7 @@ export function queryFirstStaff(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function savePurchaseApply(_that,_data){
+export function savePurchaseApply(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.savePurchaseApply,
@@ -165,13 +165,13 @@ export function savePurchaseApply(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 				_that.onoff = true;
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -180,7 +180,7 @@ export function savePurchaseApply(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function saveItemOutApply(_that,_data){
+export function saveItemOutApply(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveItemOutApply,
@@ -190,13 +190,13 @@ export function saveItemOutApply(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 				_that.onoff = true;
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -205,7 +205,7 @@ export function saveItemOutApply(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listAllocationStorehouseApplys(_that,_data){
+export function listAllocationStorehouseApplys(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listAllocationStorehouseApplys,
@@ -215,12 +215,12 @@ export function listAllocationStorehouseApplys(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -229,7 +229,7 @@ export function listAllocationStorehouseApplys(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listStoreHouses(_that,_data){
+export function listStoreHouses(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listStoreHouses,
@@ -239,12 +239,12 @@ export function listStoreHouses(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -253,7 +253,7 @@ export function listStoreHouses(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function saveAllocationStorehouse(_that,_data){
+export function saveAllocationStorehouse(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveAllocationStorehouse,
@@ -265,12 +265,12 @@ export function saveAllocationStorehouse(_that,_data){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -279,7 +279,7 @@ export function saveAllocationStorehouse(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listWorkflowAuditInfo(_that,_data){
+export function listWorkflowAuditInfo(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listWorkflowAuditInfo,
@@ -289,12 +289,12 @@ export function listWorkflowAuditInfo(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -303,7 +303,7 @@ export function listWorkflowAuditInfo(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listMyAuditOrders(_that,_data){
+export function listMyAuditOrders(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listMyAuditOrders,
@@ -313,12 +313,12 @@ export function listMyAuditOrders(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -327,7 +327,7 @@ export function listMyAuditOrders(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listMyItemOutOrders(_that,_data){
+export function listMyItemOutOrders(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listMyItemOutOrders,
@@ -337,12 +337,12 @@ export function listMyItemOutOrders(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -351,7 +351,7 @@ export function listMyItemOutOrders(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listMyAllocationStoreAuditOrders(_that,_data){
+export function listMyAllocationStoreAuditOrders(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listMyAllocationStoreAuditOrders,
@@ -361,12 +361,12 @@ export function listMyAllocationStoreAuditOrders(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -375,7 +375,7 @@ export function listMyAllocationStoreAuditOrders(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listAllocationStorehouses(_that,_data){
+export function listAllocationStorehouses(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listAllocationStorehouses,
@@ -385,12 +385,12 @@ export function listAllocationStorehouses(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -399,7 +399,7 @@ export function listAllocationStorehouses(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function saveAuditAllocationStoreOrder(_that,_data){
+export function saveAuditAllocationStoreOrder(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveAuditAllocationStoreOrder,
@@ -410,12 +410,12 @@ export function saveAuditAllocationStoreOrder(_that,_data){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -424,7 +424,7 @@ export function saveAuditAllocationStoreOrder(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listWorkflowStepStaffs(_that,_data){
+export function listWorkflowStepStaffs(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listWorkflowStepStaffs,
@@ -434,12 +434,12 @@ export function listWorkflowStepStaffs(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -448,7 +448,7 @@ export function listWorkflowStepStaffs(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function saveMyAuditOrders(_that,_data){
+export function saveMyAuditOrders(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveMyAuditOrders,
@@ -459,12 +459,12 @@ export function saveMyAuditOrders(_that,_data){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -473,7 +473,7 @@ export function saveMyAuditOrders(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function saveResourceOut(_that,_data){
+export function saveResourceOut(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveResourceOut,
@@ -484,12 +484,12 @@ export function saveResourceOut(_that,_data){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -498,7 +498,7 @@ export function saveResourceOut(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function saveResourceEnter(_that,_data){
+export function saveResourceEnter(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveResourceEnter,
@@ -509,12 +509,12 @@ export function saveResourceEnter(_that,_data){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -525,7 +525,7 @@ export function saveResourceEnter(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function allocationStoreEnter(_that,_data){
+export function allocationStoreEnter(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.allocationStoreEnter,
@@ -536,12 +536,12 @@ export function allocationStoreEnter(_that,_data){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -551,7 +551,7 @@ export function allocationStoreEnter(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function updatePurchaseApply(_that,_data){
+export function updatePurchaseApply(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.updatePurchaseApply,
@@ -562,12 +562,12 @@ export function updatePurchaseApply(_that,_data){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -577,7 +577,7 @@ export function updatePurchaseApply(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listAuditHistoryOrders(_that,_data){
+export function listAuditHistoryOrders(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listAuditHistoryOrders,
@@ -587,12 +587,12 @@ export function listAuditHistoryOrders(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -601,7 +601,7 @@ export function listAuditHistoryOrders(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listItemOutAuditHistoryOrders(_that,_data){
+export function listItemOutAuditHistoryOrders(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listItemOutAuditHistoryOrders,
@@ -611,12 +611,12 @@ export function listItemOutAuditHistoryOrders(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -625,7 +625,7 @@ export function listItemOutAuditHistoryOrders(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function getAllocationHisAudit(_that,_data){
+export function getAllocationHisAudit(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listAllocationStoreHisAuditOrders,
@@ -635,12 +635,12 @@ export function getAllocationHisAudit(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -649,7 +649,7 @@ export function getAllocationHisAudit(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function listResourceStoreTypes(_that,_data){
+export function listResourceStoreTypes(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listResourceStoreTypes,
@@ -659,12 +659,12 @@ export function listResourceStoreTypes(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -675,7 +675,7 @@ export function listResourceStoreTypes(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function saveResourceStoreTransfer(_that,_data){
+export function saveResourceStoreTransfer(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveResourceStoreTransfer,
@@ -685,12 +685,12 @@ export function saveResourceStoreTransfer(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -699,7 +699,7 @@ export function saveResourceStoreTransfer(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function saveUrgentPurchaseApply(_that,_data){
+export function saveUrgentPurchaseApply(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveUrgentPurchaseApply,
@@ -710,12 +710,12 @@ export function saveUrgentPurchaseApply(_that,_data){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -724,7 +724,7 @@ export function saveUrgentPurchaseApply(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function deleteAllocationStorehouse(_that,_data){
+export function deleteAllocationStorehouse(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.deleteAllocationStorehouse,
@@ -734,12 +734,12 @@ export function deleteAllocationStorehouse(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -748,7 +748,7 @@ export function deleteAllocationStorehouse(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function deletePurchaseApply(_that,_data){
+export function deletePurchaseApply(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.deletePurchaseApply,
@@ -758,12 +758,12 @@ export function deletePurchaseApply(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -773,7 +773,7 @@ export function deletePurchaseApply(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryFirstAuditStaff(_that,_data){
+export function queryFirstAuditStaff(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryFirstAuditStaff,
@@ -783,11 +783,11 @@ export function queryFirstAuditStaff(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

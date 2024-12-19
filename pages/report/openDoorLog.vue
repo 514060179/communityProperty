@@ -2,18 +2,18 @@
 	<view>
 		<view class="q-query flex justify-start flex-wrap">
 			<view class="q-item">
-				<input type="text" class="q-input" placeholder="输入人员名称" v-model="name"></input>
+				<input type="text" class="q-input" :placeholder="$t('输入人员名称')" v-model="name"></input>
 			</view>
 			<view class="q-item">
 				<picker bindchange="PickerChange" :value="machineIndex" :range-key="'machineName'" :range="machines"
-				 @change="machineChange">
+					@change="machineChange">
 					<view class="picker">
-						{{machineIndex==-1 ? "请选择" : machines[machineIndex].machineName}}
+						{{machineIndex==-1 ? $t('请选择') : machines[machineIndex].machineName}}
 					</view>
 				</picker>
 			</view>
 			<view class="q-item-btn">
-				<button class="cu-btn  line-blue round q-input" @click="_loadOpenDoorLog">搜索</button>
+				<button class="cu-btn  line-blue round q-input" @click="_loadOpenDoorLog">{{$t('搜索')}}</button>
 			</view>
 		</view>
 		<view class="margin-top" v-if="logs.length > 0">
@@ -31,27 +31,27 @@
 				</view>
 				<view class="apply-content flex justify-start">
 					<view class="item">
-						<image :src="item.faceUrl" ></image>
+						<image :src="item.faceUrl"></image>
 					</view>
 					<view class="margin-left">
 						<view class="item">
-							<text>门禁:</text>
+							<text>{{$t('门禁')}}:</text>
 							<text>{{item.machineName}}</text>
 						</view>
 						<view class="item">
-							<text>门禁编码:</text>
+							<text>{{$t('门禁编码')}}:</text>
 							<text>{{item.machineCode}}</text>
 						</view>
 						<view class="item">
-							<text>位置:</text>
+							<text>{{$t('位置')}}:</text>
 							<text>{{item.locationObjName}}</text>
 						</view>
 						<view class="item">
-							<text>开门方式:</text>
+							<text>{{$t('开门方式')}}:</text>
 							<text>{{item.openTypeName || '-'}}</text>
 						</view>
 					</view>
-					
+
 				</view>
 			</view>
 		</view>
@@ -63,56 +63,60 @@
 
 <script>
 	import noDataPage from '../../components/no-data-page/no-data-page.vue'
-	import {listMachines,listMachineRecords,getIotOpenApi} from '../../api/machine/machineApi.js';
-	
+	import {
+		listMachines,
+		listMachineRecords,
+		getIotOpenApi
+	} from '../../api/machine/machineApi.js';
+
 	export default {
 		data() {
 			return {
-				name:'',
-				machines:[],
-				machineIndex:-1,
-				machineId:'',
-				logs:[]
+				name: '',
+				machines: [],
+				machineIndex: -1,
+				machineId: '',
+				logs: []
 			}
 		},
 		onLoad() {
 			this._loadAccessControl();
 			this._loadOpenDoorLog();
 		},
-		components:{
+		components: {
 			noDataPage
 		},
 		methods: {
-			_loadOpenDoorLog:function(){
-				let _that =this;
-				getIotOpenApi(this,{
-					machineId:this.machineId,
-					communityId:this.getCommunityId(),
-					page:1,
-					row:100,
-					name:this.name,
-					iotApiCode:'listAccessControlInoutBmoImpl'
-				}).then(_data=>{
+			_loadOpenDoorLog: function() {
+				let _that = this;
+				getIotOpenApi(this, {
+					machineId: this.machineId,
+					communityId: this.getCommunityId(),
+					page: 1,
+					row: 100,
+					name: this.name,
+					iotApiCode: 'listAccessControlInoutBmoImpl'
+				}, this.logs.length == 0).then(_data => {
 					_that.logs = _data.data;
 				})
 			},
-			_loadAccessControl:function(){
-				let _that =this;
-				getIotOpenApi(this,{
-					communityId:this.getCommunityId(),
-					page:1,
-					row:100,
-					machineTypeCd:'9999',
-					domain:'ACCESS_CONTROL',
-					iotApiCode:'listAccessControlBmoImpl',
-				}).then(_data=>{
+			_loadAccessControl: function() {
+				let _that = this;
+				getIotOpenApi(this, {
+					communityId: this.getCommunityId(),
+					page: 1,
+					row: 100,
+					machineTypeCd: '9999',
+					domain: 'ACCESS_CONTROL',
+					iotApiCode: 'listAccessControlBmoImpl',
+				}, this.machines.length == 0).then(_data => {
 					_that.machines = _data.data;
 				})
 			},
 			machineChange: function(e) {
 				this.machineIndex = e.target.value //取其下标
 				let selected = this.machines[this.machineIndex] //获取选中的数组
-				if(!selected){
+				if (!selected) {
 					return;
 				}
 				this.machineId = selected.machineId; //选中的id
@@ -136,8 +140,8 @@
 			.q-input {
 				height: 40upx;
 			}
-			
-			
+
+
 
 			margin-bottom: 15upx;
 		}
@@ -151,24 +155,26 @@
 			}
 		}
 	}
+
 	.apply-title {
 		height: 60upx;
 		line-height: 50upx;
 		border-bottom: 1upx solid #F1F1F1;
 	}
-	
+
 	.apply-content {
 		.item {
 			//width: 50%;
 			margin-top: 20upx;
-			image{
+
+			image {
 				width: 180upx;
 				height: 180upx;
 				border-radius: 10upx;
 			}
 		}
 	}
-	
+
 	.radius-sm {
 		border-radius: 16upx;
 	}

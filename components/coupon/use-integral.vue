@@ -86,7 +86,7 @@
 					page: 1,
 					row: 1,
 					communityId: getCurrentCommunity().communityId
-				}).then(_data => {
+				}, this.money == 0).then(_data => {
 					_that.money = _data.data[0].money;
 				})
 			},
@@ -101,7 +101,7 @@
 					communityId: getCurrentCommunity().communityId,
 					link: this.tel,
 					ownerTypeCd: '1001'
-				}).then(_data => {
+				}, this.owners.length == 0).then(_data => {
 					_that.owners = _data.owners;
 				})
 			},
@@ -113,7 +113,7 @@
 					communityId: getCurrentCommunity().communityId,
 					objId: this.ownerId,
 					acctType: '2004'
-				}).then(_data => {
+				}, true).then(_data => {
 					_that.acctId = _data.data[0].acctId;
 					_that.acctName = _data.data[0].acctName;
 					_that.quantity = _data.data[0].amount;
@@ -129,7 +129,7 @@
 					useMoney: this.useMoney,
 					remark: this.remark,
 					communityId: getCurrentCommunity().communityId,
-				}).then(_data => {
+				}, true).then(_data => {
 					uni.showToast({
 						icon: 'none',
 						title: '核销成功'

@@ -92,7 +92,7 @@
 			          duration: 2000
 			        })
 			      }
-			    });
+			    }, true);
 			  },
 			  _toDetail:function(_item){
 				  uni.navigateTo({

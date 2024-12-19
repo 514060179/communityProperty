@@ -18,9 +18,9 @@
 </template>
 
 <script>
-	import stringUtil from '../../lib/java110/utils/StringUtil.js';
+	import stringUtil from '../../lib/com/newland/property/utils/StringUtil.js';
 	import conf from '../../conf/config.js'
-	import {replaceImgSrc} from '../../lib/java110/utils/ImageUtil.js'
+	import {replaceImgSrc} from '../../lib/com/newland/property/utils/ImageUtil.js'
 	import url from '../../constant/url.js'
 	export default {
 		data() {
@@ -96,7 +96,7 @@
 			          duration: 2000
 			        })
 			      }
-			    });
+			    }, true);
 			  },
 			
 		}

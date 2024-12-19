@@ -1,41 +1,47 @@
 <template>
 	<view>
 		<view class="cu-form-group arrow margin-top">
-			<view class="title">动作</view>
+			<!-- 动作 -->
+			<view class="title">{{$t('action')}}</view>
 			<picker bindchange="PickerChange" :value="actionIndex" :range-key="'label'" :range="actions"
 				@change="selectChange($event)">
 				<view class="picker">
-					{{actions.length==0 ? "请选择" : actions[actionIndex].label}}
+					{{actions.length==0 ? $t('please_select') : actions[actionIndex].label}}
 				</view>
 			</picker>
 		</view>
 		<view class="cu-form-group margin-top-xs">
-			<textarea v-model="audit.auditMessage" placeholder="请输入处理意见"></textarea>
+			<textarea v-model="audit.auditMessage" :placeholder="placeHolder"></textarea>
 		</view>
 		<view class="cu-form-group arrow margin-top-xs" v-if="audit.auditCode == '1100' && nextAudit.assignee == '-2'">
-			<view class="title">下一处理人</view>
+			<view class="title" style="white-space: nowrap;">{{$t('next_processor')}}</view>
 			<pickerStaffs @change="changeStaff" class="text-right" style="width:80%">{{audit.staffName}}</pickerStaffs>
 			<text class='cuIcon-right'></text>
 		</view>
 		<view class="cu-form-group arrow margin-top-xs" v-if="audit.auditCode == '1300'">
-			<view class="title">下一处理人</view>
+			<view class="title" style="white-space: nowrap;">{{$t('next_processor')}}</view>
 			<pickerStaffs @change="changeStaff" class="text-right" style="width:80%">{{audit.staffName}}</pickerStaffs>
 			<text class='cuIcon-right'></text>
 		</view>
-		
+
 		<view class="button_up_blank"></view>
 		<view class="flex flex-direction">
-			<button class="cu-btn bg-green margin-tb-sm lg" @click="_doSubmit()">提交</button>
+			<button class="cu-btn bg-blue margin-tb-sm lg" @click="_doSubmit()">提交</button>
 		</view>
 	</view>
 </template>
 
 <script>
 	import pickerStaffs from '../../components/pickerStaffs/pickerStaffs.vue';
-	import {queryNextDealUser,auditUndoVisit} from '../../api/visit/visitApi.js';
-		import {getCurrentCommunity} from '../../api/community/community.js';
+	import {
+		queryNextDealUser,
+		auditUndoVisit
+	} from '../../api/visit/visitApi.js';
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js';
 	export default {
-		name:"auditVisit",
+		name: "auditVisit",
 		data() {
 			return {
 				taskId: '',
@@ -50,15 +56,20 @@
 					staffName: '请选择',
 					taskId: ''
 				},
-				startUserId:'',
+				startUserId: '',
 				nextAudit: {}
 			};
+		},
+		computed: {
+			placeHolder() {
+				return this.$t('please_enter_opinion')
+			}
 		},
 		components: {
 			pickerStaffs
 		},
 		methods: {
-			initAuditVisit:function(param){
+			initAuditVisit: function(param) {
 				this.taskId = param.taskId;
 				this.flowId = param.flowId;
 				this.vId = param.vId;
@@ -78,7 +89,7 @@
 				if (data.data.length < 3) {
 					return;
 				}
-		
+
 				this.audit.staffId = data.data[2].code;
 				this.audit.staffName = data.data[2].name;
 			},
@@ -109,7 +120,7 @@
 					vc.toast('请选择下一节点处理人');
 					return;
 				}
-				auditUndoVisit(this, _audit).then(_data => {
+				auditUndoVisit(this, _audit, true).then(_data => {
 					if (_data.data.code == 0) {
 						uni.showToast({
 							title: "提交成功",
@@ -134,8 +145,8 @@
 					taskId: this.taskId,
 					flowId: this.flowId,
 					startUserId: this.startUserId,
-					communityId:getCurrentCommunity().communityId,
-				}).then(_data => {
+					communityId: getCurrentCommunity().communityId,
+				}, JSON.stringify(this.nextAudit) === '{}').then(_data => {
 					let data = _data[0];
 					_that.nextAudit = data;
 					if (data.hasOwnProperty("next") || data.hasOwnProperty("exit")) {

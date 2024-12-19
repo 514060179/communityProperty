@@ -3,10 +3,10 @@
 		<scroll-view scroll-x class="bg-white nav" scroll-with-animation :scroll-left="scrollLeft">
 			<view class="flex text-center">
 
-				<view class="cu-item flex-sub" :class="state=='10002'?'text-green cur':''" @tap="_tabSelect('10002')">
+				<view class="cu-item flex-sub" :class="state=='10002'?'text-blue cur':''" @tap="_tabSelect('10002')">
 					发起投诉
 				</view>
-				<view class="cu-item flex-sub" :class="state=='10001'?'text-green cur':''" @tap="_tabSelect('10001')">
+				<view class="cu-item flex-sub" :class="state=='10001'?'text-blue cur':''" @tap="_tabSelect('10001')">
 					投诉历史
 				</view>
 			</view>
@@ -121,7 +121,7 @@
 			</form>
 
 			<view class="padding flex flex-direction">
-				<button class="cu-btn bg-green margin-tb-sm lg" @tap="_submitOrder()">提交</button>
+				<button class="cu-btn bg-blue margin-tb-sm lg" @tap="_submitOrder()">提交</button>
 			</view>
 
 		</view>
@@ -210,13 +210,13 @@
 					success: function(res) {
 						console.log("请求返回信息：", res);
 						if (res.statusCode != 200) {
-							// uni.showToast({
-							// 	icon: 'none',
-							// 	title: res.data
-							// });
-							uni.navigateTo({
+							uni.showToast({
+								icon: 'none',
+								title: res.data
+							});
+							/*uni.navigateTo({
 								url:'/pages/login/login'
-							})
+							})*/
 							return;
 						}
 						let _data = res.data;
@@ -236,7 +236,7 @@
 							duration: 2000
 						});
 					}
-				});
+				}, this.myOrders.length == 0);
 			},
 			_toComplaintOrderDetail: function(_item) {
 				console.log('_item', _item);
@@ -300,13 +300,13 @@
 						success: function(res) {
 							console.log(res);
 							if (res.statusCode != 200) {
-								// uni.showToast({
-								// 	icon: 'none',
-								// 	title: res.data
-								// });
-								uni.navigateTo({
+								uni.showToast({
+									icon: 'none',
+									title: res.data
+								});
+								/*uni.navigateTo({
 									url:'/pages/login/login'
-								})
+								})*/
 								return;
 							}
 							_that.state = '10001';
@@ -320,7 +320,7 @@
 								duration: 2000
 							})
 						}
-					});
+					}, true);
 				}
 			},
 			_chooseImage: function() {

@@ -57,7 +57,7 @@
 	// 防止多次点击
 	import {
 		preventClick
-	} from '../../lib/java110/utils/common.js';
+	} from '../../lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 
@@ -91,7 +91,7 @@
 					row: 100,
 					applyId: this.applyId,
 				};
-				listAllocationStorehouses(this, _objData)
+				listAllocationStorehouses(this, _objData, this.resourceStores.length == 0)
 					.then(function(res) {
 						_that.resourceStores = res.data
 					})
@@ -127,7 +127,7 @@
 					resourceStores: this.resourceStores,
 					communityId:this.getCommunityId()
 				}
-				allocationStoreEnter(this, _data)
+				allocationStoreEnter(this, _data, true)
 					.then(function(res) {
 						uni.showToast({
 							title: res.msg,

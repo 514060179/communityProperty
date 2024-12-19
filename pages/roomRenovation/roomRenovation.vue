@@ -3,7 +3,8 @@
 		<view class="cu-bar bg-white search ">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="输入房屋号" v-model="roomName" confirm-type="search"></input>
+				<input type="text" :placeholder="$t('enter_house_number')" v-model="roomName"
+					confirm-type="search"></input>
 			</view>
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
@@ -12,20 +13,21 @@
 				</picker>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-gradual-green shadow-blur round" @tap="$preventClick(_searchApply)">搜索</button>
+				<button class="cu-btn bg-gradual-blue shadow-blur round" @tap="$preventClick(_searchApply)">搜索</button>
 			</view>
 		</view>
 		<view class="margin-top" v-if="renovationRoomList.length > 0">
-			<view class="cu-list menu-avatar " v-for="(item,index) in renovationRoomList" :key="index" @tap="_toApplyRoomDetail(item)">
+			<view class="cu-list menu-avatar " v-for="(item,index) in renovationRoomList" :key="index"
+				@tap="_toApplyRoomDetail(item)">
 				<view class="cu-item arrow">
 					<view class="item-content">
 						<view class="text-grey">
-							<text class="cuIcon-notification text-cut text-green margin-right-xs"></text>
-						 {{item.stateName}}-{{item.roomName}}
+							<text class="cuIcon-notification text-cut text-blue margin-right-xs"></text>
+							{{item.stateName}}-{{item.roomName}}
 						</view>
 						<view class="text-gray text-sm flex">
 							<view class="text-cut">
-								申请人：{{item.personName}}-{{item.personTel}}
+								{{$t('applicant')}}：{{item.personName}}-{{item.personTel}}
 							</view>
 						</view>
 					</view>
@@ -47,27 +49,38 @@
 <script>
 	import noDataPage from '@/components/no-data-page/no-data-page.vue'
 	import uniLoadMore from '@/components/uni-load-more/uni-load-more.vue';
-	import {queryRoomRenovation,queryDictInfo} from '../../api/renovation/renovation.js'
-	import {getCurrentCommunity} from '../../api/community/community.js'
+	import {
+		queryRoomRenovation,
+		queryDictInfo
+	} from '../../api/renovation/renovation.js'
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
 	// 防止多次点击
-	import {preventClick} from '../../lib/java110/utils/common.js';
+	import {
+		preventClick
+	} from '../../lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 	export default {
 		data() {
+			const translate = (key) => {
+				return this.$t(key);
+			};
+
 			return {
 				onoff: true,
 				communityId: '',
 				renovationRoomList: [],
 				page: 1,
-				loadingStatus : 'loading',
+				loadingStatus: 'loading',
 				loadingContentText: {
-					contentdown: '上拉加载更多',
-					contentrefresh: '加载中',
-					contentnomore: '没有更多'
+					contentdown: translate('pull_up_to_load_more'),
+					contentrefresh: translate('loading'),
+					contentnomore: translate('no_more')
 				},
 				applyStates: [{
-					name: '请选择'
+					name: translate('please_select')
 				}],
 				applyStatesIndex: 0,
 				applyState: '',
@@ -82,14 +95,14 @@
 			this.java110Context.onLoad();
 			this.loadApplyState();
 		},
-		onShow: function(){
+		onShow: function() {
 			this.page = 1;
 			this.renovationRoomList = [];
 			this.communityId = getCurrentCommunity().communityId;
-			this.loadApply();	
+			this.loadApply();
 		},
-		onReachBottom : function(){
-			if(this.loadingStatus == 'noMore'){
+		onReachBottom: function() {
+			if (this.loadingStatus == 'noMore') {
 				return;
 			}
 			this.loadApply();
@@ -100,20 +113,20 @@
 				this.page = 1;
 				this.loadApply();
 			},
-			
-			loadApplyState: function(){
+
+			loadApplyState: function() {
 				let _that = this;
 				let _objData = {
 					'name': "room_renovation",
 					'type': "state",
 				};
-				queryDictInfo(this,_objData)
-				.then(function(res){
-					_that.applyStates = _that.applyStates.concat(res);
-				})
+				queryDictInfo(this, _objData, this.applyStates.length == 0)
+					.then(function(res) {
+						_that.applyStates = _that.applyStates.concat(res);
+					})
 			},
-			
-			applyStatesChange: function(e){
+
+			applyStatesChange: function(e) {
 				this.applyStatesIndex = e.target.value;
 				if (this.applyStatesIndex == 0) {
 					this.applyState = '';
@@ -122,11 +135,11 @@
 				let selected = this.applyStates[this.applyStatesIndex];
 				this.applyState = selected.statusCd;
 			},
-			
+
 			/**
 			 * 加载数据
 			 */
-			loadApply: function(){
+			loadApply: function() {
 				this.loadingStatus = 'more';
 				let _that = this;
 				let _objData = {
@@ -136,21 +149,21 @@
 					roomName: this.roomName,
 					state: this.applyState
 				};
-				queryRoomRenovation(this,_objData)
-				.then(function(res){
-					_that.renovationRoomList = _that.renovationRoomList.concat(res.data)
-					_that.page ++;
-					if(_that.renovationRoomList.length == res.total){
-						_that.loadingStatus = 'noMore';
-						return;
-					}
-				})
+				queryRoomRenovation(this, _objData, this.renovationRoomList.length == 0)
+					.then(function(res) {
+						_that.renovationRoomList = _that.renovationRoomList.concat(res.data)
+						_that.page++;
+						if (_that.renovationRoomList.length == res.total) {
+							_that.loadingStatus = 'noMore';
+							return;
+						}
+					})
 			},
-			
+
 			/**
 			 * 跳转详情页
 			 */
-			_toApplyRoomDetail: function(_item){
+			_toApplyRoomDetail: function(_item) {
 				uni.navigateTo({
 					url: '/pages/roomRenovationDetail/roomRenovationDetail?apply=' + JSON.stringify(_item)
 				});
@@ -160,7 +173,7 @@
 </script>
 
 <style>
-	.item-content{
+	.item-content {
 		width: 100%;
 		margin-left: 20rpx;
 		line-height: 1.6em;

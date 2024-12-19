@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="block__title">{{staffName}}巡检情况</view>
+		<view class="block__title">{{staffName}}{{$t('zh_hk_info')}}</view>
 		<!-- <view class="cu-form-group arrow">
 			<view class="title">查询日期</view>
 			<picker mode="date" :value="bindDate" start="2020-09-01" end="2050-09-01" @change="dateChange">
@@ -9,16 +9,20 @@
 				</view>
 			</picker>
 		</view> -->
-		<view class="cu-list menu margin-top" v-if="inpections && inpections.length > 0" v-for="(inspection, idx) in inpections" :key="idx" 
-		:data-item="inspection"
-		 >
+		<view class="cu-list menu margin-top" v-if="inpections && inpections.length > 0"
+			v-for="(inspection, idx) in inpections" :key="idx" :data-item="inspection">
 			<view class="cu-item ">
 				<view class="content padding-tb-sm">
 					<view>
-						<view class="text-cut" style="width:85%;">{{inspection.inspectionName}}({{inspection.stateName}})</view>
+						<view class="text-cut" style="width:85%;">
+							{{inspection.inspectionName}}({{inspection.stateName}})
+						</view>
 					</view>
 					<view class="text-gray text-sm">
-						<text class="margin-right-xs">巡检时间:</text> {{inspection.planInsTime}} - {{inspection.pointEndTime}}</view>
+						<!-- 巡检时间 -->
+						<text class="margin-right-xs">{{$t('zh_hk_time')}}:</text> {{inspection.planInsTime}} -
+						{{inspection.pointEndTime}}
+					</view>
 				</view>
 			</view>
 		</view>
@@ -29,22 +33,32 @@
 </template>
 
 <script>
-	import {formatDate} from '@/lib/java110/utils/DateUtil.js';
-	import {listInspectionTaskDetails} from '@/api/inspection/inspection.js';
+	import {
+		formatDate
+	} from '@/lib/com/newland/property/utils/DateUtil.js';
+	import {
+		listInspectionTaskDetails
+	} from '@/api/inspection/inspection.js';
 	import noDataPage from '@/components/no-data-page/no-data-page.vue'
-	
-	
-	import {getCurrentCommunity} from '../../api/community/community.js'
+
+
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
 	export default {
 		data() {
+			const translate = (key) => {
+				return this.$t(key);
+			};
+
 			return {
-				inpections:[],
-				bindDate: '请选择',
-				staffId:'',
-				staffName:''
+				inpections: [],
+				bindDate: translate('please_select'), //'请选择',
+				staffId: '',
+				staffName: ''
 			}
 		},
-		components:{
+		components: {
 			noDataPage
 		},
 		onLoad(options) {
@@ -52,20 +66,20 @@
 			this.staffName = options.staffName;
 			this.bindDate = options.queryTime;
 			this._loadTodayInspectionReportDetail();
-			
+
 		},
 		methods: {
-			
-			_loadTodayInspectionReportDetail:function(){
+
+			_loadTodayInspectionReportDetail: function() {
 				let _that = this;
-				listInspectionTaskDetails(this,{
+				listInspectionTaskDetails(this, {
 					communityId: getCurrentCommunity().communityId,
-					planUserId:this.staffId,
+					planUserId: this.staffId,
 					//state:'20200405',
-					queryTime:this.bindDate,
-					page:1,
-					row:100
-				}).then(_data=>{
+					queryTime: this.bindDate,
+					page: 1,
+					row: 100
+				}, this.inpections.length == 0).then(_data => {
 					console.log(_data)
 					_that.inpections = _data.inspectionTaskDetails;
 				})
@@ -73,13 +87,13 @@
 			dateChange: function(e) {
 				this.bindDate = e.detail.value;
 			},
-			
+
 		}
 	}
 </script>
 
 <style>
-.block__title {
+	.block__title {
 		margin: 0;
 		font-weight: 400;
 		font-size: 14px;

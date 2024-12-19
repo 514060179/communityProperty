@@ -3,7 +3,7 @@
 		<view class="cu-list menu margin-top">
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-deletefill text-green"></text>
+					<text class="cuIcon-deletefill text-blue"></text>
 					<text class="text-grey">操作</text>
 				</view>
 				<view class="action">
@@ -12,7 +12,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-time text-green"></text>
+					<text class="cuIcon-time text-blue"></text>
 					<text class="text-grey">申请房间</text>
 				</view>
 				<view class="action">
@@ -21,7 +21,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-footprint text-green"></text>
+					<text class="cuIcon-footprint text-blue"></text>
 					<text class="text-grey">跟踪备注</text>
 				</view>
 				<view class="action">
@@ -99,7 +99,7 @@
 					ardrId: this.recordInfo.ardrId,
 					roomName: this.recordInfo.roomName
 				};
-				queryApplyRoomRecordDetail(this,_objData)
+				queryApplyRoomRecordDetail(this,_objData, this.recordList.length == 0)
 				.then(function(res){
 					_that.recordList = res
 					res.forEach((item) => {
@@ -130,7 +130,7 @@
 					content: '是否确认删除？',
 					success: (res) => {
 						if(res.confirm) {  
-							cutApplyRoomDiscountRecord(this,this.recordInfo)
+							cutApplyRoomDiscountRecord(this,this.recordInfo, true)
 							.then(function(res){
 								uni.navigateBack({
 									delta:1

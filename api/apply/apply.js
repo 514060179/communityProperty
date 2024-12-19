@@ -4,7 +4,7 @@ import url from '../../constant/url.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function loadApplyRooms(_that,_data){
+export function loadApplyRooms(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listApplyRoom,
@@ -15,7 +15,7 @@ export function loadApplyRooms(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -23,19 +23,19 @@ export function loadApplyRooms(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 根据优惠类型查询优惠列表
  */
-export function loadFeeDiscount(_that, _data){
+export function loadFeeDiscount(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryFeeDiscount,
@@ -45,7 +45,7 @@ export function loadFeeDiscount(_that, _data){
 					reslove(res.data.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -53,19 +53,19 @@ export function loadFeeDiscount(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 提交验房操作
  */
-export function uploadCheckUpdate(_that, _data){
+export function uploadCheckUpdate(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.updateApplyRoomDiscount,
@@ -83,19 +83,19 @@ export function uploadCheckUpdate(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 提交审核操作
  */
-export function uploadReviewUpdate(_that, _data){
+export function uploadReviewUpdate(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.updateReviewApplyRoomDiscount,
@@ -113,12 +113,12 @@ export function uploadReviewUpdate(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -127,7 +127,7 @@ export function uploadReviewUpdate(_that, _data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryDictInfo(_that,_data){
+export function queryDictInfo(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryDictInfo,
@@ -137,12 +137,12 @@ export function queryDictInfo(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -151,7 +151,7 @@ export function queryDictInfo(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryApplyRoomRecord(_that,_data){
+export function queryApplyRoomRecord(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listApplyRoomDiscountRecord,
@@ -161,7 +161,7 @@ export function queryApplyRoomRecord(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -169,12 +169,12 @@ export function queryApplyRoomRecord(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -183,7 +183,7 @@ export function queryApplyRoomRecord(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryApplyRoomRecordDetail(_that,_data){
+export function queryApplyRoomRecordDetail(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listApplyRoomDiscountRecordDetail,
@@ -193,7 +193,7 @@ export function queryApplyRoomRecordDetail(_that,_data){
 					reslove(res.data.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -201,19 +201,19 @@ export function queryApplyRoomRecordDetail(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 添加跟踪记录操作
  */
-export function saveApplyRoomDiscountRecord(_that, _data){
+export function saveApplyRoomDiscountRecord(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveApplyRoomDiscountRecord,
@@ -223,7 +223,7 @@ export function saveApplyRoomDiscountRecord(_that, _data){
 					reslove();
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -231,19 +231,19 @@ export function saveApplyRoomDiscountRecord(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 /**
  * 删除跟踪记录操作
  */
-export function cutApplyRoomDiscountRecord(_that, _data){
+export function cutApplyRoomDiscountRecord(_that, _data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.cutApplyRoomDiscountRecord,
@@ -253,7 +253,7 @@ export function cutApplyRoomDiscountRecord(_that, _data){
 					reslove();
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -261,11 +261,11 @@ export function cutApplyRoomDiscountRecord(_that, _data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

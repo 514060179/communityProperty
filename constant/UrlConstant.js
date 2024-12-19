@@ -10,7 +10,7 @@ const baseUrl = conf.baseUrl;
 const hcBaseUrl = conf.baseUrl;
 
 const loginUrl = baseUrl + 'app/loginProperty';
-const areaUrl = baseUrl + "app/area.listAreas";
+const areaUrl = baseUrl + 'app/area.listAreas';
 const GetNoticeListUrl = baseUrl + 'app/notice.listNotices'; //公告接口
 
 const listMyEnteredCommunitys = baseUrl + 'app/community.listMyEnteredCommunitys'; //查看员工小区
@@ -35,32 +35,32 @@ const auditComplaint = baseUrl + 'app/complaint.auditComplaint'; //查询业主�
 
 const queryFloors = baseUrl + 'app/floor.queryFloors'; // 申请钥匙
 
-const queryUnits = baseUrl + "app/unit.queryUnits"; //查询钥匙
+const queryUnits = baseUrl + 'app/unit.queryUnits'; //查询钥匙
 
-const queryRooms = baseUrl + "app/room.queryRooms"; //申请访客钥匙
+const queryRooms = baseUrl + 'app/room.queryRooms'; //申请访客钥匙
 
-const applyVisitorApplicationKey = baseUrl + "app/applicationKey.applyVisitorApplicationKey"; //上传业主照片
+const applyVisitorApplicationKey = baseUrl + 'app/applicationKey.applyVisitorApplicationKey'; //上传业主照片
 
-const uploadOwnerPhoto = baseUrl + "app/owner.uploadOwnerPhoto";
-const getOwnerPhotoPath = hcBaseUrl + "/callComponent/download/getFile/fileByObjId";
-const filePath = hcBaseUrl + "/callComponent/download/getFile/file"; //查询业主车位信息
+const uploadOwnerPhoto = baseUrl + 'app/owner.uploadOwnerPhoto';
+const getOwnerPhotoPath = hcBaseUrl + '/callComponent/download/getFile/fileByObjId';
+const filePath = hcBaseUrl + '/callComponent/download/getFile/file'; //查询业主车位信息
 
-const queryParkingSpacesByOwner = baseUrl + "app/parkingSpace.queryParkingSpacesByOwner"; //查询停车位费用
+const queryParkingSpacesByOwner = baseUrl + 'app/parkingSpace.queryParkingSpacesByOwner'; //查询停车位费用
 
-const queryFeeByParkingSpace = baseUrl + "app/fee.queryFeeByParkingSpace"; //查询物业费用
+const queryFeeByParkingSpace = baseUrl + 'app/fee.queryFeeByParkingSpace'; //查询物业费用
 
-const queryFeeByOwner = baseUrl + "app/fee.queryFee"; //预下单
+const queryFeeByOwner = baseUrl + 'app/fee.queryFee'; //预下单
 
-const preOrder = baseUrl + "app/payment/toPay"; //查询小区
+const preOrder = baseUrl + 'app/payment/toPay'; //查询小区
 
-const listCommunitys = baseUrl + "app/community.listCommunitys"; //查询小区文化
+const listCommunitys = baseUrl + 'app/community.listCommunitys'; //查询小区文化
 
-const listActivitiess = baseUrl + "app/activities.listActivitiess"; //查询小区广告
+const listActivitiess = baseUrl + 'app/activities.listActivitiess'; //查询小区广告
 
-const listAdvertPhoto = baseUrl + "app/advert.listAdvertPhoto";
+const listAdvertPhoto = baseUrl + 'app/advert.listAdvertPhoto';
 
 //查询巡检任务
-const listInspectionTasks = baseUrl + "app/inspectionTask.listInspectionTasks";
+const listInspectionTasks = baseUrl + 'app/inspectionTask.listInspectionTasks';
 
 //巡检任务详情
 const listInspectionTaskDetails = baseUrl + 'app/inspectionTaskDetail.listInspectionTaskDetails';
@@ -69,30 +69,30 @@ const listInspectionTaskDetails = baseUrl + 'app/inspectionTaskDetail.listInspec
 const updateInspectionTaskDetail = baseUrl + 'app/inspectionTaskDetail.updateInspectionTaskDetail';
 
 // 查询报修单处理师傅
-const listRepairStaffs = baseUrl + "app/ownerRepair.listRepairStaffs";
+const listRepairStaffs = baseUrl + 'app/ownerRepair.listRepairStaffs';
 
 //查询员工报修单
-const listStaffRepairs = baseUrl + "app/ownerRepair.listStaffRepairs";
+const listStaffRepairs = baseUrl + 'app/ownerRepair.listStaffRepairs';
 
 //查询报修师傅查询
-const listRepairTypeUsers = baseUrl + "app/repair.listRepairTypeUsers";
+const listRepairTypeUsers = baseUrl + 'app/repair.listRepairTypeUsers';
 
 
 
 //查询完成报修单
-const listStaffFinishRepairs = baseUrl +"app/ownerRepair.listStaffFinishRepairs";
+const listStaffFinishRepairs = baseUrl +'app/ownerRepair.listStaffFinishRepairs';
 
-const repairDispatch = baseUrl+"app/ownerRepair.repairDispatch";
+const repairDispatch = baseUrl+'app/ownerRepair.repairDispatch';
 
 //查询水电抄表记录
-const listMeterWaters = baseUrl+"app/meterWater.listMeterWaters";
+const listMeterWaters = baseUrl+'app/meterWater.listMeterWaters';
 // 报修抢单
-const robRepairOrder = baseUrl + "callComponent/ownerRepair.grabbingRepair";
+const robRepairOrder = baseUrl + 'callComponent/ownerRepair.grabbingRepair';
 // 获取空置房申请列表
-const listApplyRoom = baseUrl + "app/applyRoomDiscount/queryApplyRoomDiscount";
+const listApplyRoom = baseUrl + 'app/applyRoomDiscount/queryApplyRoomDiscount';
 const queryFeeDiscount = baseUrl + 'app/feeDiscount/queryFeeDiscount';
 const listRepairSettings = baseUrl + 'app/repair.listRepairSettings';
-const saveHelpOwnerRepair = baseUrl + "callComponent/addOwnerRepair/save";
+const saveHelpOwnerRepair = baseUrl + 'callComponent/addOwnerRepair/save';
 
 	
 

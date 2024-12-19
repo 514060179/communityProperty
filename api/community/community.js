@@ -1,22 +1,22 @@
 import mapping from '../../constant/mapping.js'
-import util from '../../lib/java110/utils/util.js'
+import util from '../../lib/com/newland/property/utils/util.js'
 
-import {getUserInfo} from '../../lib/java110/api/Java110SessionApi.js'
+import {getUserInfo} from '../../lib/com/newland/property/api/Java110SessionApi.js'
 
-import request from '../../lib/java110/request.js'
+import api from '../../lib/com/newland/property/request.js'
 
 import url from '../../constant/url.js'
 
-import {getHeaders} from '../../lib/java110/api/SystemApi.js'
+import {getHeaders} from '../../lib/com/newland/property/api/SystemApi.js'
 
 /**
  * 获取小区信息
  * @param {Object} reload 是否重新加载 小区信息
  * @param {Object} _condition 查询小区条件
  */
-export function getCommunity(reload, _condition) {
+export function getCommunity(reload, _condition, isShowLoad) {
 	let _communityInfo = uni.getStorageSync(mapping.COMMUNITY_INFO);
-	let _that = this;
+	const _that = this;
 	return new Promise(function(reslove, reject) {
 		//小区没有就去登录
 		if (util.isNotNull(_communityInfo) && reload != true) {
@@ -25,7 +25,7 @@ export function getCommunity(reload, _condition) {
 			return;
 		}
 
-		let _userInfo = getUserInfo();
+		const _userInfo = getUserInfo();
 	
 		if (util.isNull(_condition)) {
 			_condition = {
@@ -36,28 +36,28 @@ export function getCommunity(reload, _condition) {
 			};
 		}
 
-		if (!_condition.hasOwnProperty("page")) {
+		if (!_condition.hasOwnProperty('page')) {
 			_condition.page = 1;
 			_condition.row = 50;
 		}
 		_condition.userId = _userInfo.userId;
 		_condition.storeId = _userInfo.storeId;
-		request.request({
+		api.request({
 			url: url.listMyEnteredCommunitys,
 			header: getHeaders(),
 			data: _condition,
 			success: function(res) {
 				if (res.statusCode != 200) {
-					// uni.showToast({
-					// 	icon: 'none',
-					// 	title: res.data
-					// });
-					uni.navigateTo({
+					uni.showToast({
+						icon: 'none',
+						title: res.data
+					});
+					/*uni.navigateTo({
 						url:'/pages/login/login'
-					})
+					})*/
 					return;
 				}
-				let data = res.data;
+				const data = res.data;
 				if (data.total < 1) {
 					uni.showToast({
 						icon: none,
@@ -65,7 +65,7 @@ export function getCommunity(reload, _condition) {
 					});
 					return;
 				}
-				let _communitys = data.communitys;
+				const _communitys = data.communitys;
 				uni.setStorageSync(mapping.COMMUNITY_INFO, JSON.stringify(_communitys));
 				reslove(_communitys)
 			},
@@ -75,11 +75,11 @@ export function getCommunity(reload, _condition) {
 					title: '调用接口失败'
 				});
 			}
-		});
+		}, isShowLoad);
 	});
 }
 export function getCurrentCommunity() {
-	let currentCommunity = uni.getStorageSync(mapping.CURRENT_COMMUNITY_INFO);
+	const currentCommunity = uni.getStorageSync(mapping.CURRENT_COMMUNITY_INFO);
 	if (util.isNull(currentCommunity)) {
 		return {};
 	}

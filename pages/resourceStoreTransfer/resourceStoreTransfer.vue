@@ -3,7 +3,7 @@
 		<view style="padding-bottom: 100rpx;">
 			<view class="cu-bar bg-white search ">
 				<view class="action">
-					<button class="cu-btn bg-gradual-green shadow-blur round" @tap="_openChooseResourceModel()">选择物品</button>
+					<button class="cu-btn bg-gradual-blue shadow-blur round" @tap="_openChooseResourceModel()">选择物品</button>
 				</view>
 			</view>
 			<view class="margin-top">
@@ -28,7 +28,7 @@
 			</view>
 			<view class="cu-bar bg-white search margin-top">
 				<view class="action">
-					<button class="cu-btn bg-gradual-green shadow-blur round" @tap="_openChooseStaffModel()">选择员工</button>
+					<button class="cu-btn bg-gradual-blue shadow-blur round" @tap="_openChooseStaffModel()">选择员工</button>
 				</view>
 			</view>
 			<view class="cu-form-group margin-top" v-if="acceptUserId">
@@ -53,7 +53,7 @@
 		saveResourceStoreTransfer
 	} from '../../api/resource/resource.js'
 	// 防止多次点击
-	import {preventClick} from '../../lib/java110/utils/common.js';
+	import {preventClick} from '../../lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 	// 组件
@@ -146,7 +146,7 @@
 					acceptUserName: this.acceptUserName,
 					communityId: getCurrentCommunity().communityId
 				};
-				saveResourceStoreTransfer(this, _data)
+				saveResourceStoreTransfer(this, _data, true)
 				.then(function(res) {
 					if (res.code == 0) {
 						_that.onoff = true;

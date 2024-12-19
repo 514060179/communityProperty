@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["jsQR"] = factory();
+		exports['jsQR'] = factory();
 	else
-		root["jsQR"] = factory();
+		root['jsQR'] = factory();
 })(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -67,7 +67,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = '';
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 3);
@@ -77,9 +77,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var BitMatrix = /** @class */ (function () {
     function BitMatrix(data, width) {
         this.width = width;
@@ -114,9 +114,9 @@ exports.BitMatrix = BitMatrix;
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var GenericGFPoly_1 = __webpack_require__(2);
 function addOrSubtractGF(a, b) {
     return a ^ b; // tslint:disable-line:no-bitwise
@@ -157,7 +157,7 @@ var GenericGF = /** @class */ (function () {
     };
     GenericGF.prototype.buildMonomial = function (degree, coefficient) {
         if (degree < 0) {
-            throw new Error("Invalid monomial degree less than 0");
+            throw new Error('Invalid monomial degree less than 0');
         }
         if (coefficient === 0) {
             return this.zero;
@@ -184,14 +184,14 @@ exports.default = GenericGF;
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var GenericGF_1 = __webpack_require__(1);
 var GenericGFPoly = /** @class */ (function () {
     function GenericGFPoly(field, coefficients) {
         if (coefficients.length === 0) {
-            throw new Error("No coefficients.");
+            throw new Error('No coefficients.');
         }
         this.field = field;
         var coefficientsLength = coefficients.length;
@@ -280,7 +280,7 @@ var GenericGFPoly = /** @class */ (function () {
     };
     GenericGFPoly.prototype.multiplyByMonomial = function (degree, coefficient) {
         if (degree < 0) {
-            throw new Error("Invalid degree less than 0");
+            throw new Error('Invalid degree less than 0');
         }
         if (coefficient === 0) {
             return this.field.zero;
@@ -321,9 +321,9 @@ exports.default = GenericGFPoly;
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var binarizer_1 = __webpack_require__(4);
 var decoder_1 = __webpack_require__(5);
 var extractor_1 = __webpack_require__(11);
@@ -359,7 +359,7 @@ function scan(matrix) {
     return null;
 }
 var defaultOptions = {
-    inversionAttempts: "attemptBoth",
+    inversionAttempts: 'attemptBoth',
 };
 function jsQR(data, width, height, providedOptions) {
     if (providedOptions === void 0) { providedOptions = {}; }
@@ -367,11 +367,11 @@ function jsQR(data, width, height, providedOptions) {
     Object.keys(options || {}).forEach(function (opt) {
         options[opt] = providedOptions[opt] || options[opt];
     });
-    var shouldInvert = options.inversionAttempts === "attemptBoth" || options.inversionAttempts === "invertFirst";
-    var tryInvertedFirst = options.inversionAttempts === "onlyInvert" || options.inversionAttempts === "invertFirst";
+    var shouldInvert = options.inversionAttempts === 'attemptBoth' || options.inversionAttempts === 'invertFirst';
+    var tryInvertedFirst = options.inversionAttempts === 'onlyInvert' || options.inversionAttempts === 'invertFirst';
     var _a = binarizer_1.binarize(data, width, height, shouldInvert), binarized = _a.binarized, inverted = _a.inverted;
     var result = scan(tryInvertedFirst ? inverted : binarized);
-    if (!result && (options.inversionAttempts === "attemptBoth" || options.inversionAttempts === "invertFirst")) {
+    if (!result && (options.inversionAttempts === 'attemptBoth' || options.inversionAttempts === 'invertFirst')) {
         result = scan(tryInvertedFirst ? binarized : inverted);
     }
     return result;
@@ -384,9 +384,9 @@ exports.default = jsQR;
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var BitMatrix_1 = __webpack_require__(0);
 var REGION_SIZE = 8;
 var MIN_DYNAMIC_RANGE = 24;
@@ -409,7 +409,7 @@ var Matrix = /** @class */ (function () {
 }());
 function binarize(data, width, height, returnInverted) {
     if (data.length !== width * height * 4) {
-        throw new Error("Malformed data passed to binarizer.");
+        throw new Error('Malformed data passed to binarizer.');
     }
     // Convert image to greyscale
     var greyscalePixels = new Matrix(width, height);
@@ -504,9 +504,9 @@ exports.binarize = binarize;
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var BitMatrix_1 = __webpack_require__(0);
 var decodeData_1 = __webpack_require__(6);
 var reedsolomon_1 = __webpack_require__(9);
@@ -820,42 +820,42 @@ exports.decode = decode;
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 // tslint:disable:no-bitwise
 var BitStream_1 = __webpack_require__(7);
 var shiftJISTable_1 = __webpack_require__(8);
 var Mode;
 (function (Mode) {
-    Mode["Numeric"] = "numeric";
-    Mode["Alphanumeric"] = "alphanumeric";
-    Mode["Byte"] = "byte";
-    Mode["Kanji"] = "kanji";
-    Mode["ECI"] = "eci";
+    Mode['Numeric'] = 'numeric';
+    Mode['Alphanumeric'] = 'alphanumeric';
+    Mode['Byte'] = 'byte';
+    Mode['Kanji'] = 'kanji';
+    Mode['ECI'] = 'eci';
 })(Mode = exports.Mode || (exports.Mode = {}));
 var ModeByte;
 (function (ModeByte) {
-    ModeByte[ModeByte["Terminator"] = 0] = "Terminator";
-    ModeByte[ModeByte["Numeric"] = 1] = "Numeric";
-    ModeByte[ModeByte["Alphanumeric"] = 2] = "Alphanumeric";
-    ModeByte[ModeByte["Byte"] = 4] = "Byte";
-    ModeByte[ModeByte["Kanji"] = 8] = "Kanji";
-    ModeByte[ModeByte["ECI"] = 7] = "ECI";
+    ModeByte[ModeByte['Terminator'] = 0] = 'Terminator';
+    ModeByte[ModeByte['Numeric'] = 1] = 'Numeric';
+    ModeByte[ModeByte['Alphanumeric'] = 2] = 'Alphanumeric';
+    ModeByte[ModeByte['Byte'] = 4] = 'Byte';
+    ModeByte[ModeByte['Kanji'] = 8] = 'Kanji';
+    ModeByte[ModeByte['ECI'] = 7] = 'ECI';
     // StructuredAppend = 0x3,
     // FNC1FirstPosition = 0x5,
     // FNC1SecondPosition = 0x9,
 })(ModeByte || (ModeByte = {}));
 function decodeNumeric(stream, size) {
     var bytes = [];
-    var text = "";
+    var text = '';
     var characterCountSize = [10, 12, 14][size];
     var length = stream.readBits(characterCountSize);
     // Read digits in groups of 3
     while (length >= 3) {
         var num = stream.readBits(10);
         if (num >= 1000) {
-            throw new Error("Invalid numeric value above 999");
+            throw new Error('Invalid numeric value above 999');
         }
         var a = Math.floor(num / 100);
         var b = Math.floor(num / 10) % 10;
@@ -868,7 +868,7 @@ function decodeNumeric(stream, size) {
     if (length === 2) {
         var num = stream.readBits(7);
         if (num >= 100) {
-            throw new Error("Invalid numeric value above 99");
+            throw new Error('Invalid numeric value above 99');
         }
         var a = Math.floor(num / 10);
         var b = num % 10;
@@ -878,7 +878,7 @@ function decodeNumeric(stream, size) {
     else if (length === 1) {
         var num = stream.readBits(4);
         if (num >= 10) {
-            throw new Error("Invalid numeric value above 9");
+            throw new Error('Invalid numeric value above 9');
         }
         bytes.push(48 + num);
         text += num.toString();
@@ -886,15 +886,15 @@ function decodeNumeric(stream, size) {
     return { bytes: bytes, text: text };
 }
 var AlphanumericCharacterCodes = [
-    "0", "1", "2", "3", "4", "5", "6", "7", "8",
-    "9", "A", "B", "C", "D", "E", "F", "G", "H",
-    "I", "J", "K", "L", "M", "N", "O", "P", "Q",
-    "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-    " ", "$", "%", "*", "+", "-", ".", "/", ":",
+    '0', '1', '2', '3', '4', '5', '6', '7', '8',
+    '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+    'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
+    'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+    ' ', '$', '%', '*', '+', '-', '.', '/', ':',
 ];
 function decodeAlphanumeric(stream, size) {
     var bytes = [];
-    var text = "";
+    var text = '';
     var characterCountSize = [9, 11, 13][size];
     var length = stream.readBits(characterCountSize);
     while (length >= 2) {
@@ -914,7 +914,7 @@ function decodeAlphanumeric(stream, size) {
 }
 function decodeByte(stream, size) {
     var bytes = [];
-    var text = "";
+    var text = '';
     var characterCountSize = [8, 16, 16][size];
     var length = stream.readBits(characterCountSize);
     for (var i = 0; i < length; i++) {
@@ -922,7 +922,7 @@ function decodeByte(stream, size) {
         bytes.push(b);
     }
     try {
-        text += decodeURIComponent(bytes.map(function (b) { return "%" + ("0" + b.toString(16)).substr(-2); }).join(""));
+        text += decodeURIComponent(bytes.map(function (b) { return '%' + ('0' + b.toString(16)).substr(-2); }).join(''));
     }
     catch (_a) {
         // failed to decode
@@ -931,7 +931,7 @@ function decodeByte(stream, size) {
 }
 function decodeKanji(stream, size) {
     var bytes = [];
-    var text = "";
+    var text = '';
     var characterCountSize = [8, 10, 12][size];
     var length = stream.readBits(characterCountSize);
     for (var i = 0; i < length; i++) {
@@ -954,7 +954,7 @@ function decode(data, version) {
     // There are 3 'sizes' based on the version. 1-9 is small (0), 10-26 is medium (1) and 27-40 is large (2).
     var size = version <= 9 ? 0 : version <= 26 ? 1 : 2;
     var result = {
-        text: "",
+        text: '',
         bytes: [],
         chunks: [],
         version: version,
@@ -1042,10 +1042,10 @@ exports.decode = decode;
 /* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
 // tslint:disable:no-bitwise
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var BitStream = /** @class */ (function () {
     function BitStream(bytes) {
         this.byteOffset = 0;
@@ -1054,7 +1054,7 @@ var BitStream = /** @class */ (function () {
     }
     BitStream.prototype.readBits = function (numBits) {
         if (numBits < 1 || numBits > 32 || numBits > this.available()) {
-            throw new Error("Cannot read " + numBits.toString() + " bits");
+            throw new Error('Cannot read ' + numBits.toString() + ' bits');
         }
         var result = 0;
         // First, read remainder from current byte
@@ -1100,9 +1100,9 @@ exports.BitStream = BitStream;
 /* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.shiftJISTable = {
     0x20: 0x0020,
     0x21: 0x0021,
@@ -8148,9 +8148,9 @@ exports.shiftJISTable = {
 /* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var GenericGF_1 = __webpack_require__(1);
 var GenericGFPoly_1 = __webpack_require__(2);
 function runEuclideanAlgorithm(field, a, b, R) {
@@ -8277,9 +8277,9 @@ exports.decode = decode;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.VERSIONS = [
     {
         infoBits: null,
@@ -9592,9 +9592,9 @@ exports.VERSIONS = [
 /* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var BitMatrix_1 = __webpack_require__(0);
 function squareToQuadrilateral(p1, p2, p3, p4) {
     var dx3 = p1.x - p2.x + p3.x - p4.x;
@@ -9693,9 +9693,9 @@ exports.extract = extract;
 /* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 var MAX_FINDERPATTERNS_TO_SEARCH = 4;
 var MIN_QUAD_RATIO = 0.5;
 var MAX_QUAD_RATIO = 1.5;
@@ -9738,7 +9738,7 @@ function computeDimension(topLeft, topRight, bottomLeft, matrix) {
         sum(countBlackWhiteRun(bottomLeft, topLeft, matrix, 5)) / 7 +
         sum(countBlackWhiteRun(topRight, topLeft, matrix, 5)) / 7) / 4;
     if (moduleSize < 1) {
-        throw new Error("Invalid module size");
+        throw new Error('Invalid module size');
     }
     var topDimension = Math.round(distance(topLeft, topRight) / moduleSize);
     var sideDimension = Math.round(distance(topLeft, bottomLeft) / moduleSize);
@@ -10098,5 +10098,5 @@ function findAlignmentPattern(matrix, alignmentPatternQuads, topRight, topLeft, 
 
 
 /***/ })
-/******/ ])["default"];
+/******/ ])['default'];
 });

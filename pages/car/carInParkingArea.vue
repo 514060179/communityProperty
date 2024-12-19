@@ -49,7 +49,7 @@
 					remark:this.remark,
 					type:"1101",
 					iotApiCode:'customCarInOutBmoImpl'
-				}).then(_data=>{
+				}, true).then(_data=>{
 					uni.showToast({
 						icon:'none',
 						title:_data.msg

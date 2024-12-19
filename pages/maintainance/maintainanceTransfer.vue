@@ -3,7 +3,7 @@
 		<view style="padding-bottom: 100rpx;">
 			<view class="cu-bar bg-white search ">
 				<view class="action">
-					<button class="cu-btn bg-gradual-green shadow-blur round" @tap="_openChooseStaffModel()">选择员工</button>
+					<button class="cu-btn bg-gradual-blue shadow-blur round" @tap="_openChooseStaffModel()">选择员工</button>
 				</view>
 			</view>
 			<view class="cu-form-group margin-top" v-if="staffId">
@@ -27,7 +27,7 @@
 		UpdateMaintainanceTask
 	} from '../../api/maintainance/maintainance.js'
 	// 防止多次点击
-	import {preventClick} from '../../lib/java110/utils/common.js';
+	import {preventClick} from '../../lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 	// 组件
@@ -133,7 +133,7 @@
 					taskId: this.taskId,
 					taskType: this.taskType,
 				};
-				UpdateMaintainanceTask(this, _data)
+				UpdateMaintainanceTask(this, _data, true)
 				.then(function(res) {
 					if (res.code == 0) {
 						uni.navigateBack({

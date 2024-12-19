@@ -71,7 +71,7 @@ import { getCommunityId } from '../../api/community/community.js';
 					paNum: _paNum,
 					communityId: this.getCommunityId(),
 					iotApiCode: 'listParkingAreaMachinesBmoImpl',
-				}).then(_data => {
+				}, this.machines.length == 0).then(_data => {
 					_that.machines = _data.data;
 				})
 			},
@@ -102,7 +102,7 @@ import { getCommunityId } from '../../api/community/community.js';
 					url: "/machine/openDoor",
 					iotApiCode: 'openBarrierDoorBmoImpl',
 					userRole: "staff"
-				}).then(_data => {
+				}, true).then(_data => {
 					uni.showToast({
 						icon: 'none',
 						title: _data.msg
@@ -131,7 +131,7 @@ import { getCommunityId } from '../../api/community/community.js';
 					url: "/machine/closeDoor",
 					iotApiCode: 'closeBarrierDoorBmoImpl',
 					userRole: "staff"
-				}).then(_data => {
+				}, true).then(_data => {
 					uni.showToast({
 						icon: 'none',
 						title: _data.msg

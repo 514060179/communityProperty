@@ -96,7 +96,7 @@
 					communityId: this.getCommunityId(),
 					allowPurchase: 'ON'
 				};
-				listStoreHouses(this, param).then(_data => {
+				listStoreHouses(this, param, this.storehouses.length == 0).then(_data => {
 					_that.storehouses = _data.data;
 					_that.storehouses.unshift({
 						shId: '',
@@ -151,7 +151,7 @@
 					flowId: this.flowId,
 					communityId: this.getCommunityId()
 				};
-				savePurchaseApply(this, _data)
+				savePurchaseApply(this, _data, true)
 					.then(function(res) {
 						uni.showToast({
 							icon:'none',

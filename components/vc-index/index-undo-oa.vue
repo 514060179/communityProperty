@@ -13,7 +13,7 @@
 				<text>{{item.flowName}}</text>
 			</view>
 		</view>
-		
+
 	</view>
 </template>
 
@@ -25,25 +25,30 @@
 		name: "indexUndoOa",
 		data() {
 			return {
-				oaWorkflowFlows:[],
+				oaWorkflowFlows: [],
 			};
 		},
-		methods:{
+		mounted() {
+  			this._queryOaWorkFlow();
+		},
+		methods: {
 			_queryOaWorkFlow: function() {
 				let _that = this;
 				queryOaWorkflow(this, {
 					page: 1,
 					row: 100,
 					state: 'C',
-					flowType:'1001'
-				}).then(_data => {
+					flowType: '1001'
+				}, this.oaWorkflowFlows.length == 0).then(_data => {
 					console.log(_data.data)
 					_that.oaWorkflowFlows = _data.data;
 				})
 			},
-			todoOaWorkflow:function(_flow){
+			todoOaWorkflow: function(_flow) {
+				console.log(_flow);
 				uni.navigateTo({
-					url:'/pages/newOaWorkflowUndo/newOaWorkflowUndo?flowId='+_flow.flowId+"&flowName="+_flow.flowName
+					url: '/pages/newOaWorkflowUndo/newOaWorkflowUndo?flowId=' + _flow.flowId + "&flowName=" +
+						_flow.flowName
 				})
 			}
 		}

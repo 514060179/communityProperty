@@ -1,51 +1,64 @@
 <template>
 	<view>
-		<view class="block__title">基础信息</view>
+		<!-- 基础信息 -->
+		<view class="block__title">{{$t('basic_info')}}</view>
 		<view class="cu-form-group">
-			<view class="title">访客</view>
+			<!-- 访客 -->
+			<view class="title">{{$t('visitor')}}</view>
 			<view>{{order.vName}}({{order.phoneNumber}})</view>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">随行人员</view>
+			<!-- 随行人员 -->
+			<view class="title">{{$t('companions')}}</view>
 			<view>{{order.entourage}}</view>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">业主</view>
+			<!-- 业主 -->
+			<view class="title">{{$t('owner')}}</view>
 			<view>{{order.ownerName}}({{order.ownerTel}})</view>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">状态</view>
+			<!-- 状态 -->
+			<view class="title">{{$t('status')}}</view>
 			<view>{{order.stateName}}</view>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">车牌号</view>
+			<!-- 车牌号 -->
+			<view class="title">{{$t('license_plate')}}</view>
 			<view>{{order.carNum}}</view>
 		</view>
 		<view class="cu-form-group arrow">
-			<view class="title">拜访时间</view>
+			<!-- 拜访时间 -->
+			<view class="title">{{$t('visit_time')}}</view>
 			<view>{{order.visitTime}}</view>
 		</view>
 		<view class="cu-form-group arrow">
-			<view class="title">离开时间</view>
+			<!-- 离开时间 -->
+			<view class="title">{{$t('leave_time')}}</view>
 			<view>{{order.departureTime}}</view>
 		</view>
 		<view class="cu-form-group arrow">
-			<view class="title">访客说明</view>
+			<!-- 访客说明 -->
+			<view class="title">{{$t('visitor_description')}}</view>
 			<view>{{order.visitCase}}</view>
 		</view>
 		<view class="cu-form-group arrow">
-			<view class="title">访客照片</view>
+			<!-- 访客照片 -->
+			<view class="title">{{$t('visitor_photo')}}</view>
 			<view class="padding-sm">
 				<image :src="order.url" style="height: 200upx;width: 200upx;"></image>
 			</view>
 		</view>
 
-		<view class="block__title">审批流程</view>
+		<!-- 审批流程 -->
+		<view class="block__title">{{$t('approval_process')}}</view>
 		<view class="cu-form-group arrow" v-for="(item,index) in comments">
 			<view class="title">{{item.staffName}}</view>
 			<view class="">
-				<text v-if="item.endTime">处理完成</text>
-				<text v-else>正在处理</text>
+				<!-- 处理完成 -->
+				<text v-if="item.endTime">{{$t('processing_completed')}}</text>
+				<!-- 正在处理 -->
+				<text v-else>{{$t('processing')}}</text>
 				<text v-if="item.context">({{item.context}})</text>
 			</view>
 		</view>
@@ -106,7 +119,7 @@
 					row: 1,
 					vId: this.vId,
 					communityId: getCurrentCommunity().communityId
-				}).then(_data => {
+				}, JSON.stringify(this.order) == '').then(_data => {
 					_that.order = _data[0];
 					_that._loadComment();
 				}).then(() => {
@@ -129,7 +142,7 @@
 					id: this.vId,
 					communityId: getCurrentCommunity().communityId,
 					flowId: this.order.flowId
-				}).then(_data => {
+				}, this.comments.length == 0).then(_data => {
 					_that.comments = _data;
 				})
 			}

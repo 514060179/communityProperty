@@ -1,28 +1,30 @@
-
 import url from '../../constant/url.js'
-import {getCurrentCommunity} from '../community/community.js'
+import {
+	getCurrentCommunity
+} from '../community/community.js'
 
+import i18n from '../../lang/index.js'
 /**
  * 查询报修信息
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryRepairInfo(_that,_data){
-	return new Promise(function(reslove,reject){
+export function queryRepairInfo(_that, _data, isShowLoad) {
+	return new Promise(function(reslove, reject) {
 		_that.context.get({
 			url: url.queryRepairInfo,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				reslove(res.data);
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: '',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -31,22 +33,22 @@ export function queryRepairInfo(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryResourceStoreResName(_that,_data){
-	return new Promise(function(reslove,reject){
+export function queryResourceStoreResName(_that, _data, isShowLoad) {
+	return new Promise(function(reslove, reject) {
 		_that.context.get({
 			url: url.queryResourceStoreResName,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				reslove(res);
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t('server_error'), //'服务器异常了',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -55,22 +57,22 @@ export function queryResourceStoreResName(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function loadRepairStaff(_that,_data){
-	return new Promise(function(reslove,reject){
+export function loadRepairStaff(_that, _data, isShowLoad) {
+	return new Promise(function(reslove, reject) {
 		_that.context.get({
 			url: url.listRepairTypeUsers,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				reslove(res);
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t('server_error'), //'服务器异常了',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -79,39 +81,39 @@ export function loadRepairStaff(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 数据处理
  */
-export function dispatchRepair(_that){
-	return new Promise(function(reslove,reject){
-		let _data = {
-			"staffId": _that.staffId,
-			"staffName": _that.staffName,
-			"context": _that.content,
-			"repairId": _that.repairId,
-			"repairType": _that.repairType,
-			"action": _that.action,
-			"communityId":getCurrentCommunity().communityId,
-			"photos":[],
-			"userId":_that.userId,
-			"userName":_that.userName
+export function dispatchRepair(_that, isShowLoad) {
+	return new Promise(function(reslove, reject) {
+		const _data = {
+			'staffId': _that.staffId,
+			'staffName': _that.staffName,
+			'context': _that.content,
+			'repairId': _that.repairId,
+			'repairType': _that.repairType,
+			'action': _that.action,
+			'communityId': getCurrentCommunity().communityId,
+			'photos': [],
+			'userId': _that.userId,
+			'userName': _that.userName
 		}
-		let _photos = _that.photos;
+		const _photos = _that.photos;
 		_photos.forEach(function(_item) {
 			_data.photos.push({
-				"photo": _item
+				'photo': _item
 			});
 		});
-		let msg = "";
-		if (_data.context == "") {
-			msg = "请填写处理意见";
-		} else if (_data.staffId == "") {
-			msg = "请填写师傅";
-		} else if (_data.staffName == "") {
-			msg = "请填写师傅";
-		} else if (_data.repairId == "") {
-			msg = "数据错误";
-		} else if (_data.action == "TRANSFER" && _data.userId == _data.staffId){
-			msg = "不能转单给自己";
+		let msg = '';
+		if (_data.context == '') {
+			msg = i18n.t('please_enter_handling_comments') //'请填写处理意见';
+		} else if (_data.staffId == '') {
+			msg = i18n.t('qtxsf1') //'请填写师傅';
+		} else if (_data.staffName == '') {
+			msg = i18n.t('qtxsf1') //'请填写师傅';
+		} else if (_data.repairId == '') {
+			msg = i18n.t('errorData') //'数据错误';
+		} else if (_data.action == 'TRANSFER' && _data.userId == _data.staffId) {
+			msg = i18n.t('bnzdgzj') // '不能转单给自己';
 		}
-		if (msg != "") {
+		if (msg != '') {
 			wx.showToast({
 				title: msg,
 				icon: 'none',
@@ -121,18 +123,18 @@ export function dispatchRepair(_that){
 		}
 		_that.context.post({
 			url: url.repairDispatch,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				reslove(res);
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t('server_error'), //'服务器异常了',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -141,66 +143,68 @@ export function dispatchRepair(_that){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 数据处理
  */
-export function finishRepair(_that){
-	
-	
-	return new Promise(function(reslove,reject){
-		let _data = {
-			"feeFlag": _that.feeFlag,
-			"context": _that.content,
-			"repairId": _that.repairId,
-			"repairChannel": _that.repairChannel,
-			"publicArea": _that.publicArea,
-			"maintenanceType": _that.feeFlag,
-			"repairType": _that.repairType,
-			"action": _that.action,
-			"communityId":getCurrentCommunity().communityId,
-			"beforeRepairPhotos":[],
-			"afterRepairPhotos":[],
-			"repairObjType":_that.repairObjType,
-			"userId":_that.userId,
-			"userName":_that.userName,
-			"storeId":_that.storeId,
-			"choosedGoodsList": _that.resourceStoreInfo,
-			"totalPrice": _that.amount,
-			"payType": _that.payType
+export function finishRepair(_that, isShowLoad) {
+
+
+	return new Promise(function(reslove, reject) {
+		const _data = {
+			'feeFlag': _that.feeFlag,
+			'context': _that.content,
+			'repairId': _that.repairId,
+			'repairChannel': _that.repairChannel,
+			'publicArea': _that.publicArea,
+			'maintenanceType': _that.feeFlag,
+			'repairType': _that.repairType,
+			'action': _that.action,
+			'communityId': getCurrentCommunity().communityId,
+			'beforeRepairPhotos': [],
+			'afterRepairPhotos': [],
+			'repairObjType': _that.repairObjType,
+			'userId': _that.userId,
+			'userName': _that.userName,
+			'storeId': _that.storeId,
+			'choosedGoodsList': _that.resourceStoreInfo,
+			'totalPrice': _that.amount,
+			'payType': _that.payType
 		}
-		let _beforeRepairPhotos = _that.beforeRepairPhotos;
+		const _beforeRepairPhotos = _that.beforeRepairPhotos;
 		_beforeRepairPhotos.forEach(function(_item) {
 			_data.beforeRepairPhotos.push({
-				"photo": _item
+				'photo': _item
 			});
 		});
-		let _afterRepairPhotos = _that.afterRepairPhotos;
+		const _afterRepairPhotos = _that.afterRepairPhotos;
 		_afterRepairPhotos.forEach(function(_item) {
 			_data.afterRepairPhotos.push({
-				"photo": _item
+				'photo': _item
 			});
 		});
-		let msg = "";
-		if(!_data.feeFlag){
-			msg = "请选择类型";
-		}else if (_data.context == "") {
-			msg = "请填写处理意见";
-		}else if (_data.beforeRepairPhotos.length <= 0 || _data.afterRepairPhotos.length <= 0){
-			msg = "请上传图片";
-		}else if (_data.repairId == "") {
-			msg = "数据错误";
-		}else if ((_data.maintenanceType == '1001' || _data.maintenanceType == '1003') && _data.choosedGoodsList.length < 1){
-			msg = "请选择物品";
-		}else if (_data.maintenanceType == '1001' && _data.payType == ''){
-			msg = "请选择支付方式";
-		}else if ((_data.maintenanceType == '1001' || _data.maintenanceType == '1003') && _data.choosedGoodsList.length >= 1){
+		let msg = '';
+		if (!_data.feeFlag) {
+			msg = i18n.t('qxzlxx') //'請選擇類型';
+		} else if (_data.context == '') {
+			msg = i18n.t('please_enter_handling_comments') //'請填寫處理意見';
+		} else if (_data.beforeRepairPhotos.length <= 0 || _data.afterRepairPhotos.length <= 0) {
+			msg = i18n.t('qsctptt') //'請上傳圖片';
+		} else if (_data.repairId == '') {
+			msg = i18n.t('errorData') //'数据错误';
+		} else if ((_data.maintenanceType == '1001' || _data.maintenanceType == '1003') && _data
+			.choosedGoodsList.length < 1) {
+			msg = i18n.t('qxzwppp') //'请选择物品';
+		} else if (_data.maintenanceType == '1001' && _data.payType == '') {
+			msg = i18n.t('qxzzffssss') //'请选择支付方式';
+		} else if ((_data.maintenanceType == '1001' || _data.maintenanceType == '1003') && _data
+			.choosedGoodsList.length >= 1) {
 			_data.choosedGoodsList.forEach((good) => {
-				if(!good.useNumber || good.useNumber < 1){
-					msg = "商品数量有误";
+				if (!good.useNumber || good.useNumber < 1) {
+					msg = i18n.t('spslywww') //'商品数量有误';
 				}
-				if(_data.maintenanceType == '1001' && (!good.price || good.price < 0)){
-					msg = "商品价格有误";
+				if (_data.maintenanceType == '1001' && (!good.price || good.price < 0)) {
+					msg = i18n.t('spjgywww') //'商品价格有误';
 				}
 			})
 		}
-		if (msg != "") {
+		if (msg != '') {
 			wx.showToast({
 				title: msg,
 				icon: 'none',
@@ -210,13 +214,13 @@ export function finishRepair(_that){
 			return;
 		}
 		// 无偿/不用料 商品数量为零
-		if(_data.maintenanceType == '1002' || _data.maintenanceType == '1004'){
+		if (_data.maintenanceType == '1002' || _data.maintenanceType == '1004') {
 			_data.useNumber = 0;
 			_data.choosedGoodsList = [];
 		}
 		_that.context.post({
 			url: url.repairFinish,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				_that.onoff = true;
 				reslove(res);
@@ -224,12 +228,12 @@ export function finishRepair(_that){
 			fail: function(e) {
 				_that.onoff = true;
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t('server_error'), //'服务器异常了',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -238,51 +242,51 @@ export function finishRepair(_that){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 数据处理
  */
-export function appraiseRepair(_that){
-	return new Promise(function(reslove,reject){
+export function appraiseRepair(_that, isShowLoad) {
+	return new Promise(function(reslove, reject) {
 		if (_that.remark == '') {
 			uni.showToast({
-				title: '请填写评价内容',
+				title: i18n.t('qtxpjnrs'), //'请填写评价内容',
 				icon: 'none'
 			});
 			return;
 		}
 		if (_that.repairId == '') {
 			uni.showToast({
-				title: '未包含报修信息',
+				title: i18n.t('wbhbxxxx'), //'未包含报修信息',
 				icon: 'none'
 			});
 			return;
 		}
-		
-		let _data = {
+
+		const _data = {
 			// "appraiseScore": _that.curAppraise,
 			// "appraiseType": "10001",
 			// "appraiseUserId": _that.userId,
 			// "appraiseUserName": _that.userName,
 			// "objType": "10001",
-			"repairId": _that.repairId,
-			"repairType": _that.repairType,
-			"repairChannel": _that.repairChannel,
-			"publicArea": _that.publicArea,
-			"communityId": _that.communityId,
-			"context": _that.remark,
+			'repairId': _that.repairId,
+			'repairType': _that.repairType,
+			'repairChannel': _that.repairChannel,
+			'publicArea': _that.publicArea,
+			'communityId': _that.communityId,
+			'context': _that.remark,
 		};
-		
+
 		_that.context.post({
 			url: url.appraiseRepairNew,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				reslove(res);
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t('server_error'), //'服务器异常了',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -291,22 +295,22 @@ export function appraiseRepair(_that){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryDictInfo(_that,_data){
-	return new Promise(function(reslove,reject){
+export function queryDictInfo(_that, _data, isShowLoad) {
+	return new Promise(function(reslove, reject) {
 		_that.context.get({
 			url: url.queryDictInfo,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				reslove(res.data);
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t('server_error'), //'服务器异常了',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -315,22 +319,22 @@ export function queryDictInfo(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function repairStop(_that,_data){
-	return new Promise(function(reslove,reject){
+export function repairStop(_that, _data, isShowLoad) {
+	return new Promise(function(reslove, reject) {
 		_that.context.post({
 			url: url.repairStop,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				reslove(res.data);
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t('server_error'), //'服务器异常了',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -339,22 +343,22 @@ export function repairStop(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function repairStart(_that,_data){
-	return new Promise(function(reslove,reject){
+export function repairStart(_that, _data, isShowLoad) {
+	return new Promise(function(reslove, reject) {
 		_that.context.post({
 			url: url.repairStart,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				reslove(res.data);
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t('server_error'), //'服务器异常了',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -363,21 +367,21 @@ export function repairStart(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function replyRepairAppraise(_data,_that){
-	return new Promise(function(reslove,reject){
+export function replyRepairAppraise(_data, _that, isShowLoad) {
+	return new Promise(function(reslove, reject) {
 		_that.context.post({
 			url: url.replyRepairAppraise,
-			data:_data,
+			data: _data,
 			success: function(res) {
 				reslove(res.data);
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title: i18n.t('server_error'), //'服务器异常了',
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

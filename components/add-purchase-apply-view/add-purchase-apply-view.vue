@@ -18,7 +18,7 @@
 </template>
 
 <script>
-	import stringUtil from '../../lib/java110/utils/StringUtil.js';
+	import stringUtil from '../../lib/com/newland/property/utils/StringUtil.js';
 
 	export default {
 		components: {

@@ -57,7 +57,7 @@
 					flowType: this.flowType,
 					communityId: getCurrentCommunity().communityId,
 				};
-				queryFirstStaff(this, _data)
+				queryFirstStaff(this, _data, true)
 				.then(function(res) {
 					_that.staffId = res.data.storeId;
 					_that.staffName = res.data.staffName;

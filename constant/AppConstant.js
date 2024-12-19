@@ -7,8 +7,8 @@ class AppConstant {
   /**
   * 应用信息，主要是用来和后端服务交互时的时候用
   */
-  static appId = "992020022270580001";
-  static appSecurity = "";
+  static appId = '992020022270580001';
+  static appSecurity = '';
 }
 
 module.exports = AppConstant;

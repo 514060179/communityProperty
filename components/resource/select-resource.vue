@@ -12,7 +12,7 @@
 						<input type="text" placeholder="请输入物品编码" v-model="resCode" confirm-type="search"></input>
 					</view>
 					<view class="action">
-						<button class="cu-btn bg-gradual-green shadow-blur round"
+						<button class="cu-btn bg-gradual-blue shadow-blur round"
 							@tap="$preventClick(_searchStoreHouses)">搜索</button>
 					</view>
 				</view>
@@ -69,7 +69,7 @@
 	// 防止多次点击
 	import {
 		preventClick
-	} from '../../lib/java110/utils/common.js';
+	} from '../../lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 
@@ -164,7 +164,7 @@
 				if (_data.shId) {
 					_data.communityId = '';
 				}
-				queryResourceStoreList(this, _data)
+				queryResourceStoreList(this, _data, this.resourceList.length == 0)
 					.then(function(res) {
 						_that.onoff = true;
 						if (res.resourceStores.length <= 0) {

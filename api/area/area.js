@@ -3,7 +3,7 @@ import java110Config from '../../lib/java110/Java110Config.js'
 import url from '../../constant/url.js'
 import {getHeaders} from '../../lib/java110/api/SystemApi.js'
 export function _loadArea(_level, _parentAreaCode, callBack = _areaList => {}) {
-	let areaList = uni.getStorageSync(java110Config.AREA_INFO);
+	const areaList = uni.getStorageSync(java110Config.AREA_INFO);
 
 	if (areaList) {
 		callBack(areaList);
@@ -46,7 +46,7 @@ export function _loadArea(_level, _parentAreaCode, callBack = _areaList => {}) {
 			area.forEach(function(item) {
 				quyuList[item.areaCode] = item.areaName;
 			});
-			let areaList = {
+			const areaList = {
 				province_list: provinceList,
 				city_list: cityList,
 				county_list: quyuList
@@ -63,4 +63,4 @@ export function _loadArea(_level, _parentAreaCode, callBack = _areaList => {}) {
 			console.log(error);
 		}
 	});
-};
+}

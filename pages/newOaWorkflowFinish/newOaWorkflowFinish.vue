@@ -1,25 +1,29 @@
 <template>
 	<view class="user-container margin-top">
-		<view class="cu-list menu" v-if="finishs.length > 0" v-for="(finish, idx) in finishs" :key="idx"
-			:data-item="finish" @click="gotoDetail(finish)">
-			<view class="cu-item arrow">
-				<view class="content padding-tb-sm">
-					<view>
-						<text class="cuIcon-notification text-cut text-green margin-right-xs"></text>
-						<view class="text-cut" style="width:220px">{{finish.create_user_name}}申请的{{flowName}}单</view>
+		<template v-if="finishs.length > 0">
+			<view class="cu-list menu" v-for="(finish, idx) in finishs" :key="idx" :data-item="finish"
+				@click="gotoDetail(finish)">
+				<view class="cu-item arrow">
+					<view class="content padding-tb-sm">
+						<view>
+							<text class="cuIcon-notification text-cut text-blue margin-right-xs"></text>
+							<view class="text-cut" style="width:220px">
+								{{finish.create_user_name}}{{$t('申请的')}}{{flowName}}{{$t('单')}}
+							</view>
+						</view>
+						<view class="text-gray text-sm">
+							<text class="margin-right-xs">{{$t('申请时间')}}：</text> {{finish.create_time}}
+						</view>
 					</view>
-					<view class="text-gray text-sm">
-						<text class="margin-right-xs">申请时间：</text> {{finish.create_time}}
-					</view>
+					<view class="action">{{_getNewOaWorkflowFinishState(finish)}}</view>
 				</view>
-				<view class="action" >{{_getNewOaWorkflowFinishState(finish)}}</view>
 			</view>
-		</view>
+		</template>
 		<view class="cu-list menu" v-else>
 			<view class="cu-item">
 				<view class="content">
 					<text class="cuIcon-notification text-grey"></text>
-					<text class="text-grey">暂无数据</text>
+					<text class="text-grey">{{$t('暂无数据')}}</text>
 				</view>
 				<view class="action">
 				</view>
@@ -40,7 +44,7 @@
 				currPageIndex: 0,
 				pageSize: 10,
 				flowId: '',
-				flowName:''
+				flowName: ''
 			};
 		},
 		onLoad: function(options) {
@@ -57,14 +61,16 @@
 				queryOaWorkflowUserHisTaskFormData(this, {
 					page: 1,
 					row: 100,
-					flowId: this.flowId
-				}).then(_data => {
+					flowId: this.flowId,
+					flowName: this.flowName
+				}, this.finishs.length == 0).then(_data => {
 					_that.finishs = _data.data;
 				})
 			},
-			gotoDetail:function(_finish){
+			gotoDetail: function(_finish) {
 				this.context.navigateTo({
-					url:'/pages/newOaWorkflowDetail/newOaWorkflowDetail?flowId='+_finish.flowId+"&id="+_finish.id
+					url: '/pages/newOaWorkflowDetail/newOaWorkflowDetail?flowId=' + _finish.flowId + "&id=" +
+						_finish.id
 				})
 			},
 			_getNewOaWorkflowFinishState: function(_finish) {

@@ -6,7 +6,7 @@
 				<input type="text" placeholder="输入核销码" v-model="couponQrcode" confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-gradual-green shadow-blur round" @click="navigateToScan()">扫码</button>
+				<button class="cu-btn bg-gradual-blue shadow-blur round" @click="navigateToScan()">扫码</button>
 				<button style="margin-left: 10px;" class="cu-btn bg-gradual-red shadow-blur round"
 					@click="comfirmTimeId(couponQrcode)">核销</button>
 			</view>
@@ -56,7 +56,7 @@
 	// 防止多次点击
 	import {
 		preventClick
-	} from '@/lib/java110/utils/common.js';
+	} from '@/lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 	export default {
@@ -102,7 +102,7 @@
 					page: 1,
 					row: 100,
 					communityId: getCurrentCommunity().communityId
-				}).then(_data => {
+				}, this.couponOrders.length == 0).then(_data => {
 					_that.couponOrders = _data.data;
 				})
 			},
@@ -135,7 +135,7 @@
 									couponQrcode: timeId,
 									communityId: getCurrentCommunity().communityId,
 									giftCount: 1
-								}).then(function(_res) {
+								}, true).then(function(_res) {
 									uni.showToast({
 										title: '操作成功'
 									});

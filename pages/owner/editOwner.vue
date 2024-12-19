@@ -1,45 +1,60 @@
 <template>
 	<view>
-		<view class="block__title">基本信息</view>
+		<!-- 基本信息 -->
+		<view class="block__title">{{$t('basic_information')}}</view>
 		<view class="cu-form-group">
-			<view class="title">姓名</view>
-			<input v-model="name" placeholder="必填,请输入成员名称"></input>
+			<!-- 姓名 -->
+			<view class="title">{{$t('name')}}</view>
+			<input v-model="name" :placeholder="$t('mandatory_enter_member_name')"></input>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">身份证</view>
-			<input v-model="idCard" placeholder="选填,请输入身份证"></input>
+			<!-- 身份证 -->
+			<view class="title">{{$t('ID_card')}}</view>
+			<input v-model="idCard" :placeholder="$t('optional_enter_ID_card')"></input>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">性别</view>
+			<!-- 性别 -->
+			<view class="title">{{$t('gender')}}</view>
 			<picker bindchange="PickerChange" :value="index" :range="sexArr" @change="sexChange">
 				<view class="picker">
-					{{sex == '0'? '男':'女'}}
+					{{sex == '0'? $t('male'):$t('female')}}
 				</view>
 			</picker>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">家庭住址</view>
-			<input type="text" v-model="address" placeholder="选填,请输入家庭住址"></input>
+			<!-- 家庭住址 -->
+			<view class="title">{{$t('home_address')}}</view>
+			<input type="text" v-model="address" :placeholder="$t('optional_enter_home_address')"></input>
 		</view>
 
-		<view class="block__title">联系信息</view>
+		<!-- 联系信息 -->
+		<view class="block__title">{{$t('contact_information')}}</view>
 		<view class="cu-form-group">
-			<view class="title">手机号</view>
-			<input v-model="link" placeholder="必填,请输入手机号(没有手机号随便写一个)"></input>
+
+			<view class="title" style="white-space: nowrap;">{{$t('phone_number')}}</view>
+			<view class="phone-input">
+				<input v-model="link" :placeholder="$t('mandatory_enter_phone_number')" class="text-right"></input>
+				<picker mode="selector" :range="areaCodes" @change="onPickerChange">
+					<view class="picker">
+						{{ areaCode }}
+					</view>
+				</picker>
+			</view>
 		</view>
 
-		<view class="block__title">相关图片</view>
+		<!-- 相关图片 -->
+		<view class="block__title">{{$t('related_images')}}</view>
 		<uploadImageAsync ref="vcUploadRef" :communityId="communityId" :maxPhotoNum="uploadImage.maxPhotoNum"
-			:canEdit="uploadImage.canEdit" :title="uploadImage.imgTitle" @sendImagesData="sendImagesData" >
+			:canEdit="uploadImage.canEdit" :title="uploadImage.imgTitle" @sendImagesData="sendImagesData">
 		</uploadImageAsync>
 
 
 		<view class="cu-form-group margin-top">
-			<textarea v-model="remark" placeholder="选填,请输入备注"></textarea>
+			<textarea v-model="remark" :placeholder="$t('optional_enter_remark')"></textarea>
 		</view>
 
 		<view class="flex flex-direction margin-top margin-bottom">
-			<button class="cu-btn bg-green margin-tb-sm lg" @click="_submitOwnerMember()">提交</button>
+			<button class="cu-btn bg-blue margin-tb-sm lg" @click="_submitOwnerMember()">提交</button>
 		</view>
 	</view>
 </template>
@@ -50,18 +65,22 @@
 		isIDCard,
 		checkPhoneNumber,
 		idCardInfoExt
-	} from '../../lib/java110/utils/StringUtil.js'
+	} from '../../lib/com/newland/property/utils/StringUtil.js'
 	import uploadImageAsync from "../../components/vc-upload-async/vc-upload-async.vue";
 	import {
-		queryOwnerAndMembers,updateRoomOwner
+		queryOwnerAndMembers,
+		updateRoomOwner
 	} from '../../api/owner/owner.js';
-	
+
 
 	export default {
 		data() {
+			const translate = (key) => {
+				return this.$t(key);
+			};
 			return {
 				memberId: '',
-				ownerId:'',
+				ownerId: '',
 				name: "",
 				sexArr: ["男", "女"],
 				index: 0,
@@ -70,15 +89,17 @@
 				remark: "",
 				idCard: "",
 				address: "",
-				ownerTypeCd:'',
+				ownerTypeCd: '',
 				communityId: '',
 				photos: '',
 				uploadImage: {
 					maxPhotoNum: 1,
-					imgTitle: '图片上传',
+					imgTitle: translate('image_upload'), //'图片上传',
 					canEdit: true
 				},
-				imageLists:[]
+				imageLists: [],
+				areaCodes: ['+86', '+852', '+853'],
+				areaCode: '+86'
 			};
 		},
 		components: {
@@ -94,6 +115,10 @@
 			this._loadOwnerMember();
 		},
 		methods: {
+			// 手机号选择
+			onPickerChange(e) {
+				this.areaCode = this.areaCodes[e.detail.value];
+			},
 			sendImagesData: function(e) {
 				this.photos = e[0].fileId
 			},
@@ -112,19 +137,22 @@
 					"address": this.address,
 					sex: this.sex,
 					"ownerPhoto": this.photos,
-					memberId:this.memberId,
-					ownerId:this.ownerId
+					memberId: this.memberId,
+					ownerId: this.ownerId,
+					areaCode: this.areaCode
 				}
 
 				let msg = "";
 				if (obj.memberId == "") {
-					msg = "请填写业主";
+					msg = this.$t('please_enter_owner') //"请填写业主";
 				} else if (obj.name == "") {
-					msg = "请填写姓名";
+					msg = this.$t('please_enter_name') // "请填写姓名";
 				} else if (obj.link == "") {
-					msg = "请填写手机号";
-				} else if (!checkPhoneNumber(obj.link)) {
-					msg = "手机号有误";
+					msg = this.$t('please_enter_phone_number') //"请填写手机号";
+				} else if (!checkPhoneNumber(obj.link, this.areaCode)) {
+					// msg = this.$t('incorrect_phone_number') //"手机号有误";
+
+					msg = this.$t('please_input_phone'); //"請輸入正確的手機號"
 				}
 				if (msg != "") {
 					uni.showToast({
@@ -134,7 +162,7 @@
 					});
 					return;
 				}
-				updateRoomOwner(this, obj).then(_data => {
+				updateRoomOwner(this, obj, true).then(_data => {
 					if (_data.code != 0) {
 						uni.showToast({
 							icon: 'none',
@@ -153,7 +181,7 @@
 					row: 1,
 					memberId: this.memberId,
 					communityId: this.getCommunityId(),
-				}).then(_data => {
+				}, true).then(_data => {
 					_that.memberId = _data.data[0].memberId;
 					_that.ownerId = _data.data[0].ownerId;
 					_that.name = _data.data[0].name;
@@ -172,7 +200,7 @@
 		}
 	};
 </script>
-<style>
+<style lang="less" scoped>
 	.block__title {
 		margin: 0;
 		font-weight: 400;
@@ -183,5 +211,18 @@
 
 	.button_up_blank {
 		height: 40rpx;
+	}
+
+	/deep/ .phone-input {
+		display: flex;
+		align-items: center;
+
+		.picker {}
+
+		.text-right {}
+
+		uni-picker {
+			flex: none !important;
+		}
 	}
 </style>

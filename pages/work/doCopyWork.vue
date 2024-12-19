@@ -47,7 +47,7 @@
 					row: 1,
 					workId:this.workId,
 					taskId: this.taskId,
-				}).then(_data => {
+				}, true).then(_data => {
 					_that.workName = _data.data[0].workName;
 					_that.createUserName= _data.data[0].createUserName;
 				});
@@ -56,7 +56,7 @@
 				finishWorkCopy(this, {
 					copyId: this.copyId,
 					auditMessage: this.content,
-				}).then(_data => {
+				}, true).then(_data => {
 					uni.navigateBack();
 				})
 			}

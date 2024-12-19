@@ -2,19 +2,21 @@
 	<view>
 
 		<view class="cu-form-group margin-top">
-			<textarea v-model="content" placeholder="请输入处理意见"></textarea>
+			<textarea v-model="content" :placeholder="$t('please_enter_handling_comments')"></textarea>
 		</view>
 		<view class="cu-form-group margin-top">
 			<picker :value="violationIndex" :range="violations" :range-key="'name'" @change="violationChange">
 				<view>{{violations[violationIndex].name}}</view>
 			</picker>
 		</view>
-		
-		<view class="block__title">相关图片</view>
-		<uploadImageAsync ref="vcUploadRef" :communityId="communityId" :maxPhotoNum="uploadImage.maxPhotoNum" :canEdit="uploadImage.canEdit" :title="uploadImage.imgTitle" @sendImagesData="sendImagesData"></uploadImageAsync>
-		
+		<!-- 相关图片 -->
+		<view class="block__title">{{$t('related_images')}}</view>
+		<uploadImageAsync ref="vcUploadRef" :communityId="communityId" :maxPhotoNum="uploadImage.maxPhotoNum"
+			:canEdit="uploadImage.canEdit" :title="uploadImage.imgTitle" @sendImagesData="sendImagesData">
+		</uploadImageAsync>
+
 		<view class="flex flex-direction margin-top">
-			<button  class="cu-btn bg-green margin-tb-sm lg" @click="_dispatchRecord()">提交</button>
+			<button class="cu-btn bg-blue margin-tb-sm lg" @click="_dispatchRecord()">提交</button>
 		</view>
 
 	</view>
@@ -22,12 +24,19 @@
 
 <script>
 	import {
-		updateRoomDecorationRecord,uploadVideo
+		updateRoomDecorationRecord,
+		uploadVideo
 	} from '../../api/renovation/renovation.js'
-	import {getCurrentCommunity} from '../../api/community/community.js'
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
 	import uploadImageAsync from "../../components/vc-upload-async/vc-upload-async.vue";
 	export default {
 		data() {
+			const translate = (key) => {
+				return this.$t(key);
+			};
+
 			return {
 				renovationInfo: [],
 				imgList: [],
@@ -36,16 +45,15 @@
 				tempFilePath: '',
 				content: '',
 				communityId: '',
-				violations: [
-					{
-						name: '请选择是否违规'
+				violations: [{
+						name: translate('please_select_if_violation'), //'请选择是否违规'
 					},
 					{
-						name: '是',
+						name: translate('yes'), //'是',
 						value: "true"
 					},
 					{
-						name: '否',
+						name: translate('no'), //'否',
 						value: "false"
 					},
 				],
@@ -53,16 +61,16 @@
 				violation: '',
 				uploadImage: {
 					maxPhotoNum: 4,
-					imgTitle: '图片上传',
+					imgTitle: translate('image_upload'), //'图片上传',
 					canEdit: true
 				}
 			}
 		},
-		
+
 		components: {
 			uploadImageAsync
 		},
-		
+
 		onLoad(options) {
 			this.java110Context.onLoad();
 			let _that = this;
@@ -70,15 +78,15 @@
 			_that.renovationInfo = JSON.parse(options.apply);
 		},
 		methods: {
-			sendImagesData: function(e){
+			sendImagesData: function(e) {
 				this.photos = [];
-				if(e.length > 0){
+				if (e.length > 0) {
 					e.forEach((img) => {
 						this.photos.push(img.fileId);
 					})
 				}
 			},
-			violationChange: function(e){
+			violationChange: function(e) {
 				this.violationIndex = e.target.value;
 				if (this.violationIndex == 0) {
 					this.violation = '';
@@ -87,12 +95,13 @@
 				let selected = this.violations[this.violationIndex];
 				this.violation = selected.value;
 			},
-			
+
 			_dispatchRecord: function() {
+				let _that = this
 				uni.showLoading({
-					title:"上传中..."
+					title: _that.$t('uploading') + '...' //"上传中..."
 				})
-				let params={
+				let params = {
 					rId: this.renovationInfo.rId,
 					roomId: this.renovationInfo.roomId,
 					roomName: this.renovationInfo.roomName,
@@ -107,24 +116,24 @@
 					isTrue: this.violation
 				};
 				let msg = '';
-				if(params.remark == ''){
-					msg = "请填写处理意见";
-				}else if(params.isTrue == ''){
-					msg = "请选择是否违规";
+				if (params.remark == '') {
+					msg = _that.$t('please_enter_handling_comments') //"请填写处理意见";
+				} else if (params.isTrue == '') {
+					msg = _that.$t('please_select_if_violation') //"请选择是否违规";
 				}
-				if(msg != ''){
+				if (msg != '') {
 					uni.showToast({
 						title: msg,
 						icon: 'none'
 					});
 					return;
 				}
-				updateRoomDecorationRecord(this, params)
+				updateRoomDecorationRecord(this, params, true)
 					.then(function() {
 						uni.showToast({
-							title:"保存成功"
+							title: _that.$t('save_successful') //"保存成功"
 						})
-						setTimeout(()=>{
+						setTimeout(() => {
 							uni.navigateBack({
 								delta: 1
 							})

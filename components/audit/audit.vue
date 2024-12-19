@@ -14,7 +14,7 @@
 				<input v-model="remark" placeholder="请输入原因"></input>
 			</view>
 			<view class="flex flex-direction margin-top">
-				<button  class="cu-btn bg-green margin-tb-sm lg" @click="_save()">确定</button>
+				<button  class="cu-btn bg-blue margin-tb-sm lg" @click="_save()">确定</button>
 			</view>
 			<view class="flex flex-direction margin-top">
 				<button  class="cu-btn bg-red margin-tb-sm lg" @click="_canel()">取消</button>

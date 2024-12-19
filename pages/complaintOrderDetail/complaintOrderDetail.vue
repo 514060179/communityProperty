@@ -1,98 +1,114 @@
 <template>
 	<view>
 		<view class="padding margin-top">
-			<text>订单信息</text>
+			<!-- 订单信息 -->
+			<text>{{ $t('order_information') }}</text>
 		</view>
 		<view class="cu-list menu">
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-edit text-green"></text>
-					<text class="text-grey">投诉编码</text>
+					<text class="cuIcon-edit text-blue"></text>
+					<!-- 投诉编码 -->
+					<text class="text-grey">{{ $t('complainant_code') }}</text>
 				</view>
 				<view class="action">
-					<text class="text-grey text-sm">{{auditHistoryOrder.complaintId}}</text>
+					<text class="text-grey text-sm">{{ auditHistoryOrder.complaintId }}</text>
 				</view>
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-ticket text-green"></text>
-					<text class="text-grey">房屋编码</text>
+					<text class="cuIcon-ticket text-blue"></text>
+					<!-- 房屋编码 -->
+					<text class="text-grey">{{ $t('house_code') }}</text>
 				</view>
 				<view class="action">
-					<text class="text-grey text-sm">{{auditHistoryOrder.roomName}}</text>
+					<text class="text-grey text-sm">{{ auditHistoryOrder.roomName }}</text>
 				</view>
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-footprint text-green"></text>
-					<text class="text-grey">类型</text>
+					<text class="cuIcon-footprint text-blue"></text>
+					<!-- 类型 -->
+					<text class="text-grey">{{ $t('type') }}</text>
 				</view>
 				<view class="action">
-					<text class="text-grey text-sm">{{auditHistoryOrder.typeName}}</text>
+					<text class="text-grey text-sm">{{ auditHistoryOrder.typeName }}</text>
 				</view>
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-profile text-green"></text>
-					<text class="text-grey">投诉人</text>
+					<text class="cuIcon-profile text-blue"></text>
+					<!-- 投诉人 -->
+					<text class="text-grey">{{ $t('complainant') }}</text>
 				</view>
 				<view class="action">
-					<text class="text-grey text-sm">{{auditHistoryOrder.complaintName}}</text>
+					<text class="text-grey text-sm">{{ auditHistoryOrder.complaintName }}</text>
 				</view>
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-phone text-green"></text>
-					<text class="text-grey">投诉电话</text>
+					<text class="cuIcon-phone text-blue"></text>
+					<!-- 投诉电话 -->
+					<text class="text-grey">{{ $t('complainant_phone') }}</text>
 				</view>
 				<view class="action">
-					<text class="text-grey text-sm">{{auditHistoryOrder.tel}}</text>
+					<text class="text-grey text-sm">{{ auditHistoryOrder.tel }}</text>
 				</view>
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-time text-green"></text>
-					<text class="text-grey">投诉时间</text>
+					<text class="cuIcon-time text-blue"></text>
+					<!-- 投诉时间 -->
+					<text class="text-grey">{{ $t('complainant_time') }}</text>
 				</view>
 				<view class="action">
-					<text class="text-grey text-sm">{{auditHistoryOrder.createTime}}</text>
+					<text class="text-grey text-sm">{{ auditHistoryOrder.createTime }}</text>
 				</view>
 			</view>
 			<view class="cu-item">
 				<view class="content padding-tb-sm">
 					<view>
-						<text class="cuIcon-comment text-blue margin-right-xs"></text>投诉内容
+						<!-- 投诉内容 -->
+						<text class="cuIcon-comment text-blue margin-right-xs"></text>{{ $t('complainant_content') }}
 					</view>
 					<view class="text-gray text-sm">
-						<text class="cuIcon-infofill margin-right-xs"></text>{{auditHistoryOrder.context}}
+						<text class="cuIcon-infofill margin-right-xs"></text>{{ auditHistoryOrder.context }}
 					</view>
 				</view>
 			</view>
 		</view>
 
 		<view class="cu-timeline margin-top">
-			<view class="cu-time">工单</view>
+			<!-- 工单 -->
+			<view class="cu-time">{{ $t('work_order') }}</view>
 			<view class="cu-item " v-for="(item,index) in audits" :key="index">
 				<view class="bg-cyan content" v-if="item.eventType == '1000'">
-					<text>{{item.createUserName}} 于</text> {{item.createTime}} 投诉
+					<!-- 投诉 -->
+					<text>{{ item.createUserName }} 于</text> {{ item.createTime }} {{ $t('complain') }}
 				</view>
 				<view class="bg-cyan content" v-if="item.eventType == '1001'">
-					<text>{{item.createUserName}} 于</text> {{item.createTime}}处理
+					<!-- 处理 -->
+					<text>{{ item.createUserName }} 于</text> {{ item.createTime }}{{ $t('handle') }}
 				</view>
 				<view class="bg-cyan content" v-if="item.eventType == '1001'">
-					<text>处理意见：</text> {{item.remark}}
+					<!-- 处理意见 -->
+					<text>{{ $t('handling_uggestion') }}：</text> {{ item.remark }}
 				</view>
 				<view class="bg-cyan content" v-if="item.eventType == '2002'">
-					<text>{{item.createUserName}} 于</text> {{item.createTime}}评价
+					<!-- 评价 -->
+					<text>{{ item.createUserName }} 于</text> {{ item.createTime }}{{ $t('evaluate') }}
 				</view>
 				<view class="bg-cyan content" v-if="item.eventType == '2002'">
-					<text>评价内容：</text> {{item.remark}}
+					<!-- 评价内容 -->
+					<text>{{ $t('evaluation_content') }}：</text> {{ item.remark }}
 				</view>
 				<view class="bg-cyan content" v-if="item.eventType == '3003'">
-					<text>{{item.createUserName}} 于</text> {{item.createTime}}回复
+					<!-- 回复 -->
+					<text>{{ item.createUserName }} 于</text> {{ item.createTime }}{{ $t('recover') }}
 				</view>
 				<view class="bg-cyan content" v-if="item.eventType == '3003'">
-					<text>回复内容：</text> {{item.remark}}
+					<!-- 回复内容 -->
+					<text>{{ $t('recover_content') }}：</text> {{ item.remark }}
 				</view>
 			</view>
 
@@ -100,22 +116,28 @@
 
 		<view class="margin-top bg-white padding" v-for="(item,index) in appraise" :key="index">
 			<view class="flex justify-between">
-				<view>工单评价</view>
-				<view> 
-					<button class="cu-btn sm bg-green  margin-left" v-if="item.state == 'W'" @click="replyAppraise(item)">回复</button>
+				<!-- 工单评价 -->
+				<view>{{ $t('work_order_evaluation') }}</view>
+				<view>
+					<!-- 回复 -->
+					<button class="cu-btn sm bg-blue  margin-left" v-if="item.state == 'W'"
+						@click="replyAppraise(item)">{{ $t('recover') }}</button>
 				</view>
 			</view>
 			<view class="margin-top">
-				<text>评价内容：</text>
-				<text>{{item.context}}</text>
+				<!-- 评价内容 -->
+				<text>{{ $t('evaluation_content') }}：</text>
+				<text>{{ item.context }}</text>
 			</view>
 			<view class="margin-top">
-				<text>评价分数：</text>
-				<text>{{item.score}}</text>
+				<!-- 评价分数 -->
+				<text>{{ $t('evaluation_score') }}：</text>
+				<text>{{ item.score }}</text>
 			</view>
 			<view class="margin-top" v-if="item.state == 'C'">
-				<text>回复内容：</text>
-				<text>{{item.replyContext}}</text>
+				<!-- 回复内容 -->
+				<text>{{ $t('recover_content') }}：</text>
+				<text>{{ item.replyContext }}</text>
 			</view>
 		</view>
 		<view class="cu-modal" :class="viewImage?'show':''">
@@ -146,7 +168,7 @@
 				complaintId: '',
 				auditHistoryOrder: {},
 				audits: [],
-				appraise:[],
+				appraise: [],
 				srcPath: '',
 				viewImage: false,
 				viewImageSrc: '',
@@ -154,12 +176,12 @@
 		},
 		onLoad(options) {
 			this.java110Context.onLoad();
-			let _complaintId = options.complaintId;
+			const _complaintId = options.complaintId;
 
 			console.log('options', options);
 			this.complaintId = _complaintId;
 			this.srcPath = this.url.hcBaseUrl;
-			
+
 		},
 		onShow() {
 			this._loadComplaintHistoryOrder();
@@ -169,44 +191,45 @@
 		methods: {
 			_loadComplaintHistoryOrder: function() {
 				//
-				this.auditHistoryOrder = wx.getStorageSync("_complaintOrderDetail_" + this.complaintId);
+				this.auditHistoryOrder = wx.getStorageSync('_complaintOrderDetail_' + this.complaintId);
 
 			},
 			_listWorkflowAuditInfo: function(_active) {
-				let _that = this;
+				const _that = this;
 				getComplaintEvent({
 					complaintId: _that.complaintId,
 					page: 1,
 					row: 100,
 					communityId: getCurrentCommunity().communityId
-				}, this).then(_data => {
+				}, this, this.audits.length == 0).then(_data => {
 					_that.audits = _data.data;
 				})
 			},
-			_listComplaintAppraise:function(){
-				let _that = this;
+			_listComplaintAppraise: function() {
+				const _that = this;
 				getComplaintAppraise({
 					complaintId: _that.complaintId,
 					page: 1,
 					row: 100,
 					communityId: getCurrentCommunity().communityId
-				}, this).then(_data => {
+				}, this, this.appraise.length == 0).then(_data => {
 					_that.appraise = _data.data;
 				})
 			},
-			
+
 			preview: function(e) {
 				console.log('图片地址', e);
-				let _url = e.target.dataset.url;
+				const _url = e.target.dataset.url;
 				this.viewImageSrc = _url;
 				this.viewImage = true;
 			},
 			closeViewImage: function() {
 				this.viewImage = false;
 			},
-			replyAppraise:function(_appraise){
+			replyAppraise: function(_appraise) {
 				uni.navigateTo({
-					url:'/pages/complaintOrderDetail/replyComplainAppraise?appraiseId='+_appraise.appraiseId+'&communityId='+getCurrentCommunity().communityId
+					url: '/pages/complaintOrderDetail/replyComplainAppraise?appraiseId=' + _appraise
+						.appraiseId + '&communityId=' + getCurrentCommunity().communityId
 				})
 			}
 		}

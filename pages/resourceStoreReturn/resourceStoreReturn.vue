@@ -3,7 +3,7 @@
 		<view style="padding-bottom: 100rpx;">
 			<view class="cu-bar bg-white search ">
 				<view class="action">
-					<button class="cu-btn bg-gradual-green shadow-blur round" @tap="_openChooseResourceModel()">选择物品</button>
+					<button class="cu-btn bg-gradual-blue shadow-blur round" @tap="_openChooseResourceModel()">选择物品</button>
 				</view>
 			</view>
 			<view class="margin-top">
@@ -58,7 +58,7 @@
 		saveAllocationStorehouse,listStoreHouses
 	} from '../../api/resource/resource.js'
 	// 防止多次点击
-	import {preventClick} from '../../lib/java110/utils/common.js';
+	import {preventClick} from '../../lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 	// 组件
@@ -104,7 +104,7 @@
 					communityId: getCurrentCommunity().communityId,
 					isShow: true
 				};
-				listStoreHouses(this, _data)
+				listStoreHouses(this, _data, this.storeHouses.length == 0)
 					.then(function(res) {
 						_that.storeHouses = _that.storeHouses.concat(res.data);
 					});
@@ -149,7 +149,7 @@
 					apply_type: this.apply_type,
 					communityId: getCurrentCommunity().communityId
 				};
-				saveAllocationStorehouse(this, _data)
+				saveAllocationStorehouse(this, _data, true)
 				.then(function(res) {
 					if (res.code == 0) {
 						uni.navigateBack({

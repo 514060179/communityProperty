@@ -13,7 +13,7 @@
 			<view class="bg-white margin-bottom padding-sm margin-sm radius-sm" v-for="(item,index) in applyList" :key="index" >
 				<view class="apply-title flex justify-between">
 					<view>
-						<text class="cuIcon-goods text-cut text-green margin-right-xs"></text>
+						<text class="cuIcon-goods text-cut text-blue margin-right-xs"></text>
 						<text class="text-bold">{{item.resourceNames}}</text>
 						<text class="margin-left-sm">({{item.stateName}})</text>
 					</view>
@@ -102,7 +102,7 @@
 					communityId: this.communityId,
 					resOrderType: 10000
 				};
-				queryPurchaseApplyList(this, _objData)
+				queryPurchaseApplyList(this, _objData, this.applyList.length == 0)
 					.then(function(res) {
 						_that.applyList = _that.applyList.concat(res.purchaseApplys)
 						_that.page++;
@@ -155,7 +155,7 @@
 					cancelColor: '#222222',
 					success: res => {
 						if (res.confirm) {
-							deletePurchaseApply(_that, item)
+							deletePurchaseApply(_that, item, true)
 								.then(function(res) {
 									uni.showToast({
 										title: res.msg

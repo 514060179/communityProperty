@@ -33,7 +33,7 @@
 		</form>
 				
 		<view class="padding flex flex-direction">
-			<button class="cu-btn bg-green margin-tb-sm lg" @tap="$preventClick(_submitExcuteMaintainance)">提交</button>
+			<button class="cu-btn bg-blue margin-tb-sm lg" @tap="$preventClick(_submitExcuteMaintainance)">提交</button>
 		</view>
 		
 	</view>
@@ -41,7 +41,7 @@
 
 <script>
 	import conf from '../../conf/config.js'
-	import {preventClick} from '../../lib/java110/utils/common.js';
+	import {preventClick} from '../../lib/com/newland/property/utils/common.js';
 	import {queryDictInfo,queryMaintainanceItemTitle,updateMaintainanceTaskDetail} from '@/api/maintainance/maintainance.js';
 	import {getCurrentCommunity} from '../../api/community/community.js'
 	import url from '../../constant/url.js'
@@ -112,7 +112,7 @@
 						standardId: that.standardId,
 						page: 1,
 						row: 100
-					})
+					}, this.titles.length == 0)
 					.then(_data => {
 						_data.forEach(item => {
 							if (item.titleType == '1001') {
@@ -164,7 +164,7 @@
 					"userName": this.userName,
 					"latitude": this.latitude,
 					"longitude": this.longitude
-				}).then(_data=>{
+				}, true).then(_data=>{
 					wx.showToast({
 						title: _data.msg,
 						icon: 'none',

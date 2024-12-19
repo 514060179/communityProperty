@@ -74,7 +74,7 @@
 					page: 1,
 					row: 50,
 					communityId: this.getCommunityId()
-				}).then(_data => {
+				}, this.parkingAreas.length == 0).then(_data => {
 					_that.parkingAreas = _data.parkingAreas;
 					if (_data.parkingAreas && _data.parkingAreas.length == 1) {
 						_that._chooseArea(_data.parkingAreas[0]);

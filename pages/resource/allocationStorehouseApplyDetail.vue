@@ -3,7 +3,7 @@
 		<view class="cu-list menu margin-top">
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-ticket text-green"></text>
+					<text class="cuIcon-ticket text-blue"></text>
 					<text class="text-grey">申请人</text>
 				</view>
 				<view class="action">
@@ -12,7 +12,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-profile text-green"></text>
+					<text class="cuIcon-profile text-blue"></text>
 					<text class="text-grey">申请时间</text>
 				</view>
 				<view class="action">
@@ -21,7 +21,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-profile text-green"></text>
+					<text class="cuIcon-profile text-blue"></text>
 					<text class="text-grey">审批状态</text>
 				</view>
 				<view class="action">
@@ -30,7 +30,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-profile text-green"></text>
+					<text class="cuIcon-profile text-blue"></text>
 					<text class="text-grey">说明</text>
 				</view>
 				<view class="action">
@@ -107,7 +107,7 @@
 					row: 10,
 					applyId: this.applyId,
 				};
-				listAllocationStorehouseApplys(this,_objData)
+				listAllocationStorehouseApplys(this,_objData, this.applyInfo.length == 0)
 				.then(function(res){
 					_that.applyInfo = res.data[0]
 				})
@@ -120,7 +120,7 @@
 					row: 10,
 					applyId: this.applyId,
 				};
-				listAllocationStorehouses(this,_objData)
+				listAllocationStorehouses(this,_objData, this.resourceInfo.length == 0)
 				.then(function(res){
 					_that.resourceInfo = res.data
 				})
@@ -135,7 +135,7 @@
 					businessKey: this.applyId,
 					communityId: this.communityId,
 				};
-				listWorkflowAuditInfo(this,_objData)
+				listWorkflowAuditInfo(this,_objData, this.staffs.length == 0)
 				.then(function(res){
 					_that.staffs = res.data
 				})

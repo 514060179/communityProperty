@@ -1,12 +1,12 @@
 import url from '../../constant/url.js'
 
-import dateObj from '../../lib/java110/utils/date.js'
+import dateObj from '../../lib/com/newland/property/utils/date.js'
 /**
  * 核销订单
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function writeOffCouponPropertyUser(_that,_data){
+export function writeOffCouponPropertyUser(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		// debugger
 		_that.context.post({
@@ -18,7 +18,7 @@ export function writeOffCouponPropertyUser(_that,_data){
 				}else {
 					// debugger
 					wx.showToast({
-						title: "核销状态:" + res.data.msg,
+						title: '核销状态:' + res.data.msg,
 						icon: 'none',
 						duration: 3000
 					})
@@ -26,16 +26,16 @@ export function writeOffCouponPropertyUser(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 3000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function listCouponPropertyUserDetail(_that,_data){
+export function listCouponPropertyUserDetail(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listCouponPropertyUserDetail,
@@ -50,11 +50,11 @@ export function listCouponPropertyUserDetail(_that,_data){
 			fail: function(e) {
 				reject(e);
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function getIntegralSetting(_that,_data){
+export function getIntegralSetting(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listIntegralSetting,
@@ -69,11 +69,11 @@ export function getIntegralSetting(_that,_data){
 			fail: function(e) {
 				reject(e);
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function useIntegral(_that,_data){
+export function useIntegral(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		// debugger
 		_that.context.post({
@@ -85,7 +85,7 @@ export function useIntegral(_that,_data){
 				}else {
 					// debugger
 					wx.showToast({
-						title: "核销状态:" + res.data.msg,
+						title: '核销状态:' + res.data.msg,
 						icon: 'none',
 						duration: 3000
 					})
@@ -93,16 +93,16 @@ export function useIntegral(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 3000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function getIntegralUserDetail(_that,_data){
+export function getIntegralUserDetail(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listIntegralUserDetail,
@@ -117,11 +117,11 @@ export function getIntegralUserDetail(_that,_data){
 			fail: function(e) {
 				reject(e);
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function getReserveGoodsConfirmOrder(_that,_data){
+export function getReserveGoodsConfirmOrder(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listReserveGoodsConfirmOrder,
@@ -136,12 +136,12 @@ export function getReserveGoodsConfirmOrder(_that,_data){
 			fail: function(e) {
 				reject(e);
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 
-export function saveReserveGoodsConfirmOrder(_that,_data){
+export function saveReserveGoodsConfirmOrder(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		// debugger
 		_that.context.post({
@@ -153,7 +153,7 @@ export function saveReserveGoodsConfirmOrder(_that,_data){
 				}else {
 					// debugger
 					wx.showToast({
-						title: "核销状态:" + res.data.msg,
+						title: '核销状态:' + res.data.msg,
 						icon: 'none',
 						duration: 3000
 					})
@@ -161,11 +161,11 @@ export function saveReserveGoodsConfirmOrder(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 3000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

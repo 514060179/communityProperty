@@ -4,7 +4,7 @@
 			<view class="solid-bottom text-xl padding">
 				<text class="text-black text-bold">{{notice.title}}</text>
 			</view>
-			<view class="footer">时间: {{notice.timeStr}}</view>
+			<view class="footer">{{$t('time')}}: {{notice.timeStr}}</view>
 		</view>
 		<view class="flex-sub bg-white">
 			<view class="content">
@@ -15,9 +15,9 @@
 </template>
 
 <script>
-	import {replaceImgSrc} from '../../../lib/java110/utils/ImageUtil.js';
-	import {getCurrentCommunity} from '@/api/community/community.js'
-	
+	import {
+		replaceImgSrc
+	} from '../../../lib/com/newland/property/utils/ImageUtil.js'
 	import conf from '../../../conf/config.js'
 	import url from '../../../constant/url.js'
 	export default {
@@ -42,7 +42,7 @@
 		methods: {
 			_loadNoticeDetail: function() {
 				let that = this;
-				that.communityId = getCurrentCommunity().communityId;
+				that.communityId = this.java110Context.getUserInfo().communityId;
 				this.java110Context.request({
 					header: that.java110Context.getHeaders(),
 					url: url.GetNoticeListUrl,
@@ -58,10 +58,10 @@
 						console.log(res);
 						let notice = res.data.notices[0]
 						notice.timeStr = notice.startTime.replace(/:\d{1,2}$/, ' ');
-						notice.context = replaceImgSrc(notice.context,conf.baseUrl);
+						notice.context = replaceImgSrc(notice.context, conf.baseUrl);
 						that.notice = notice;
 					}
-				});
+				}, JSON.stringify(this.notice) == '{}');
 			}
 		}
 	};

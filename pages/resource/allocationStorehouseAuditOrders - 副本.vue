@@ -13,7 +13,7 @@
 				<view class="bg-white">
 					<view class="item-content">
 						<view class="text-grey">
-							<text class="cuIcon-goods text-cut text-green margin-right-xs"></text>
+							<text class="cuIcon-goods text-cut text-blue margin-right-xs"></text>
 							<text class="ellipsis">{{item.applyId}}</text>
 							-
 							<text class="text-bold">{{item.stateName}}</text>
@@ -30,11 +30,11 @@
 						</view>
 						<block v-if="currentPage == 0">
 							<block v-if="procure == false">
-								<view class="cu-btn round lg bg-green" v-if="item.state == 1200 || item.state == 1201" @tap.stop="showAuditModel(item)">审批</view>
+								<view class="cu-btn round lg bg-blue" v-if="item.state == 1200 || item.state == 1201" @tap.stop="showAuditModel(item)">审批</view>
 								<view class="cu-btn round lg bg-red" v-else @tap.stop="$preventClick(finishAudit, item)">结束</view>
 							</block>
 							<block v-else>
-								<view class="cu-btn round lg bg-green" v-if="item.state == 1201" @tap.stop="showAuditModel(item)">确认调拨</view>
+								<view class="cu-btn round lg bg-blue" v-if="item.state == 1201" @tap.stop="showAuditModel(item)">确认调拨</view>
 								<view class="cu-btn round lg bg-red" v-else @tap.stop="$preventClick(finishAudit, item)">结束</view>
 							</block>
 						</block>
@@ -57,7 +57,7 @@
 	import {listMyAllocationStoreAuditOrders,listAllocationStoreHisAuditOrders,saveAuditAllocationStoreOrder,listWorkflowStepStaffs} from '../../api/resource/resource.js'
 	import {getCurrentCommunity} from '../../api/community/community.js'
 	// 防止多次点击
-	import {preventClick} from '../../lib/java110/utils/common.js';
+	import {preventClick} from '../../lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 	export default {
@@ -128,7 +128,7 @@
 					page: this.page,
 					row: 10,
 				};
-				listMyAllocationStoreAuditOrders(this,_objData)
+				listMyAllocationStoreAuditOrders(this,_objData, this.applyList.length == 0)
 				.then(function(res){
 					_that.applyList = _that.applyList.concat(res.data)
 					_that.page ++;
@@ -174,7 +174,7 @@
 				} else {
 					_auditInfo.noticeState = '1201';
 				}
-				saveAuditAllocationStoreOrder(this,_auditInfo)
+				saveAuditAllocationStoreOrder(this,_auditInfo, true)
 				.then(function(res){
 					uni.showToast({
 						title:res.msg,
@@ -195,7 +195,7 @@
 					remark: '处理结束',
 					procure: _that.procure
 				};
-				saveAuditAllocationStoreOrder(this,_auditInfo)
+				saveAuditAllocationStoreOrder(this,_auditInfo, true)
 				.then(function(res){
 					uni.showToast({
 						title:res.msg,
@@ -226,7 +226,7 @@
 					staffRole: '3003',
 					requestType: 'allocationHandle'
 				};
-				listWorkflowStepStaffs(this,_objData)
+				listWorkflowStepStaffs(this,_objData, true)
 				.then(function(res){
 					console.log(res);
 					if(res.data.length>0){

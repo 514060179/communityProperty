@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="block__title">{{inspectionName}}巡检</view>
+		<view class="block__title">{{inspectionName}}{{$t('巡检')}}</view>
 		<form>
 			<view class="" v-for="(item,index) in titles" :key="index">
 				<view class="block__title">{{item.itemTitle}}</view>
@@ -25,7 +25,7 @@
 				</checkbox-group>
 				<view v-else>
 					<view class="cu-form-group ">
-						<textarea maxlength="512" v-model="item.radio" placeholder="请回答"></textarea>
+						<textarea maxlength="512" v-model="item.radio" :placeholder="$t('请回答')"></textarea>
 					</view>
 				</view>
 			</view>
@@ -35,13 +35,14 @@
 				@sendImagesData="sendImagesData" style="margin-top: 30rpx;"></uploadImageAsync>
 
 			<view class="cu-form-group margin-top" v-if="mapKey">
-				<view class="title">当前位置</view>
+				<view class="title">{{$t('当前位置')}}</view>
 				<input type="text" v-model="reverseGeocoderSimplify" disabled="disabled" />
 			</view>
 		</form>
 
 		<view class="padding flex flex-direction">
-			<button class="cu-btn bg-green margin-tb-sm lg" @tap="$preventClick(_submitExcuteInspection)">提交</button>
+			<button class="cu-btn bg-blue margin-tb-sm lg"
+				@tap="$preventClick(_submitExcuteInspection)">{{$t('提交')}}</button>
 		</view>
 
 	</view>
@@ -51,7 +52,7 @@
 	import conf from '../../conf/config.js'
 	import {
 		preventClick
-	} from '../../lib/java110/utils/common.js';
+	} from '../../lib/com/newland/property/utils/common.js';
 	import {
 		queryDictInfo,
 		queryInspectionItemTitle
@@ -66,6 +67,9 @@
 	import QQMapWX from '@/lib/qqmap-wx-jssdk.min.js';
 	export default {
 		data() {
+			const translate = (key) => {
+				return this.$t(key);
+			};
 			return {
 				onoff: true,
 				taskId: '',
@@ -75,11 +79,11 @@
 				pointStartTime: '',
 				pointEndTime: '',
 				patrolTypes: [{
-					name: '请选择'
+					name: translate('请选择')
 				}],
 				patrolIndex: 0,
 				patrolType: '10001',
-				patrolTypeName: '请选择',
+				patrolTypeName: translate('请选择'),
 				description: '',
 				photos: [],
 				imgList: [],
@@ -89,17 +93,17 @@
 				latitude: '',
 				longitude: '',
 				location: '',
-				reverseGeocoderSimplify: '正在获取...',
+				reverseGeocoderSimplify: translate('正在获取'),
 				titles: [],
 				itemId: '',
 				mapKey: '',
 				uploadImage: {
 					maxPhotoNum: 4,
-					imgTitle: '巡检图片',
+					imgTitle: translate('巡检图片'),
 					canEdit: true
 				},
 				sourceType: ['camera'],
-				fromPage:''
+				fromPage: ''
 			}
 		},
 
@@ -110,20 +114,35 @@
 			this.java110Context.onLoad();
 			let that = this;
 			this.mapKey = conf.QQMapKey;
-			wx.getLocation({
+			// #ifdef MP-WEIXIN || H5
+			uni.getLocation({
 				type: 'gcj02',
 				success: (res) => {
+					console.log(res);
 					this.latitude = res.latitude;
 					this.longitude = res.longitude;
 					// #ifdef H5
-					this.getCurrentLocation();
-					// #endiff
-
+					that.getCurrentLocation();
+					// #endif
 					// #ifdef MP-WEIXIN
-					this.getMiniWechatLocation();
+					that.getMiniWechatLocation();
 					// #endif
 				}
 			});
+			// #endif
+			// #ifdef APP-PLUS
+			plus.geolocation.getCurrentPosition(function(position) {
+				console.log(position);
+				var latitude = position.coords.latitude;
+				var longitude = position.coords.longitude;
+				console.log('经度: ' + longitude + ', 纬度: ' + latitude);
+
+				// 使用腾讯地图API进行反向地理编码
+				that.wgs84Togcj02(latitude, longitude);
+			}, function(error) {
+				console.error('获取位置失败: ' + error.message);
+			});
+			// #endif
 			this.taskDetailId = option.taskDetailId;
 			this.taskId = option.taskId;
 			this.inspectionId = option.inspectionId;
@@ -154,7 +173,7 @@
 						itemId: that.itemId,
 						page: 1,
 						row: 100
-					})
+					}, this.titles.length == 0)
 					.then(_data => {
 						_data.data.forEach(item => {
 							if (item.titleType == '1001') {
@@ -176,6 +195,39 @@
 						that.titles = _data.data;
 					})
 			},
+			// 因为当前plus段获取的经纬度是wgs84 要转换位gcj02
+			wgs84Togcj02(lat, lng) {
+				let locationObj = lat + ',' + lng;
+				let _that = this
+				const urls =
+					`https://apis.map.qq.com/ws/coord/v1/translate?locations=${locationObj}&key=${this.mapKey}&type=1`
+				uni.request({
+					url: urls,
+					success: res => {
+						console.log(res);
+						const {
+							lat,
+							lng
+						} = res.data.locations[0]
+						// app端获取位置
+						_that.getLocationApp(lat, lng)
+					}
+				});
+			},
+			// app端获取位置
+			getLocationApp(lat, lng) {
+				console.log(this.mapKey);
+				let locationObj = lat + ',' + lng;
+				const urls =
+					`https://apis.map.qq.com/ws/geocoder/v1/?location=${locationObj}&key=${this.mapKey}&get_poi=1&poi_options=page_size=1;page_index=1`
+				uni.request({
+					url: urls,
+					success: res => {
+						console.log(res);
+						this.reverseGeocoderSimplify = res.data.result.address;
+					}
+				});
+			},
 			getMiniWechatLocation: function() {
 				let qqmapsdk = new QQMapWX({
 					key: this.mapKey
@@ -186,10 +238,10 @@
 						longitude: this.longitude
 					},
 					success: (locaRes) => {
+						console.log(locaRes);
 						this.reverseGeocoderSimplify = locaRes.result.address
 					},
-					fail: (err) => {
-					}
+					fail: (err) => {}
 				})
 
 			},
@@ -203,11 +255,13 @@
 						location: locationObj
 					})
 					.then(res => {
+						console.log(res);
 						this.reverseGeocoderSimplify = res.result.address;
 					})
 					.catch(err => {
 						console.log(err);
 					});
+
 			},
 			// 查询字典表 信息
 			_loadPatrolTypesList: function() {
@@ -216,7 +270,7 @@
 					'name': "inspection_task_detail",
 					'type': "patrol_type",
 				};
-				queryDictInfo(this, _objData)
+				queryDictInfo(this, _objData, this.patrolTypes.length == 0)
 					.then(function(res) {
 						_that.patrolTypes = _that.patrolTypes.concat(res);
 					})
@@ -237,7 +291,7 @@
 			_submitExcuteInspection: function() {
 				let _that = this;
 				uni.showLoading({
-					title: '请稍后...'
+					title: _that.$t('please_wait')
 				});
 				this.description = '';
 				this.titles.forEach(item => {
@@ -270,21 +324,23 @@
 
 				let msg = "";
 				if (obj.taskId == "") {
-					msg = "数据异常，巡检任务为空";
+					msg = _that.$t('数据异常，巡检任务为空');
 				} else if (obj.taskDetailId == "") {
-					msg = "数据异常，巡检任务详情为空";
+					msg = _that.$t('数据异常，巡检任务详情为空');
 				} else if (obj.inspectionId == "") {
-					msg = "巡检点不能为空";
+					msg = _that.$t('巡检点不能为空');
 				} else if (obj.inspectionName == "") {
-					msg = "巡检点名称不能为空";
+					msg = _that.$t('巡检点名称不能为空');
 				} else if (obj.patrolType == "") {
-					msg = "巡检情况不能为空";
-				} else if (obj.description == "") {
-					msg = "巡检说明不能为空";
-				} else if (obj.userId == "") {
-					msg = "数据异常，巡检人为空";
+					msg = _that.$t('巡检情况不能为空');
+				}
+				// else if (obj.description == "") {
+				// 	msg = _that.$t('巡检说明不能为空');
+				// } 
+				else if (obj.userId == "") {
+					msg = _that.$t('数据异常，巡检人为空');
 				} else if (obj.photos.length <= 0) {
-					msg = "请上传巡检图片";
+					msg = _that.$t('请上传巡检图片');
 				}
 				console.log(obj);
 
@@ -306,9 +362,9 @@
 						success: function(res) {
 							_that.onoff = true;
 							if (res.statusCode == 200) {
-								if(_that.fromPage == 'QrCode'){
+								if (_that.fromPage == 'QrCode') {
 									uni.navigateTo({
-										url:'/pages/inspection/inspection'
+										url: '/pages/inspection/inspection'
 									});
 									return;
 								}
@@ -333,7 +389,7 @@
 								duration: 2000
 							})
 						}
-					});
+					}, true);
 				}
 			},
 			radioChange: function(e, item) {

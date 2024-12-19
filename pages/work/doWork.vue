@@ -2,24 +2,27 @@
 	<view>
 		<scroll-view scroll-x class="bg-white nav">
 			<view class="flex text-center">
+				<!-- 待处理 -->
 				<view class="cu-item flex-sub" :class="active==0?'text-blue cur':''" @tap="tabSelect(0)">
-					待处理
+					{{$t('pending')}}
 				</view>
+				<!-- 已处理 -->
 				<view class="cu-item flex-sub" :class="active==1?'text-blue cur':''" @tap="tabSelect(1)">
-					已处理
+					{{$t('processed')}}
 				</view>
 			</view>
 		</scroll-view>
 
 		<view class="q-query flex justify-start flex-wrap margin-top-sm">
 			<view class="q-item">
-				<input type="text" class="q-input" placeholder="题目" v-model="workNameLike"></input>
+				<input type="text" class="q-input" :placeholder="$t('title')" v-model="workNameLike"></input>
 			</view>
 			<view class="q-item">
-				<input type="text" class="q-input" placeholder="处理人" v-model="staffNameLike"></input>
+				<input type="text" class="q-input" :placeholder="$t('processor')" v-model="staffNameLike"></input>
 			</view>
 			<view class="q-item-btn">
-				<button class="cu-btn  line-blue round q-input" @click="_loadStartWork">搜索</button>
+				<!-- 搜索 -->
+				<button class="cu-btn  line-blue round q-input" @click="_loadStartWork">{{$t('search')}}</button>
 			</view>
 		</view>
 		<view class="margin-top" v-if="works.length > 0">
@@ -30,29 +33,40 @@
 						<text class="text-bold">{{work.workId}}({{work.stateName}})</text>
 					</view>
 					<view class="flex justify-start">
-						<button class="cu-btn round sm line-black margin-left-sm" v-if="work.state == 'W'" @tap="_todoWorkTask(work)">办理</button>
-						<button class="cu-btn round sm line-black margin-left-sm" @tap="_toWorkDetail(work)">详情</button>
+						<!-- 办理 -->
+						<button class="cu-btn round sm line-black margin-left-sm" v-if="work.state == 'W'"
+							@tap="_todoWorkTask(work)">{{$t('handlse')}}</button>
+						<!-- 详情 -->
+						<button class="cu-btn round sm line-black margin-left-sm"
+							@tap="_toWorkDetail(work)">{{$t('btn_details')}}</button>
 					</view>
 				</view>
 				<view class="apply-content flex justify-start flex-wrap">
 					<view class="item">
-						<text>题目:</text>
+						<!-- 题目 -->
+						<text>{{$t('title')}}:</text>
 						<text class="margin-left-sm">{{work.workName}}</text>
 					</view>
 					<view class="item-half">
-						<text>标识:</text>
-						<text class="margin-left-sm">{{work.workCycle == '1001'?'一次性工单':'周期性工单'}}</text>
+						<!-- 标识 -->
+						<text>{{$t('identifier')}}:</text>
+						<text
+							class="margin-left-sm">{{work.workCycle == '1001'? $t('one_time_work_order'):$t('periodic_work_order')}}</text>
 					</view>
 					<view class="item-half">
-						<text>处理人:</text>
-						<text class="margin-left-sm">{{work.staffName || '-'}}</text>
+						<!-- 处理人 -->
+						<text>{{$t('processor')}}:</text>
+						<!-- <text class="margin-left-sm">{{work.staffName || '-'}}</text> -->
+						<text class="margin-left-sm">{{work.curStaffName || '-'}}</text>
 					</view>
 					<view class="item">
-						<text>创建时间:</text>
+						<!-- 创建时间 -->
+						<text>{{$t('creation_time')}}:</text>
 						<text class="margin-left-sm">{{work.createTime}}</text>
 					</view>
 					<view class="item">
-						<text>有效期:</text>
+						<!-- 有效期 -->
+						<text>{{$t('validity_period')}}:</text>
 						<text class="margin-left-sm">{{work.startTime}}~{{work.endTime}}</text>
 					</view>
 
@@ -76,35 +90,39 @@
 	} from '../../api/staff/staff.js';
 	export default {
 		data() {
+
 			return {
 				workNameLike: '',
 				staffNameLike: '',
 				works: [],
 				staffId: '',
-				active:0
+				active: 0
 			}
 		},
+		computed: {},
 		onLoad() {
 			this.staffId = getStaffId();
-			
+
 		},
 		onShow() {
 			this._loadWork();
 		},
+
+		created() {},
 		methods: {
 			_loadWork: function() {
 				let _that = this;
 				let _state = 'W';
-				if(this.active == 1){
+				if (this.active == 1) {
 					_state = 'C';
 				}
 				getTaskWork(this, {
 					page: 1,
 					row: 100,
-					state:_state,
+					state: _state,
 					workNameLike: this.workNameLike,
 					staffNameLike: this.staffNameLike
-				}).then(_data => {
+				}, this.works.length == 0).then(_data => {
 					_that.works = _data.data;
 				});
 			},
@@ -114,18 +132,18 @@
 				})
 
 			},
-			tabSelect:function(_active){
+			tabSelect: function(_active) {
 				this.active = _active;
 				let _that = this;
 				this.works = [];
 				this._loadWork();
 			},
-			_loadStartWork:function(){
+			_loadStartWork: function() {
 				this._loadWork();
 			},
-			_todoWorkTask:function(_work){
+			_todoWorkTask: function(_work) {
 				uni.navigateTo({
-					url:'/pages/work/doWorkAudit?workId='+_work.workId+'&taskId='+_work.taskId
+					url: '/pages/work/doWorkAudit?workId=' + _work.workId + '&taskId=' + _work.taskId
 				})
 			}
 		}

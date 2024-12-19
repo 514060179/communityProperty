@@ -6,7 +6,7 @@
 		<view class="cu-list menu" >
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-edit text-green"></text>
+					<text class="cuIcon-edit text-blue"></text>
 					<text class="text-grey">投诉编码</text>
 				</view>
 				<view class="action">
@@ -15,7 +15,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-ticket text-green"></text>
+					<text class="cuIcon-ticket text-blue"></text>
 					<text class="text-grey">房屋编码</text>
 				</view>
 				<view class="action">
@@ -24,7 +24,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-footprint text-green"></text>
+					<text class="cuIcon-footprint text-blue"></text>
 					<text class="text-grey">单类型</text>
 				</view>
 				<view class="action">
@@ -33,7 +33,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-profile text-green"></text>
+					<text class="cuIcon-profile text-blue"></text>
 					<text class="text-grey">投诉人</text>
 				</view>
 				<view class="action">
@@ -42,7 +42,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-phone text-green"></text>
+					<text class="cuIcon-phone text-blue"></text>
 					<text class="text-grey">投诉电话</text>
 				</view>
 				<view class="action">
@@ -51,7 +51,7 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-time text-green"></text>
+					<text class="cuIcon-time text-blue"></text>
 					<text class="text-grey">投诉时间</text>
 				</view>
 				<view class="action">
@@ -86,7 +86,7 @@
 		</form>
 		
 		<view class="padding flex flex-direction">
-			<button class="cu-btn bg-green margin-tb-sm lg" @tap="_auditOrder()">提交</button>
+			<button class="cu-btn bg-blue margin-tb-sm lg" @tap="_auditOrder()">提交</button>
 		</view>
 		
 		
@@ -168,13 +168,13 @@
 					data: _objData,
 					success: function(res) {
 						if(res.statusCode != 200){
-							// uni.showToast({
-							// 	icon:"none",
-							// 	title: res.data
-							// });
-							uni.navigateTo({
+							uni.showToast({
+								icon:"none",
+								title: res.data
+							});
+							/*uni.navigateTo({
 								url:'/pages/login/login'
-							})
+							})*/
 							return ;
 						}
 						
@@ -189,7 +189,7 @@
 						});
 						console.log(error);
 					}
-				});
+				}, true);
 			}
 		}
 	}

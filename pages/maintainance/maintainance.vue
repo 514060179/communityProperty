@@ -33,7 +33,7 @@
 				</view> -->
 				<view class="solid-top flex justify-end margin-top padding-top-sm padding-bottom-sm">
 					<button class="cu-btn sm bg-blue margin-left" @click="_transferMaintainance(item)">流转</button>
-					<button class="cu-btn sm bg-green margin-left" @click="_startMaintainance(item)">去保养</button>
+					<button class="cu-btn sm bg-blue margin-left" @click="_startMaintainance(item)">去保养</button>
 				</view>
 			</view>
 		</view>
@@ -45,7 +45,7 @@
 
 <script>
 	import noDataPage from '@/components/no-data-page/no-data-page.vue'
-	import dateUtil from '../../lib/java110/utils/date.js'
+	import dateUtil from '../../lib/com/newland/property/utils/date.js'
 	import {
 		getCurrentCommunity
 	} from '../../api/community/community.js'
@@ -105,7 +105,7 @@
 					row: 10,
 					planUserId: _that.userId,
 					moreState: '20200405,20200406',
-				}).then(_data => {
+				}, this.tasks.length == 0).then(_data => {
 					_that.tasks = _data;
 					if (_that.tasks.length < 1) {
 						_that.noData = true;

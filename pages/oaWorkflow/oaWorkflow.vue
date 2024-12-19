@@ -2,44 +2,62 @@
 	<view>
 		<scroll-view scroll-x class="bg-white nav">
 			<view class="flex text-center">
-				<view class="cu-item flex-sub" :class="active==0?'text-green cur':''" @tap="tabSelect(0)">
-					起草
+				<view class="cu-item flex-sub" :class="active==0?'text-blue cur':''" @tap="tabSelect(0)">
+					{{$t('起草')}}
 				</view>
-				<view class="cu-item flex-sub" :class="active==1?'text-green cur':''" @tap="tabSelect(1)">
-					待办
+				<view class="cu-item flex-sub" :class="active==1?'text-blue cur':''" @tap="tabSelect(1)">
+					{{$t('待办')}}
 				</view>
-				<view class="cu-item flex-sub" :class="active==2?'text-green cur':''" @tap="tabSelect(2)">
-					已办
+				<view class="cu-item flex-sub" :class="active==2?'text-blue cur':''" @tap="tabSelect(2)">
+					{{$t('已办')}}
 				</view>
 			</view>
 		</scroll-view>
 		<view v-if="active == 0">
-			<view class="cu-list grid margin-top" :class="'col-2'">
-				<view class="cu-item" @click="todoOaWorkflow(item);" v-for="(item,index) in oaWorkflowFlows" :key="index">
-					<view :class="['cuIcon-form','text-blue']"></view>
-					<text>{{item.flowName}}</text>
+			<template v-if="oaWorkflowFlows.length">
+				<view class="cu-list grid margin-top" :class="'col-2'">
+					<view class="cu-item" @click="todoOaWorkflow(item);" v-for="(item,index) in oaWorkflowFlows"
+						:key="index">
+						<view :class="['cuIcon-form','text-blue']"></view>
+						<text>{{item.flowName}}</text>
+					</view>
 				</view>
-			</view>
+			</template>
+			<template v-else>
+				<no-data-page></no-data-page>
+			</template>
 		</view>
 		<view v-if="active == 1">
-			<view class="cu-list grid margin-top" :class="'col-2'">
-				<view class="cu-item" @click="todoOaWorkflow(item);" v-for="(item,index) in oaWorkflowFlows" :key="index">
-					<view :class="['cuIcon-form','text-red']">
-						<view class="cu-tag badge">
-							<block>{{item.undoCount>99?'99+':item.undoCount}}</block>
+			<template v-if="oaWorkflowFlows.length">
+				<view class="cu-list grid margin-top" :class="'col-2'">
+					<view class="cu-item" @click="todoOaWorkflow(item);" v-for="(item,index) in oaWorkflowFlows"
+						:key="index">
+						<view :class="['cuIcon-form','text-red']">
+							<view class="cu-tag badge">
+								<block>{{item.undoCount>99?'99+':item.undoCount}}</block>
+							</view>
 						</view>
+						<text>{{item.flowName}}</text>
 					</view>
-					<text>{{item.flowName}}</text>
 				</view>
-			</view>
+			</template>
+			<template v-else>
+				<no-data-page></no-data-page>
+			</template>
 		</view>
 		<view v-if="active == 2">
-			<view class="cu-list grid margin-top" :class="'col-2'">
-				<view class="cu-item" @click="todoOaWorkflow(item);" v-for="(item,index) in oaWorkflowFlows" :key="index">
-					<view :class="['cuIcon-form','text-green']"></view>
-					<text >{{item.flowName}}</text>
+			<template v-if="oaWorkflowFlows.length">
+				<view class="cu-list grid margin-top" :class="'col-2'">
+					<view class="cu-item" @click="todoOaWorkflow(item);" v-for="(item,index) in oaWorkflowFlows"
+						:key="index">
+						<view :class="['cuIcon-form','text-blue']"></view>
+						<text>{{item.flowName}}</text>
+					</view>
 				</view>
-			</view>
+			</template>
+			<template v-else>
+				<no-data-page></no-data-page>
+			</template>
 		</view>
 
 	</view>
@@ -90,26 +108,29 @@
 					page: 1,
 					row: 100,
 					state: 'C',
-					flowType:'1001'
-				}).then(_data => {
+					flowType: '1001'
+				}, this.oaWorkflowFlows.length == 0).then(_data => {
 					_that.oaWorkflowFlows = _data.data;
 				})
 			},
-			todoOaWorkflow:function(_flow){
-				if(this.active == 0){
+			todoOaWorkflow: function(_flow) {
+				if (this.active == 0) {
 					this.context.navigateTo({
-						url:'/pages/newOaWorkflowForm/newOaWorkflowForm?flowId='+_flow.flowId+"&flowName="+_flow.flowName
+						url: '/pages/newOaWorkflowForm/newOaWorkflowForm?flowId=' + _flow.flowId +
+							"&flowName=" + _flow.flowName
 					})
-				}else if(this.active == 2){
+				} else if (this.active == 2) {
 					this.context.navigateTo({
-						url:'/pages/newOaWorkflowFinish/newOaWorkflowFinish?flowId='+_flow.flowId+"&flowName="+_flow.flowName
+						url: '/pages/newOaWorkflowFinish/newOaWorkflowFinish?flowId=' + _flow.flowId +
+							"&flowName=" + _flow.flowName
 					})
-				}else{
+				} else {
 					this.context.navigateTo({
-						url:'/pages/newOaWorkflowUndo/newOaWorkflowUndo?flowId='+_flow.flowId+"&flowName="+_flow.flowName
+						url: '/pages/newOaWorkflowUndo/newOaWorkflowUndo?flowId=' + _flow.flowId +
+							"&flowName=" + _flow.flowName
 					})
 				}
-				
+
 			}
 
 		}

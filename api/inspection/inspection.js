@@ -6,7 +6,7 @@ import url from '../../constant/url.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function UpdateInspectionTask(_that,_data){
+export function UpdateInspectionTask(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.UpdateInspectionTask,
@@ -16,12 +16,12 @@ export function UpdateInspectionTask(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -30,7 +30,7 @@ export function UpdateInspectionTask(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryDictInfo(_that,_data){
+export function queryDictInfo(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryDictInfo,
@@ -40,12 +40,12 @@ export function queryDictInfo(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -53,14 +53,14 @@ export function queryDictInfo(_that,_data){
  * 投票问卷
  * @param {Object} _data 评价内容
  */
-export function queryInspectionItemTitle(_that,_data) {
+export function queryInspectionItemTitle(_that,_data, isShowLoad) {
 	return new Promise((resolve, reject) => {
-		let moreRooms = [];
+		const moreRooms = [];
 		_that.context.get({
 			url: url.listInspectionItemTitle,
 			data: _data, //动态数据
 			success: function(res) {
-				let _data = res.data;
+				const _data = res.data;
 				if (_data.code == 0) {
 					resolve(_data);
 					return ;
@@ -70,18 +70,18 @@ export function queryInspectionItemTitle(_that,_data) {
 			fail: function(e) {
 				reject(e);
 			}
-		});
+		}, isShowLoad);
 	})
 }
 
-export function queryReportStaffInspection(_that,_data){
+export function queryReportStaffInspection(_that,_data, isShowLoad){
 	return new Promise((resolve, reject) => {
-		let moreRooms = [];
+		const moreRooms = [];
 		_that.context.get({
 			url: url.queryReportStaffInspection,
 			data: _data, //动态数据
 			success: function(res) {
-				let _data = res.data;
+				const _data = res.data;
 				if (_data.code == 0) {
 					resolve(_data);
 					return ;
@@ -91,7 +91,7 @@ export function queryReportStaffInspection(_that,_data){
 			fail: function(e) {
 				reject(e);
 			}
-		});
+		}, isShowLoad);
 	})
 }
 
@@ -100,14 +100,14 @@ export function queryReportStaffInspection(_that,_data){
  * @param {} _that 
  * @param {*} _data 
  */
-export function listInspectionTaskDetails(_that,_data){
+export function listInspectionTaskDetails(_that,_data, isShowLoad){
 	return new Promise((resolve, reject) => {
-		let moreRooms = [];
+		const moreRooms = [];
 		_that.context.get({
 			url: url.listInspectionTaskDetails,
 			data: _data, //动态数据
 			success: function(res) {
-				let _data = res.data;
+				const _data = res.data;
 				if (_data.code == 0) {
 					resolve(_data);
 					return ;
@@ -117,6 +117,6 @@ export function listInspectionTaskDetails(_that,_data){
 			fail: function(e) {
 				reject(e);
 			}
-		});
+		}, isShowLoad);
 	})
 }

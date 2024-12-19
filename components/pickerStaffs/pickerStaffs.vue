@@ -27,7 +27,7 @@
 				page:1,
 				row:300,
 				storeId:storeId
-			}).then(_data=>{
+			}, this.communitys.length == 0).then(_data=>{
 				let _staffs = _data.data.staffs;
 				_that.communitys =_that.freshStaff(_staffs);
 				return _that.communitys;

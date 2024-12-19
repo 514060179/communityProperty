@@ -3,13 +3,13 @@
 		<view class="block__title">{{planName}}</view>
 		<view class="cu-timeline margin-left-xs margin-right-xs">
 			<view class="cu-time">设备</view>
-			<view class="cu-item cuIcon-noticefill" :class="(item.state == '20200407'?'text-green':'')" v-for="(item,index) in taskDetails"
+			<view class="cu-item cuIcon-noticefill" :class="(item.state == '20200407'?'text-blue':'')" v-for="(item,index) in taskDetails"
 			 :key="index">
-				<view class="content shadow-blur" :class="(item.state == '20200407'?'bg-green':'')">
+				<view class="content shadow-blur" :class="(item.state == '20200407'?'bg-blue':'')">
 					{{item.machineName}}
 					<text v-show="item.state != '20200407' && item.pointStartTime && item.pointEndTime">({{item.pointStartTime}} - {{item.pointEndTime}})</text>
 				</view>
-				<view class="bg-green content" v-if="item.state == '20200407'">
+				<view class="bg-blue content" v-if="item.state == '20200407'">
 					<text>处理意见：</text> {{item.description}}
 				</view>
 				<view class="margin-top grid text-center col-3 grid-square" v-if="item.state == '20200407' && item.photos.length > 0">
@@ -20,7 +20,7 @@
 
 
 				<view class="text-right" v-if="item.state != '20200407'">
-					<button class="cu-btn  line-green block margin-tb-sm lg " @click="_excuteMaintaainance(item)">
+					<button class="cu-btn  line-blue block margin-tb-sm lg " @click="_excuteMaintaainance(item)">
 						<text class="cuIcon-upload"></text>保养</button>
 				</view>
 			</view>
@@ -67,7 +67,7 @@
 					page: 1,
 					row: 100,
 					taskId: _that.taskId
-				}).then(_data=>{
+				}, this.taskDetails.length == 0).then(_data=>{
 					_that.taskDetails =_data
 				})
 			},

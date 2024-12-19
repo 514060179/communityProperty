@@ -25,7 +25,7 @@
 
 		<view class="button_up_blank"></view>
 		<view class="flex flex-direction">
-			<button class="cu-btn bg-green margin-tb-sm lg" @click="_doSubmit()">提交</button>
+			<button class="cu-btn bg-blue margin-tb-sm lg" @click="_doSubmit()">提交</button>
 		</view>
 	</view>
 </template>
@@ -114,7 +114,7 @@
 					return;
 				}
 				let _url = this.getUndoUrl();
-				auditUndo(this,_url, _audit).then(_data => {
+				auditUndo(this,_url, _audit, true).then(_data => {
 					if (_data.data.code == 0) {
 						uni.showToast({
 							title: "提交成功",
@@ -158,7 +158,7 @@
 					flowId: this.flowId,
 					startUserId:this.startUserId,
 					id: this.id
-				}).then(_data => {
+				}, JSON.stringify(this.nextAudit) === '{}').then(_data => {
 					console.log(_data);
 					let data = _data[0];
 					_that.nextAudit = data;

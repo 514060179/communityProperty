@@ -79,7 +79,7 @@
 								</view>
 							</view>
 							<view class="flex flex-direction margin-top">
-								<button class="cu-btn bg-green margin-tb-sm lg" @click="_save()">确定</button>
+								<button class="cu-btn bg-blue margin-tb-sm lg" @click="_save()">确定</button>
 							</view>
 							<view class="flex flex-direction margin-top">
 								<button class="cu-btn bg-red margin-tb-sm lg" @click="_canel()">取消</button>
@@ -210,7 +210,7 @@
 					communityId: getCurrentCommunity().communityId,
 					giveType: 1
 				};
-				queryRepairInfo(this, _data)
+				queryRepairInfo(this, _data, this.goodsTypeCloums.length == 0)
 					.then(function(res) {
 						_that.goodsTypeCloums = _that.goodsTypeCloums.concat(res.data);
 						_that._appendCustomResourceStoreType();
@@ -237,7 +237,7 @@
 					giveType: 1,
 					flag: 1
 				};
-				queryResourceStoreResName(this, _data)
+				queryResourceStoreResName(this, _data, this.goodsCloums.length == 0)
 					.then(function(res) {
 						let _json = res.data;
 						if (_json.total < 1) {
@@ -294,7 +294,7 @@
 					communityId: getCurrentCommunity().communityId,
 					parentId: this.parentRstId
 				};
-				queryRepairInfo(this, _data)
+				queryRepairInfo(this, _data, this.goodsSonTypeCloums.length == 0)
 					.then(function(res) {
 						_that.goodsSonTypeCloums = [{
 							name: '请选择商品类型'

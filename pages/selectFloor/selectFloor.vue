@@ -3,20 +3,23 @@
 		<view class="cu-bar search bg-white">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input v-model="searchValue" data-name="searchValue" name="searchValue" @focus="onChange" @blur="onSearch"
-				 :adjust-position="false" placeholder="请输入楼栋编号" confirm-type="search"></input>
+				<input v-model="searchValue" data-name="searchValue" name="searchValue" @focus="onChange"
+					@blur="onSearch" :adjust-position="false" :placeholder="$t('please_enter_the_building_number')"
+					confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-green shadow-blur round" @tap="onSearch">搜索</button>
+				<button class="cu-btn bg-blue shadow-blur round" @tap="onSearch">搜索</button>
 			</view>
 		</view>
 		<view class="cu-list menu margin-top">
 			<view class="cu-item" v-for="(floor, idx) in floors" :key="idx" :label="floor.floorId">
 				<view class="content padding-tb-sm" is-link @click="chooseFloor(floor)">
 					<view>
-						<text class="cuIcon-clothesfill text-blue margin-right-xs"></text> {{floor.floorName}}</view>
+						<text class="cuIcon-clothesfill text-blue margin-right-xs"></text> {{floor.floorName}}
+					</view>
 					<view class="text-gray text-sm">
-						<text class="cuIcon-infofill margin-right-xs"></text> {{floor.floorId}}</view>
+						<text class="cuIcon-infofill margin-right-xs"></text> {{floor.floorId}}
+					</view>
 				</view>
 			</view>
 		</view>
@@ -24,10 +27,14 @@
 </template>
 
 <script>
-	import {loadFloors} from "../../api/floor/floor.js"
-	import {getCurrentCommunity} from '../../api/community/community.js'
+	import {
+		loadFloors
+	} from "../../api/floor/floor.js"
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
 	export default {
-		
+
 		data() {
 			return {
 				appUserName: '',
@@ -45,6 +52,7 @@
 			this.loadFloor();
 		},
 		methods: {
+			onChange() {},
 			onSearch() {
 				this.loadFloor();
 			},
@@ -71,13 +79,13 @@
 					communityId: getCurrentCommunity().communityId,
 					floorNum: this.searchValue
 				};
-				loadFloors(this,dataObj)
-				.then(function(res){
-					if (res.statusCode == 200) {
-						let _floors = res.data.apiFloorDataVoList;
-						_that.floors = _floors;
-					}
-				})
+				loadFloors(this, dataObj, this.floors.length == 0)
+					.then(function(res) {
+						if (res.statusCode == 200) {
+							let _floors = res.data.apiFloorDataVoList;
+							_that.floors = _floors;
+						}
+					})
 			}
 		}
 	}

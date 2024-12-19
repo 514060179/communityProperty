@@ -6,7 +6,7 @@
 				<input type="text" placeholder="请输入房屋编号" v-model="roomNum" confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-gradual-green shadow-blur round" @tap="_searchRoom()">搜索</button>
+				<button class="cu-btn bg-gradual-blue shadow-blur round" @tap="_searchRoom()">搜索</button>
 			</view>
 		</view>
 		<view>
@@ -90,7 +90,7 @@
 							duration: 2000
 						});
 					}
-				});
+				}, this.rooms.length == 0);
 				
 			},
 			_searchRoom:function(){

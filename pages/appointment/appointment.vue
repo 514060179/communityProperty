@@ -3,48 +3,62 @@
 		<view class="cu-bar bg-white search ">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="输入核销码" v-model="repairName" confirm-type="search"></input>
+				<input type="text" :placeholder="$t('enter_verification_code')" v-model="repairName"
+					confirm-type="search"></input>
 			</view>
 			<view class="action">
 				<!-- #ifdef MP-WEIXIN -->
-				<button class="cu-btn bg-gradual-green shadow-blur round" @click="scanCodeHandler()">扫码</button>
+				<!-- 扫码 -->
 				<!-- #endif -->
+				<button class="cu-btn bg-gradual-blue shadow-blur round"
+					@click="scanCodeHandler()">{{$t('scan_code')}}</button>
 				<!-- #ifdef H5 -->
-				<button class="cu-btn bg-gradual-green shadow-blur round" @click="navigateToScan()">扫码</button>
+				<!-- 扫码 -->
+				<!-- <button class="cu-btn bg-gradual-blue shadow-blur round"
+					@click="navigateToScan()">{{$t('scan_code')}}</button> -->
 				<!-- #endif -->
+
+				<!-- 核销 -->
 				<button style="margin-left: 10px;" class="cu-btn bg-gradual-red shadow-blur round"
-					@click="comfirmTimeId(repairName)">核销</button>
+					@click="comfirmTimeId(repairName)">{{$t('verification')}}</button>
 			</view>
 		</view>
 		<view v-if="noData==false">
 			<view v-for="(item,index) in myOrders" :key="index"
 				class="bg-white margin-top margin-right-xs radius margin-left-xs padding">
 				<view class="flex padding-bottom-xs solid-bottom justify-between">
-					<view style="font-size: 14px;">单号<span style="margin-left: 10px;"
+					<!-- 单号 -->
+					<view style="font-size: 14px;">{{$t('order_number')}}<span style="margin-left: 10px;"
 							class="text-gray">{{item.orderId}}</span></view>
 				</view>
 				<view class="flex margin-top justify-between">
-					<view class="text-gray">场地</view>
+					<!-- 场地 -->
+					<view class="text-gray">{{$t('venue')}}</view>
 					<view class="text-gray">{{item.spaceName}}</view>
 				</view>
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">预约日期</view>
+					<!-- 预约日期 -->
+					<view class="text-gray">{{$t('reservation_date')}}</view>
 					<view class="text-gray">{{item.appointmentTime}}</view>
 				</view>
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">预约时间</view>
+					<!-- 预约时间 -->
+					<view class="text-gray">{{$t('reservation_time')}}</view>
 					<view class="text-gray">{{item.hours}}</view>
 				</view>
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">预约人</view>
+					<!-- 预约人 -->
+					<view class="text-gray">{{$t('reserver')}}</view>
 					<view class="text-gray">{{item.personName }}</view>
 				</view>
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">预约电话</view>
+					<!-- 预约电话 -->
+					<view class="text-gray">{{$t('reservation_phone')}}</view>
 					<view class="text-gray">{{item.personTel }}</view>
 				</view>
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">核销时间</view>
+					<!-- 核销时间 -->
+					<view class="text-gray">{{$t('verification_time')}}</view>
 					<view class="text-gray">{{item.createTime}}</view>
 				</view>
 
@@ -73,11 +87,15 @@
 	// 防止多次点击
 	import {
 		preventClick
-	} from '../../lib/java110/utils/common.js';
+	} from '../../lib/com/newland/property/utils/common.js';
 	import Vue from 'vue'
 	Vue.prototype.$preventClick = preventClick;
 	export default {
 		data() {
+			const translate = (key) => {
+				return this.$t(key);
+			};
+
 			return {
 				onoff: true,
 				orderImg: url.baseUrl + 'img/order.png',
@@ -88,20 +106,20 @@
 				page: 1,
 				loadingStatus: 'loading',
 				loadingContentText: {
-					contentdown: '上拉加载更多',
-					contentrefresh: '加载中',
-					contentnomore: '没有更多'
+					contentdown: translate('pull_up_to_load_more'),
+					contentrefresh: translate('loading'),
+					contentnomore: translate('no_more')
 				},
 				repairStates: [{
-					name: '请选择'
+					name: translate('please_select') //'请选择'
 				}],
 				repairStatesIndex: 0,
 				repairState: '',
 				repairName: '',
 				modal: {
 					showModal: false,
-					title: '暂停原因',
-					text: '请填写暂停原因'
+					title: translate('pause_reason'), // '暂停原因',
+					text: translate('please_enter_pause_reason') //'请填写暂停原因'
 				}
 			}
 		},
@@ -239,12 +257,12 @@
 					},
 					fail: function(e) {
 						wx.showToast({
-							title: "服务器异常了",
+							title: _that.$t('server_error'), //"服务器异常了",
 							icon: 'none',
 							duration: 2000
 						});
 					}
-				});
+				}, this.myOrders.length == 0);
 			},
 			navigateToScan() {
 				setTimeout(() => {
@@ -263,19 +281,19 @@
 					setTimeout(function() {
 						uni.showModal({
 							cancelText: "取消", // 取消按钮的文字  
-							confirmText: "核销",
-							content: "核销码:" + timeId,
+							confirmText: _that.$t('verification'), //"核销",
+							content: _that.$t('check_off_code') + ':' + timeId, //"核销码
 							success: (res) => {
 								if (res.confirm) {
 									wx.showToast({
-										title: "请稍后",
+										title: _that.$t('please_wait'), //"请稍后",
 										icon: 'none'
 									});
 									let params = {
 										timeId: _that.repairName,
 										communityId: getCurrentCommunity().communityId
 									};
-									saveCommunitySpaceConfirmOrder(_that, params).then(function(_res) {
+									saveCommunitySpaceConfirmOrder(_that, params, true).then(function(_res) {
 										uni.showToast({
 											title: '操作成功'
 										});

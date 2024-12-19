@@ -1,16 +1,19 @@
 <template>
 	<view>
 		<view class="cu-form-group">
-			<view class="title">题目</view>
+			<!-- 题目 -->
+			<view class="title">{{$t('title')}}</view>
 			<view>{{workName}}</view>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">提交人</view>
+			<!-- 提交人 -->
+			<view class="title">{{$t('submitter')}}</view>
 			<view>{{createUserName}}</view>
 		</view>
-		
+
 		<view class="cu-form-group margin-top-xs">
-			<view class="title">动作</view>
+			<!-- 动作 -->
+			<view class="title">{{$t('action')}}</view>
 			<picker :value="actionIndex" :range="actions" range-key="name" @change="actionChange">
 				<view class="picker">
 					{{actions[actionIndex].name}}
@@ -18,18 +21,26 @@
 			</picker>
 		</view>
 		<view class="cu-form-group arrow margin-top-xs" v-if="action == 'T'">
-			<view class="title">下一处理人</view>
+			<!-- 下一处理人 -->
+			<view class="title">{{$t('next_processor')}}</view>
 			<view>
-				<text @click="_selectStaff">{{staffName || '请选择'}}</text>
+				<text @click="_selectStaff">{{staffName || $t('please_select')}}</text>
 				<text class='cuIcon-right'></text>
 			</view>
 
 		</view>
 		<view class="cu-form-group margin-top-sm">
-			<textarea v-model="content" placeholder="必填,请输入内容"></textarea>
+			<textarea v-model="content" :placeholder="$t('mandatory_enter_content')"></textarea>
 		</view>
 		<view class="margin-top-sm">
-			<vc-upload-file ref="vcUploadFileRel" @uploadFile="uploadFile"></vc-upload-file>
+			<!-- <vc-upload-file ref="vcUploadFileRel" @uploadFile="uploadFile"></vc-upload-file> -->
+			<!-- #ifdef H5 -->
+			<!-- <vc-upload-file ref="vcUploadFileRel" @uploadFile="uploadFile"></vc-upload-file> -->
+			<!-- #endif -->
+			<!-- #ifdef H5 || APP-PLUS || MP-WEIXIN -->
+			<upload-demo type="file" ref="vcUploadFileRel" @uploadFile="uploadFile"></upload-demo>
+			<!-- <button @tap="onUpload">上传</button> -->
+			<!-- #endif -->
 		</view>
 
 		<view class="flex flex-direction margin-top-lg">
@@ -43,6 +54,7 @@
 <script>
 	import vcUploadFile from '@/components/vc-upload/vc-upload-file.vue';
 	import selectOneStaffs from '../../components/select-staff/select-one-staffs.vue';
+	import UploadDemo from '@/components/UploadDemo';
 	import {
 		finishWorkTask,
 		getTaskWork
@@ -65,13 +77,17 @@
 				workId: '',
 				staffId: '',
 				staffName: '',
-				workName:'',
-				createUserName:''
+				workName: '',
+				createUserName: ''
 			}
 		},
 		components: {
 			vcUploadFile,
-			selectOneStaffs
+			selectOneStaffs,
+			UploadDemo
+		},
+		computed: {
+
 		},
 		onLoad(options) {
 			this.taskId = options.taskId;
@@ -79,16 +95,16 @@
 			this._loadWorkTask();
 		},
 		methods: {
-			_loadWorkTask:function(){
-				let _that =this;
+			_loadWorkTask: function() {
+				let _that = this;
 				getTaskWork(this, {
 					page: 1,
 					row: 1,
-					workId:this.workId,
+					workId: this.workId,
 					taskId: this.taskId,
-				}).then(_data => {
+				}, true).then(_data => {
 					_that.workName = _data.data[0].workName;
-					_that.createUserName= _data.data[0].createUserName;
+					_that.createUserName = _data.data[0].createUserName;
 				});
 			},
 			actionChange: function(e) {
@@ -118,7 +134,7 @@
 					staffId: this.staffId,
 					staffName: this.staffName,
 					pathUrl: this.pathUrl,
-				}).then(_data => {
+				}, true).then(_data => {
 					uni.navigateBack();
 				})
 			}

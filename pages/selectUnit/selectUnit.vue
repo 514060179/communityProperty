@@ -3,20 +3,24 @@
 		<view class="cu-bar search bg-white">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input v-model="searchValue" data-name="searchValue" name="searchValue" @focus="onChange" @blur="onSearch"
-				 :adjust-position="false" placeholder="请输入单元编号" confirm-type="search"></input>
+				<input v-model="searchValue" data-name="searchValue" name="searchValue" @focus="onChange"
+					@blur="onSearch" :adjust-position="false" :placeholder="$t('please_enter_the_unit_number')"
+					confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-green shadow-blur round" @tap="onSearch">搜索</button>
+				<button class="cu-btn bg-blue shadow-blur round" @tap="onSearch">搜索</button>
 			</view>
 		</view>
 		<view class="cu-list menu margin-top">
 			<view class="cu-item" v-for="(unit, idx) in units" :key="idx" :label="unit.unitId">
 				<view class="content padding-tb-sm" is-link @click="chooseUnit(unit)">
 					<view>
-						<text class="cuIcon-clothesfill text-blue margin-right-xs"></text> {{unit.unitNum}}单元</view>
+						<text class="cuIcon-clothesfill text-blue margin-right-xs"></text>
+						{{unit.unitNum}}{{$t('unit')}}
+					</view>
 					<view class="text-gray text-sm">
-						<text class="cuIcon-infofill margin-right-xs"></text> {{unit.unitId}}</view>
+						<text class="cuIcon-infofill margin-right-xs"></text> {{unit.unitId}}
+					</view>
 				</view>
 			</view>
 		</view>
@@ -24,8 +28,12 @@
 </template>
 
 <script>
-	import {loadUnits} from '../../api/unit/unit.js'
-	import {getCurrentCommunity} from '../../api/community/community.js'
+	import {
+		loadUnits
+	} from '../../api/unit/unit.js'
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
 	export default {
 		data() {
 			return {
@@ -34,7 +42,7 @@
 				searchValue: '',
 				unitName: "",
 				units: [],
-				floorId:''
+				floorId: ''
 			}
 		},
 		/**
@@ -42,16 +50,17 @@
 		 */
 		onLoad: function(options) {
 			this.java110Context.onLoad();
-			
+
 			let _floorId = options.floorId;
 			this.floorId = _floorId;
 			this.loadUnit();
 		},
 		methods: {
+			onChange() {},
 			onSearch() {
 				this.loadUnit();
 			},
-			
+
 			onClick() {
 				this.loadUnit();
 			},
@@ -70,17 +79,17 @@
 				let dataObj = {
 					page: 1,
 					row: 15,
-					communityId:  getCurrentCommunity().communityId,
+					communityId: getCurrentCommunity().communityId,
 					unitNum: this.searchValue,
 					floorId: this.floorId
 				};
-				loadUnits(this,dataObj)
-				.then(function(res){	
-					if (res.statusCode == 200) {
-						let _units = res.data;		
-						_that.units = _units;
-					}
-				})
+				loadUnits(this, dataObj, this.units.length == 0)
+					.then(function(res) {
+						if (res.statusCode == 200) {
+							let _units = res.data;
+							_that.units = _units;
+						}
+					})
 			}
 		}
 	}

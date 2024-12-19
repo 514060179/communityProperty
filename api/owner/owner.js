@@ -1,5 +1,5 @@
 import url from '../../constant/url.js';
-export function queryOwners(_that,_data){
+export function queryOwners(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryOwners,
@@ -9,15 +9,15 @@ export function queryOwners(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function queryOwnerAccount(_that,_data){
+export function queryOwnerAccount(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryOwnerAccount,
@@ -27,7 +27,7 @@ export function queryOwnerAccount(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -35,18 +35,18 @@ export function queryOwnerAccount(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 
 
-export function queryOwnerAndMembers(_that,_data){
+export function queryOwnerAndMembers(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryOwnerAndMembers,
@@ -56,16 +56,16 @@ export function queryOwnerAndMembers(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function saveRoomOwner(_that,_data){
+export function saveRoomOwner(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.saveRoomOwner,
@@ -75,16 +75,16 @@ export function saveRoomOwner(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function deleteOwner(_that,_data) {
+export function deleteOwner(_that,_data, isShowLoad) {
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.deleteOwner,
@@ -94,12 +94,12 @@ export function deleteOwner(_that,_data) {
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 /**
@@ -107,7 +107,7 @@ export function deleteOwner(_that,_data) {
  * @param {Object} _that 当前对象
  * @param {Object} _data数据
  */
-export function updateRoomOwner(_that,_data){
+export function updateRoomOwner(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.editOwner,
@@ -117,11 +117,11 @@ export function updateRoomOwner(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

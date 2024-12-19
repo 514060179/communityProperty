@@ -1,67 +1,83 @@
 <template>
 	<view>
-		<view class="block__title">基本信息</view>
+		<!-- 基本信息 -->
+		<view class="block__title">{{$t('basic_info')}}</view>
 		<view class="cu-form-group">
-			<view class="title">收费范围</view>
-			<input v-model="payerObjName" disabled="disabled" placeholder="必填,请输入收费范围"></input>
+			<!-- 收费范围 -->
+			<view class="title">{{$t('charge_range')}}</view>
+			<!-- 必填,请输入收费范围 -->
+			<input v-model="payerObjName" disabled="disabled" :placeholder="searchPlaceholder_charge_range"></input>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">收费类型</view>
-			<picker :value="feeTypeCdIndex" :range="feeTypeCds" range-key="name" @change="_changeFeeTypeCd">
+			<!-- 收费类型 -->
+			<view class="title">{{$t('charge_type')}}</view>
+			<picker cancelText="AA" confirmText="BB" :value="feeTypeCdIndex" :range="feeTypeCds" range-key="name"
+				@change="_changeFeeTypeCd">
 				<view class="picker">
-					{{feeTypeCdIndex == -1 ?'请选择':feeTypeCds[feeTypeCdIndex].name}}
+					{{feeTypeCdIndex == -1 ?pleaseChoose:feeTypeCds[feeTypeCdIndex].name}}
 				</view>
 			</picker>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">收费项目</view>
+			<!-- 收费项目 -->
+			<view class="title">{{$t('charge_item')}}</view>
 			<picker :value="configIndex" :range="feeConfigs" range-key="feeName" @change="_changeConfig">
 				<view class="picker">
-					{{configIndex == -1 ?'请选择':feeConfigs[configIndex].feeName}}
+					{{configIndex == -1 ?pleaseChoose:feeConfigs[configIndex].feeName}}
 				</view>
 			</picker>
 		</view>
 		<view class="cu-form-group" v-if="computingFormula == '4004'">
-			<view class="title">收费金额</view>
-			<input v-model="amount" placeholder="必填,请输入收费金额"></input>
+			<!-- 收费金额 -->
+			<view class="title">{{$t('charge_amount')}}</view>
+			<!-- 必填,请输入收费金额 -->
+			<input v-model="amount" :placeholder="searchPlaceholder_charge_price"></input>
 		</view>
 		<view class="cu-form-group">
-			<view class="title">计费起始时间</view>
+			<!-- 计费起始时间 -->
+			<view class="title">{{$t('billing_start_time')}}</view>
 			<picker mode="date" :value="startTime" class="" start="2020-09-01" end="2050-09-01"
 				@change="startTimeChange">
 				<view class="picker">
-					{{startTime||'请选择'}}
+					{{startTime||pleaseChoose}}
 				</view>
 			</picker>
 		</view>
 		<view class="cu-form-group" v-show="feeFlag != '1003006'">
-			<view class="title">计费结束时间</view>
+			<!-- 计费结束时间 -->
+			<view class="title">{{$t('billing_end_time')}}</view>
 			<picker mode="date" :value="endTime" class="" start="2020-09-01" end="2050-09-01" @change="endTimeChange">
 				<view class="picker">
-					{{endTime||'请选择'}}
+					{{endTime||pleaseChoose}}
 				</view>
 			</picker>
 		</view>
 		<view class="cu-form-group" v-if="computingFormula == '1102'">
-			<view class="title">递增周期</view>
-			<input v-model="rateCycle" placeholder="必填,请输入递增周期"></input>
+			<!-- 递增周期 -->
+			<view class="title">{{$t('increase_cycle')}}</view>
+			<!-- 必填,请输入递增周期 -->
+			<input v-model="rateCycle" :placeholder="searchPlaceholder_increase_cycle"></input>
 		</view>
 		<view class="cu-form-group" v-if="computingFormula == '1102'">
-			<view class="title">计费递增率</view>
-			<input v-model="rate" placeholder="必填,请输入计费递增率"></input>
+			<!-- 计费递增率 -->
+			<view class="title">{{$t('billing_increase_rate')}}</view>
+			<!-- 必填,请输入计费递增率 -->
+			<input v-model="rate" :placeholder="searchPlaceholder_increase_rate"></input>
 		</view>
 		<view class="cu-form-group" v-show="computingFormula == '1102'">
-			<view class="title">递增开始时间</view>
+			<!-- 递增开始时间 -->
+			<view class="title">{{$t('increase_start_time')}}</view>
 			<picker mode="date" :value="rateStartTime" class="" start="2020-09-01" end="2050-09-01"
 				@change="rateStartTimeChange">
 				<view class="picker">
-					{{rateStartTime||'请选择'}}
+					{{rateStartTime||pleaseChoose}}
 				</view>
 			</picker>
 		</view>
 
 		<view class="flex flex-direction margin-top margin-bottom">
-			<button class="cu-btn bg-green margin-tb-sm lg" @click="_submitCreateFee()">提交</button>
+			<!-- 提交 -->
+			<button class="cu-btn bg-blue margin-tb-sm lg" @click="_submitCreateFee()">{{$t('submit')}}</button>
 		</view>
 	</view>
 </template>
@@ -97,6 +113,23 @@
 				rateStartTime: ''
 			}
 		},
+		computed: {
+			pleaseChoose() {
+				return this.$t('please_select'); //必填,请输入收费范围
+			},
+			searchPlaceholder_charge_range() {
+				return this.$t('mandatory_enter_charge_range'); //必填,请输入收费范围
+			},
+			searchPlaceholder_charge_price() {
+				return this.$t('mandatory_enter_charge_price'); //必填,请输入收费范围
+			},
+			searchPlaceholder_increase_cycle() {
+				return this.$t('mandatory_enter_increase_cycle'); //必填,请输入递增周期
+			},
+			searchPlaceholder_increase_rate() {
+				return this.$t('mandatory_enter_billing_increase_rate'); //必填,请输入计费递增率
+			}
+		},
 		onLoad(options) {
 			this.payerObjId = options.payerObjId;
 			this.payerObjName = options.payerObjName;
@@ -109,7 +142,7 @@
 					'name': "pay_fee_config",
 					'type': "fee_type_cd",
 				};
-				queryDictInfo(this, _objData)
+				queryDictInfo(this, _objData, this.feeTypeCds.length == 0)
 					.then(function(_data) {
 						let _datanew = [];
 						_data.forEach((item, index) => {
@@ -137,7 +170,7 @@
 					feeTypeCd: this.feeTypeCd,
 					isDefault: 'F',
 					valid: 1
-				}).then(_data => {
+				}, this.feeConfigs.length == 0).then(_data => {
 					_that.feeConfigs = _data;
 				})
 			},
@@ -182,17 +215,18 @@
 					"rate": this.rate,
 					"rateStartTime": this.rateStartTime,
 					"communityId": this.getCommunityId()
-				}).then(_data => {
+				}, true).then(_data => {
 					if (_data.hasOwnProperty('code') && _data.code != 0) {
 						uni.showToast({
-							icon:'none',
-							title:_data.msg
+							icon: 'none',
+							title: _data.msg
 						})
 						return;
 					}
 					uni.showToast({
-						icon:'none',
-						title:"创建收费成功，总共[" + _data.totalRoom + "]房屋，成功[" + _data.successRoom + "],失败[" + _data.errorRoom + "]"
+						icon: 'none',
+						title: "创建收费成功，总共[" + _data.totalRoom + "]房屋，成功[" + _data.successRoom +
+							"],失败[" + _data.errorRoom + "]"
 					});
 					uni.navigateBack()
 				})

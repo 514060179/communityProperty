@@ -82,7 +82,7 @@
 					communityId: getCurrentCommunity().communityId,
 					giveType: 1
 				};
-				queryMyResourceStoreInfo(this, _data)
+				queryMyResourceStoreInfo(this, _data, this.resourceList.length == 0)
 					.then(function(res) {
 						if(res.data.length <= 0){
 							uni.showToast({

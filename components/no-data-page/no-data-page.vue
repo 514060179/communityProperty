@@ -5,9 +5,9 @@
 				<text class=" cuIcon-warnfill light text-orange no-data-icon"></text>
 			</view>
 			<view class="">
-				<text class="text-gray">当前没有数据</text>
+				<text class="text-gray">{{$t('no_data')}}</text>
 			</view>
-			
+
 		</view>
 	</view>
 </template>
@@ -17,22 +17,22 @@
 		name: 'NoDataPage',
 		data() {
 			return {
-				
+
 			}
 		},
 		methods: {
-			
+
 		}
 	}
 </script>
 
 <style>
-	.no-data-icon{
+	.no-data-icon {
 		font-size: 200upx;
 	}
-	.margin-top-100{
-		margin-top: 200upx;
-		
-	}
 
+	.margin-top-100 {
+		margin-top: 200upx;
+
+	}
 </style>

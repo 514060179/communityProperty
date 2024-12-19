@@ -20,30 +20,42 @@
 							</view>
 						</view>
 						<view class="action">
-							<text class="text-grey text-sm">应缴:￥{{item.feeTotalPrice}}</text>
+							<!-- 应缴 -->
+							<text class="text-grey text-sm">{{$t('payable')}}:MOP{{item.feeTotalPrice}}</text>
 						</view>
 					</view>
 					<view class="sub-info flex justify-start flex-wrap" v-if="item.showDetail">
 						<view class="sub-info-item text-gray text-sm" v-if="item.preDegrees">
-							<text class="margin-right-xs">上期读数:{{item.preDegrees}}</text>
+							<!-- 上期读数 -->
+							<text class="margin-right-xs">{{$t('previous_reading')}}:{{item.preDegrees}}</text>
 						</view>
 						<view class="sub-info-item text-gray text-sm" v-if="item.preDegrees">
-							<text class="margin-right-xs">上期读表时间:{{_getReadTime(item.preReadingTime)}}</text>
+							<!-- 上期读表时间 -->
+							<text
+								class="margin-right-xs">{{$t('last_reading_time')}}:{{_getReadTime(item.preReadingTime)}}</text>
 						</view>
 						<view class="sub-info-item text-gray text-sm" v-if="item.curDegrees">
-							<text class="margin-right-xs">本期读数:{{item.curDegrees}}</text>
+							<!-- 本期读数 -->
+							<text class="margin-right-xs">{{$t('current_reading')}}:{{item.curDegrees}}</text>
 						</view>
 						<view class="sub-info-item text-gray text-sm" v-if="item.preDegrees">
-							<text class="margin-right-xs">本期读表时间:{{_getReadTime(item.curReadingTime)}}</text>
+							<!-- 本期读表时间 -->
+							<text
+								class="margin-right-xs">{{$t('current_reading_time')}}:{{_getReadTime(item.curReadingTime)}}</text>
 						</view>
 						<view class="sub-info-item text-gray text-sm" v-if="item.curDegrees">
-							<text class="margin-right-xs">使用量:{{item.curDegrees-item.preDegrees}}</text>
+							<!-- 使用量 -->
+							<text
+								class="margin-right-xs">{{$t('usage_amount')}}:{{item.curDegrees-item.preDegrees}}</text>
 						</view>
 						<view class="sub-info-item text-gray text-sm" v-if="item.payerObjName">
-							<text class="margin-right-xs">房号:{{item.payerObjName}}</text>
+							<!-- 房号 -->
+							<text class="margin-right-xs">{{$t('room_number')}}:{{item.payerObjName}}</text>
 						</view>
-						<view class="sub-info-item text-gray text-sm" >
-							<text class="margin-right-xs">单价:{{item.mwPrice && item.mwPrice>0?item.mwPrice:item.squarePrice}}/{{item.additionalAmount}}</text>
+						<view class="sub-info-item text-gray text-sm">
+							<!-- 单价 -->
+							<text
+								class="margin-right-xs">{{$t('unit_price')}}:{{item.mwPrice && item.mwPrice>0?item.mwPrice:item.squarePrice}}/{{item.additionalAmount}}</text>
 						</view>
 					</view>
 				</view>
@@ -54,12 +66,18 @@
 		<view v-if="fees.length > 0" class="bg-white  border flex justify-end"
 			style="position: fixed;width: 100%;bottom: 0;">
 
+			<!-- 合计 -->
 			<view class="action text-orange margin-right line-height">
-				合计：{{receivableAmount}}元
+				{{$t('total')}}：{{receivableAmount}}MOP
 			</view>
 			<view class="btn-group">
-				<button class="cu-btn bg-red shadow-blur lgplus sharp" @click="_payOweFee()">提交订单</button>
+				<!-- 提交订单 -->
+				<button class="cu-btn bg-red shadow-blur lgplus sharp"
+					@click="_payOweFee()">{{$t('submit_order')}}</button>
 			</view>
+		</view>
+		<view v-else>
+			<no-data-page></no-data-page>
 		</view>
 	</view>
 </template>
@@ -69,12 +87,12 @@
 		getRoomOweFees,
 		toPayOweFee
 	} from '../../api/fee/fee.js';
-	
+
 	import {
 		dateSubOneDay,
 		getDate,
-		formatDate 
-	} from '../../lib/java110/utils/DateUtil.js';
+		formatDate
+	} from '../../lib/com/newland/property/utils/DateUtil.js';
 	import {
 		getCurrentCommunity
 	} from '../../api/community/community.js';
@@ -82,7 +100,7 @@
 		name: "oweFee",
 		data() {
 			return {
-				roomId:'',
+				roomId: '',
 				fees: [],
 				receivableAmount: 0.0,
 				payModal: false,
@@ -90,7 +108,7 @@
 				feeIds: [],
 			};
 		},
-		methods:{
+		methods: {
 			_loadRoomOweFee: function(_param) {
 				this.feeIds = [];
 				this.fees = [];
@@ -108,7 +126,7 @@
 					communityId: getCurrentCommunity().communityId
 				}
 				this.feeIds = [];
-				getRoomOweFees(_that, _objData)
+				getRoomOweFees(_that, _objData, this.fees.length == 0)
 					.then(function(_fees) {
 						_fees.forEach(function(_item) {
 							_item.selected = "1";
@@ -127,7 +145,7 @@
 						_that.receivableAmount = 0.0;
 						_fees.forEach(function(_item) {
 							_that.receivableAmount += _item.feeTotalPrice;
-			
+
 						})
 						_that.receivableAmount = _that.receivableAmount.toFixed(2);
 					})
@@ -136,7 +154,7 @@
 				this.context.navigateTo({
 					url: "/pages/fee/payFeeByQrCode?communityId=" +
 						getCurrentCommunity().communityId +
-						"&roomId=" + this.roomId+"&feeIds="+this.feeIds.join(',')
+						"&roomId=" + this.roomId + "&feeIds=" + this.feeIds.join(',')
 				})
 			},
 			_getDeadlineTime: function(_fee) {
@@ -171,14 +189,14 @@
 				})
 				this.computeAmount();
 			},
-			computeAmount:function(){
-				let _that =this;
+			computeAmount: function() {
+				let _that = this;
 				let _fees = this.fees;
 				let _feeIds = this.feeIds;
 				let _receivableAmount = 0.0;
-				_fees.forEach(_item=>{
-					_feeIds.forEach(_feeId =>{
-						if(_item.feeId == _feeId){
+				_fees.forEach(_item => {
+					_feeIds.forEach(_feeId => {
+						if (_item.feeId == _feeId) {
 							_receivableAmount += parseFloat(_item.feeTotalPrice);
 						}
 					})
@@ -190,31 +208,29 @@
 </script>
 
 <style lang="scss">
-	
-	
-	
 	.cu-list.menu-avatar>.cu-item .content-left {
 		left: 30upx;
 	}
-	
+
 	.cu-list+.cu-list {
 		margin-top: 10upx;
 	}
-	
+
 	.cu-btn.lgplus {
 		padding: 0 20px;
 		font-size: 18px;
 		height: 100upx;
-	
+
 	}
-	
+
 	.cu-btn.sharp {
 		border-radius: 0upx;
 	}
-	
+
 	.line-height {
 		line-height: 100upx;
 	}
+
 	.sub-info {
 		background-color: #fff;
 		//margin-top: 0.5upx;
@@ -225,8 +241,8 @@
 			margin: 10upx 15upx 0upx 15upx;
 		}
 	}
-	
-	.bt-height{
+
+	.bt-height {
 		height: 200upx;
 	}
 </style>

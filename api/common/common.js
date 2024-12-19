@@ -4,7 +4,7 @@ import url from '../../constant/url.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryOrgInfo(_that,_data){
+export function queryOrgInfo(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryOrgInfo,
@@ -14,12 +14,12 @@ export function queryOrgInfo(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -28,7 +28,7 @@ export function queryOrgInfo(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryStaffListInfo(_that,_data){
+export function queryStaffListInfo(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryStaffListInfo,
@@ -38,17 +38,17 @@ export function queryStaffListInfo(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 // 异步上传图片
-export function uploadImageAsync(_objData,_that) {
+export function uploadImageAsync(_objData,_that, isShowLoad) {
 	return new Promise( (resolve, reject) => {
 		_that.context.post({
 			url: url.uploadImage,
@@ -56,17 +56,17 @@ export function uploadImageAsync(_objData,_that) {
 			//动态数据
 			success: function(res) {
 				if (res.statusCode == 200) {
-					let imgInfo = res.data;
+					const imgInfo = res.data;
 					resolve(imgInfo);
 				}
 			},
 			fail: function(e) {
 				uni.hideLoading();
 				uni.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none'
 				})
 			}
-		});
+		}, isShowLoad);
 	})
 }

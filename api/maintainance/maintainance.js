@@ -5,7 +5,7 @@ import url from '../../constant/url.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function UpdateMaintainanceTask(_that, _data) {
+export function UpdateMaintainanceTask(_that, _data, isShowLoad) {
 	return new Promise(function(reslove, reject) {
 		_that.context.post({
 			url: url.UpdateMaintainanceTask,
@@ -15,12 +15,12 @@ export function UpdateMaintainanceTask(_that, _data) {
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -29,7 +29,7 @@ export function UpdateMaintainanceTask(_that, _data) {
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryDictInfo(_that, _data) {
+export function queryDictInfo(_that, _data, isShowLoad) {
 	return new Promise(function(reslove, reject) {
 		_that.context.get({
 			url: url.queryDictInfo,
@@ -39,12 +39,12 @@ export function queryDictInfo(_that, _data) {
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -52,14 +52,14 @@ export function queryDictInfo(_that, _data) {
  * 投票问卷
  * @param {Object} _data 评价内容
  */
-export function queryMaintainanceItemTitle(_that, _data) {
+export function queryMaintainanceItemTitle(_that, _data, isShowLoad) {
 	return new Promise((resolve, reject) => {
-		let moreRooms = [];
+		const moreRooms = [];
 		_that.context.get({
 			url: url.listMaintainanceItem,
 			data: _data, //动态数据
 			success: function(res) {
-				let _data = res.data;
+				const _data = res.data;
 				if (_data.code == 0) {
 					resolve(_data.data);
 					return;
@@ -69,7 +69,7 @@ export function queryMaintainanceItemTitle(_that, _data) {
 			fail: function(e) {
 				reject(e);
 			}
-		});
+		}, isShowLoad);
 	})
 }
 
@@ -78,14 +78,14 @@ export function queryMaintainanceItemTitle(_that, _data) {
  * 查询保养任务
  * @param {Object} _data 评价内容
  */
-export function queryMaintainanceTask(_that, _data) {
+export function queryMaintainanceTask(_that, _data, isShowLoad) {
 	return new Promise((resolve, reject) => {
-		let moreRooms = [];
+		const moreRooms = [];
 		_that.context.get({
 			url: url.listMaintainanceTask,
 			data: _data, //动态数据
 			success: function(res) {
-				let _data = res.data;
+				const _data = res.data;
 				if (_data.code == 0) {
 					res.data.data.forEach(function(item, index) {
 						item.timeStr = item.planInsTime.replace(/:\d{1,2}$/, ' ');
@@ -98,7 +98,7 @@ export function queryMaintainanceTask(_that, _data) {
 			fail: function(e) {
 				reject(e);
 			}
-		});
+		}, isShowLoad);
 	})
 }
 
@@ -108,27 +108,27 @@ export function queryMaintainanceTask(_that, _data) {
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function updateMaintainanceTaskDetail(_that, _data) {
+export function updateMaintainanceTaskDetail(_that, _data, isShowLoad) {
 
-	let msg = "";
-	if (_data.taskId == "") {
-		msg = "数据异常，保养任务为空";
-	} else if (_data.taskDetailId == "") {
-		msg = "数据异常，保养任务详情为空";
-	} else if (_data.machineId == "") {
-		msg = "设备不能为空";
-	} else if (_data.machineName == "") {
-		msg = "设备名称不能为空";
-	} else if (_data.patrolType == "") {
-		msg = "保养情况不能为空";
-	} else if (_data.description == "") {
-		msg = "保养说明不能为空";
-	} else if (_data.userId == "") {
-		msg = "数据异常，保养人为空";
+	let msg = '';
+	if (_data.taskId == '') {
+		msg = '数据异常，保养任务为空';
+	} else if (_data.taskDetailId == '') {
+		msg = '数据异常，保养任务详情为空';
+	} else if (_data.machineId == '') {
+		msg = '设备不能为空';
+	} else if (_data.machineName == '') {
+		msg = '设备名称不能为空';
+	} else if (_data.patrolType == '') {
+		msg = '保养情况不能为空';
+	} else if (_data.description == '') {
+		msg = '保养说明不能为空';
+	} else if (_data.userId == '') {
+		msg = '数据异常，保养人为空';
 	} else if (_data.photos.length <= 0) {
-		msg = "请上传保养图片";
+		msg = '请上传保养图片';
 	}
-	if (msg != "") {
+	if (msg != '') {
 		wx.showToast({
 			title: msg,
 			icon: 'none',
@@ -150,13 +150,13 @@ export function updateMaintainanceTaskDetail(_that, _data) {
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 				uni.hideLoading();
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -165,14 +165,14 @@ export function updateMaintainanceTaskDetail(_that, _data) {
  * 查询保养任务明细
  * @param {Object} _data 评价内容
  */
-export function queryMaintainanceTaskDetail(_that, _data) {
+export function queryMaintainanceTaskDetail(_that, _data, isShowLoad) {
 	return new Promise((resolve, reject) => {
-		let moreRooms = [];
+		const moreRooms = [];
 		_that.context.get({
 			url: url.listMaintainanceTaskDetail,
 			data: _data, //动态数据
 			success: function(res) {
-				let _data = res.data;
+				const _data = res.data;
 				if (_data.code == 0) {
 					_data.data.forEach(function(_item) {
 						// if (_item.state == '20200407') {
@@ -189,6 +189,6 @@ export function queryMaintainanceTaskDetail(_that, _data) {
 			fail: function(e) {
 				reject(e);
 			}
-		});
+		}, isShowLoad);
 	})
 }

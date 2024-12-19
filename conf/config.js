@@ -8,42 +8,83 @@
  * @QQ 928255095
  */
 
+/**
+ * @description 是否是生产，用于打包切换环境切换 true: 生产包  false: 测试或开发包
+ * @param {Boolean}
+ */
+// 是否可切环境
+const isSwitch = false
+
+// 是否生产环境
+let isRelease = true
+
+
+// 获取用户手动设置的环境
+const evn = uni.getStorageSync('evn') || ''
+if (evn) isRelease = evn
+
+console.log(evn, '000000000000')
+console.log(isRelease, '9999999999999999')
+
+
+
 let _systemConfig = uni.getStorageSync('java110SystemConfig');
 
-// #ifdef H5
-// 服务器域名 公众号时，配置为 / 就可以
-let baseUrl = '/'; 
-// #endif
+
+let baseUrl = ''
+
 
 // 腾讯地图Key, h5使用
-let QQMapKey = '';
-let commonBaseUrl= 'https://wuye.huafuyunju.com/';
+let QQMapKey = 'YJXBZ-UES3J-BVSFR-XO372-4KVBO-XLB6C';
+// 不区分端
+let commonBaseUrl = 'https://newland-property.oss-cn-hangzhou.aliyuncs.com/'
 
-// #ifndef H5
-//服务器域名 小程序 或者 app 时 后端地址
-//let baseUrl = 'http://demo.homecommunity.cn/'; 
-let baseUrl = 'https://wuye.huafuyunju.com/'; 
-// #endif
+/**
+ * 判断环境
+ */
+if (isRelease) {
+	// 生产
+	// #ifdef H5
+	baseUrl = '/'
+	// #endif
+
+	// #ifdef APP
+	baseUrl = 'https://property.newlandgo.com/'
+	// #endif
+
+} else { // 测试、开发
+	// #ifdef H5 
+	baseUrl = '/'
+	// #endif
+
+	// #ifdef APP
+	// TODO： 待替换
+	baseUrl = 'https://propertyuatmo.newlandgo.com/'
+	// baseUrl = 'http://192.168.8.213:8008/'
+	// #endif
+}
 
 //app支付时这里需要填写支付秘钥
-let appPayKey="";
+let appPayKey = "";
 
-let logLevel="DEBUG"; // 日志级别
+let logLevel = "DEBUG"; // 日志级别
 
-let systemName="物业版";
+let systemName = "物业版";
 
-if(_systemConfig){
-	QQMapKey = _systemConfig.qqMapKey;
+if (_systemConfig) {
+	QQMapKey = QQMapKey;
 	commonBaseUrl = _systemConfig.imgUrl;
 	systemName = _systemConfig.propertyTitle;
 }
 
-export default{
-	baseUrl:baseUrl,
-	logLevel:logLevel,
-	appPayKey:appPayKey,
+export default {
+	baseUrl: baseUrl,
+	logLevel: logLevel,
+	appPayKey: appPayKey,
 	commonBaseUrl: commonBaseUrl,
 	QQMapKey: QQMapKey,
-	imgUrl:commonBaseUrl,
-	systemName:systemName
+	imgUrl: commonBaseUrl,
+	systemName: systemName,
+	isPro: isRelease,
+	isSwitch: isSwitch
 }

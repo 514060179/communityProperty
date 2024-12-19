@@ -13,7 +13,7 @@
 				:key="index">
 				<view class="apply-title flex justify-between">
 					<view>
-						<text class="cuIcon-goods text-cut text-green margin-right-xs"></text>
+						<text class="cuIcon-goods text-cut text-blue margin-right-xs"></text>
 						<text class="text-bold">{{item.applyId}}</text>
 						<text class="margin-left-sm">({{item.stateName}})</text>
 					</view>
@@ -103,7 +103,7 @@
 					row: 10,
 					communityId: this.communityId
 				};
-				listAllocationStorehouseApplys(this, _objData)
+				listAllocationStorehouseApplys(this, _objData, this.applyList.length == 0)
 					.then(function(res) {
 						_that.applyList = _that.applyList.concat(res.data)
 						_that.page++;
@@ -148,7 +148,7 @@
 					cancelColor: '#222222',
 					success: res => {
 						if (res.confirm) {
-							deleteAllocationStorehouse(_that, item)
+							deleteAllocationStorehouse(_that, item, true)
 								.then(function(res) {
 									uni.showToast({
 										title: res.msg

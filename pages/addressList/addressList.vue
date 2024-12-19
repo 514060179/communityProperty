@@ -1,53 +1,63 @@
 <template>
-	<view>
-		<view class="cu-bar bg-white search ">
-			<view class="search-form round">
-				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="输入搜索的关键词" v-model="name" confirm-type="search"></input>
+	<view class="vc-address">
+		<view class="header-bg" :style="[styleObj]"></view>
+		<view>
+			<vc-tabbar :title="$t('artery')" />
+			<view class="cu-bar search">
+				<view class="search-form round searchStyle">
+					<text class="cuIcon-search"></text>
+					<input type="text" :placeholder="searchPlaceholder" v-model="name" confirm-type="search"></input>
+				</view>
+				<view class="action searchBtn">
+					<button class="cu-btn bg-gradual-blue shadow-blur round"
+						@tap="_searchStaff()">{{$t('search')}}</button>
+				</view>
 			</view>
-			<view class="action">
-				<button class="cu-btn bg-gradual-green shadow-blur round" @tap="_searchStaff()">搜索</button>
-			</view>
-		</view>
 
-		<scroll-view scroll-y class="indexes" :scroll-into-view="'indexes-'+ listCurID" :style="[{height:'calc(100vh - '+ CustomBar + 'px - 50px)'}]"
-		 :scroll-with-animation="true" :enable-back-to-top="true">
-			<block v-for="(item,index) in list" :key="index">
-				<view :class="'indexItem-' + item.initials" :id="'indexes-' + item.initials" :data-index="item.initials">
-					<view class="padding">{{item.initials}}</view>
-					<view class="cu-list menu-avatar no-padding">
-						<view class="cu-item" v-for="(items,sub) in item.staffs" :key="sub">
-							<view class="cu-avatar round lg">{{items.name[0]}}</view>
-							<view class="content">
-								<view class="text-grey"><text class="text-abc">{{items.name}}</text></view>
-								<view class="text-gray text-sm">
-									{{items.orgName}}-{{items.tel}}
+			<scroll-view scroll-y class="indexes" :scroll-into-view="'indexes-'+ listCurID"
+				:style="[{height:'calc(100vh - '+ CustomBar + 'px - 50px)'}]" :scroll-with-animation="true"
+				:enable-back-to-top="true">
+				<block v-for="(item,index) in list" :key="index">
+					<view :class="'indexItem-' + item.initials" :id="'indexes-' + item.initials"
+						:data-index="item.initials">
+						<view class="padding">{{item.initials}}</view>
+						<view class="cu-list menu-avatar no-padding">
+							<view class="cu-item" v-for="(items,sub) in item.staffs" :key="sub">
+								<view class="cu-avatar round lg">{{items.name[0]}}</view>
+								<view class="content">
+									<view class="text-grey"><text class="text-abc">{{items.name}}</text></view>
+									<view class="text-gray text-sm" style="color: #999999;">
+										{{items.orgName}}-{{items.tel}}
+									</view>
 								</view>
-							</view>
-							<view class="action">
-								<text class="lg text-gray cuIcon-dianhua photo_icon" @tap="_callPhoto(items.tel)"></text>
+								<view class="action">
+									<text class="lg text-gray cuIcon-dianhua photo_icon"
+										@tap="_callPhoto(items.tel)"></text>
+								</view>
 							</view>
 						</view>
 					</view>
+				</block>
+			</scroll-view>
+			<view class="indexBar" :style="[{height:'calc(100vh - ' + CustomBar + 'px - 50px)'}]">
+				<view class="indexBar-box" @touchstart="tStart" @touchend="tEnd" @touchmove.stop="tMove">
+					<view class="indexBar-item" v-for="(item,index) in list" :key="index" :id="index"
+						@touchstart="getCur" @touchend="setCur">
+						{{item.initials}}
+					</view>
 				</view>
-			</block>
-		</scroll-view>
-		<view class="indexBar" :style="[{height:'calc(100vh - ' + CustomBar + 'px - 50px)'}]">
-			<view class="indexBar-box" @touchstart="tStart" @touchend="tEnd" @touchmove.stop="tMove">
-				<view class="indexBar-item" v-for="(item,index) in list" :key="index" :id="index" @touchstart="getCur" @touchend="setCur">
-					{{item.initials}}</view>
+			</view>
+			<!--选择显示-->
+			<view v-show="!hidden" class="indexToast">
+				{{listCur}}
 			</view>
 		</view>
-		<!--选择显示-->
-		<view v-show="!hidden" class="indexToast">
-			{{listCur}}
-		</view>
-
 	</view>
 </template>
 
 <script>
 	import url from '../../constant/url.js'
+	import vcTabbar from '@/components/vc-tabbar/vc-tabbar.vue'
 	export default {
 		data() {
 			return {
@@ -57,6 +67,29 @@
 				hidden: true,
 				listCurID: '',
 				listCur: '',
+			}
+		},
+		components: {
+			vcTabbar
+		},
+		computed: {
+			searchPlaceholder() {
+				return this.$t('search_placeholder');
+			},
+			//状态栏高度
+			statusHeight() {
+				//#ifdef H5
+				return 20;
+				//#endif
+				return uni.getSystemInfoSync().statusBarHeight || 10; //如果没有获取到高度，那么指定10px；
+			},
+			styleObj() {
+				return {
+					// #ifdef H5
+					'--height': 0,
+					// #endif
+					'--height': (uni.getSystemInfoSync().statusBarHeight || 10) + 'px'
+				}
 			}
 		},
 		onLoad() {
@@ -104,19 +137,19 @@
 							return;
 						}
 						wx.showToast({
-							title: "服务器异常了",
+							title: _that.$t('server_error'), // "服务器异常了",
 							icon: 'none',
 							duration: 2000
 						})
 					},
 					fail: function(e) {
 						wx.showToast({
-							title: "服务器异常了",
+							title: _that.$t('server_error'), //"服务器异常了",
 							icon: 'none',
 							duration: 2000
 						})
 					}
-				});
+				}, this.list.length == 0);
 
 			},
 			_callPhoto: function(_photo) {
@@ -166,17 +199,17 @@
 				return newArr1;
 			},
 			//获取文字信息
-			getCur:function(e) {
+			getCur: function(e) {
 				this.hidden = false;
 				this.listCur = this.list[e.target.id].initials;
 				console.log(this.listCur);
 			},
-			setCur:function(e) {
+			setCur: function(e) {
 				this.hidden = true;
 				this.listCur = this.listCur
 			},
 			//滑动选择Item
-			tMove:function(e) {
+			tMove: function(e) {
 				let y = e.touches[0].clientY,
 					offsettop = this.boxTop,
 					that = this;
@@ -188,16 +221,16 @@
 			},
 
 			//触发全部开始选择
-			tStart:function() {
+			tStart: function() {
 				this.hidden = false
 			},
 
 			//触发结束选择
-			tEnd:function() {
+			tEnd: function() {
 				this.hidden = true;
 				this.listCurID = this.listCur;
 			},
-			indexSelect:function(e) {
+			indexSelect: function(e) {
 				let that = this;
 				let barHeight = this.barHeight;
 				let list = this.list;
@@ -215,13 +248,41 @@
 	}
 </script>
 
-<style>
-	.photo_icon {
-		font-size: 40upx;
-		color: #0081FF;
-		margin-right:60upx;
+<style lang="scss" scoped>
+	.vc-address {
+		position: relative;
+		padding: 100rpx 34rpx;
+		background: #f8f9fa;
+
+		.header-bg {
+			position: absolute;
+			top: -250rpx;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 100%;
+			height: 598rpx;
+			// border-radius: 0 0 100% 100%;
+			overflow: hidden;
+			z-index: 0;
+		}
+
+		.header-bg::after {
+			content: "";
+			display: block;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(180deg, #606ef0 0%, #008cd7 99%);
+		}
 	}
 
+	.photo_icon {
+		font-size: 40upx;
+		color: #0081ff;
+		margin-right: 60upx;
+	}
 
 	.indexes {
 		position: relative;
@@ -245,9 +306,17 @@
 		box-shadow: 0 0 20upx rgba(0, 0, 0, 0.1);
 		border-radius: 10upx;
 	}
-	
-	.text-abc{
-		color:#555555
+
+	.text-abc {
+		color: #555555;
+		font-family: Source Han Sans;
+		font-size: 32rpx;
+		font-weight: 500;
+		line-height: 42rpx;
+		letter-spacing: 0rpx;
+
+		font-variation-settings: "opsz" auto;
+		color: #333333;
 	}
 
 	.indexBar-item {
@@ -293,5 +362,29 @@
 		line-height: 100upx;
 		text-align: center;
 		font-size: 48upx;
+	}
+
+	.search {
+		position: relative;
+		margin-top: 50rpx;
+	}
+
+	/deep/ .searchStyle {
+		margin: 0 auto;
+
+		.uni-input-form {}
+	}
+
+	.searchBtn {
+		position: absolute;
+		right: -29rpx !important;
+
+		.cu-btn {
+			background: #606ef0;
+		}
+	}
+
+	.indexes {
+		// margin-top: 110rpx;
 	}
 </style>

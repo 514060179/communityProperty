@@ -2,7 +2,7 @@
 	<view>
 		<mumu-get-qrcode @success="qrcodeSucess" @error="qrcodeError" :continue="false" :size='size'>
 			<template v-slot:error>
-				<view>摄像头启动失败</view>
+				<view>{{$t('camera_startup_failure')}}</view>
 			</template>
 		</mumu-get-qrcode>
 	</view>
@@ -16,11 +16,12 @@
 		},
 		data() {
 			return {
-				size : 'whole'
+				size: 'whole'
 			}
 		},
 		methods: {
 			qrcodeSucess(data) {
+				let _that = this
 				var pages = getCurrentPages();
 				var prevPage = pages[pages.length - 2];
 
@@ -33,8 +34,8 @@
 			qrcodeError(err) {
 				console.log(err)
 				uni.showModal({
-					title: '摄像头授权失败',
-					content: '摄像头授权失败，请检测当前浏览器是否有摄像头权限。',
+					title: _that.$t('camera_authorization_failure'), //'摄像头授权失败',
+					content: _that.$t('camera_permission'), //'摄像头授权失败，请检测当前浏览器是否有摄像头权限',
 					success: () => {
 						uni.navigateBack({})
 					}

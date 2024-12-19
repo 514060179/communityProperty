@@ -72,7 +72,7 @@
 					row: 50,
 					communityId: this.communityId,
 				};
-				queryStaffListInfo(this, _data)
+				queryStaffListInfo(this, _data, this.staffs.length == 0)
 					.then(function(res) {
 						let _tempStaffs = res.data.staffs;
 						_tempStaffs.forEach(_t => {

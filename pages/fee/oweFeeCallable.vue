@@ -3,11 +3,14 @@
 		<view class="cu-bar bg-white search ">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="输入房屋编号 楼栋-单元-房屋" v-model="roomName" confirm-type="search"></input>
+				<input type="text" :placeholder="$t('input_home_code')" v-model="roomName"
+					confirm-type="search"></input>
 			</view>
 			<view class="action">
 				<button class="cu-btn line-blue round" @tap="_loadRooms()">搜索</button>
-				<button class="cu-btn line-blue round margin-left-sm" v-if="roomId" @tap="_wirteCallable()">登记</button>
+				<!-- 登记 -->
+				<button class="cu-btn line-blue round margin-left-sm" v-if="roomId"
+					@tap="_wirteCallable()">{{$t('register')}}</button>
 			</view>
 		</view>
 		<view class="margin-top" v-if="callables.length > 0">
@@ -25,27 +28,33 @@
 				</view>
 				<view class="apply-content flex justify-start flex-wrap">
 					<view class="item">
-						<text>催缴方式:</text>
+						<!-- 催缴方式 -->
+						<text>{{$t('reminder_method')}}:</text>
 						<text>{{item.callableWayName}}</text>
 					</view>
 					<view class="item">
-						<text>业主:</text>
+						<!-- 业主 -->
+						<text>{{$t('owner')}}:</text>
 						<text>{{item.ownerName}}</text>
 					</view>
 					<view class="item">
-						<text>催缴金额:</text>
+						<!-- 催缴金额 -->
+						<text>{{$t('reminder_amount')}}:</text>
 						<text>{{item.amountdOwed}}</text>
 					</view>
 					<view class="item">
-						<text>催缴人:</text>
+						<!-- 催缴人 -->
+						<text>{{$t('reminder')}}:</text>
 						<text>{{item.staffName}}</text>
 					</view>
 					<view class="item">
-						<text>欠费段:</text>
+						<!-- 欠费段 -->
+						<text>{{$t('section_arrears')}}:</text>
 						<text>{{_formateDate(item.startTime)}}~{{_formateDate(item.endTime)}}</text>
 					</view>
 					<view class="item">
-						<text>催缴说明:</text>
+						<!-- 催缴说明 -->
+						<text>{{$t('reminder_note')}}:</text>
 						<text>{{item.remark}}</text>
 					</view>
 				</view>
@@ -58,69 +67,78 @@
 </template>
 
 <script>
-	import {loadRooms} from '@/api/room/room.js';
-	import {queryOweFeeCallable} from '@/api/fee/callableFeeApi.js';
+	import {
+		loadRooms
+	} from '@/api/room/room.js';
+	import {
+		queryOweFeeCallable
+	} from '@/api/fee/callableFeeApi.js';
 	import noDataPage from '../../components/no-data-page/no-data-page.vue';
-	import {getDate,formatDate} from '../../lib/java110/utils/DateUtil.js';
+	import {
+		getDate,
+		formatDate,
+		formatNumber
+	} from '../../lib/com/newland/property/utils/DateUtil.js';
 	export default {
 		data() {
 			return {
-				roomName:'',
-				roomId:'',
-				callables:[]
+				roomName: '',
+				roomId: '',
+				callables: []
 			}
 		},
 		onShow() {
-			if(!this.roomId){
-				return ;
+			if (!this.roomId) {
+				return;
 			}
 			this._loadOweFeeCallable();
 		},
 		methods: {
-			_loadRooms:function(){
+			_loadRooms: function() {
 				let _that = this;
-				loadRooms(this,{
-					page:1,
-					row:1,
-					communityId:this.getCommunityId(),
-					flag:1,
-					roomNum:this.roomName
-				}).then(_data=>{
+				loadRooms(this, {
+					page: 1,
+					row: 1,
+					communityId: this.getCommunityId(),
+					flag: 1,
+					roomNum: this.roomName
+				}, true).then(_data => {
 					let _json = _data.data;
-					if(!_json.rooms || _json.rooms.length < 1){
+					if (!_json.rooms || _json.rooms.length < 1) {
 						uni.showToast({
-							icon:'none',
-							title:'房屋不存在'
+							icon: 'none',
+							title: _that.$t('house_not_exist') //'房屋不存在'
 						});
 						return;
 					}
 					_that.roomId = _json.rooms[0].roomId
 					return _json.rooms[0];
-				}).then(_data=>{
-					if(!_that.roomId){
-						return ;
+				}).then(_data => {
+					if (!_that.roomId) {
+						return;
 					}
 					_that._loadOweFeeCallable();
 				})
 			},
-			_loadOweFeeCallable:function(){
+			_loadOweFeeCallable: function() {
 				let _that = this;
-				queryOweFeeCallable(this,{
-					page:1,
-					row:50,
-					communityId:this.getCommunityId(),
-					payerObjId:this.roomId
-				}).then(_data =>{
+				queryOweFeeCallable(this, {
+					page: 1,
+					row: 50,
+					communityId: this.getCommunityId(),
+					payerObjId: this.roomId
+				}, this.callables.length == 0).then(_data => {
 					_that.callables = _data.data;
 				})
 			},
-			_wirteCallable:function(){
+			_wirteCallable: function() {
 				uni.navigateTo({
-					url:'/pages/fee/writeOweFeeCallable?roomId='+this.roomId+"&roomName="+this.roomName
+					url: '/pages/fee/writeOweFeeCallable?roomId=' + this.roomId + "&roomName=" + this.roomName
 				})
 			},
-			_formateDate:function(_time){
-				let _date = getDate(_time);
+
+			_formateDate: function(_time) {
+				let date = getDate(_time);
 				const year = date.getFullYear();
 				const month = date.getMonth();
 				const day = date.getDate();
@@ -131,10 +149,10 @@
 </script>
 
 <style lang="scss">
-.apply-title {
+	.apply-title {
 		height: 60upx;
 		line-height: 50upx;
-		border-bottom: 1upx solid #F1F1F1;
+		border-bottom: 1upx solid #f1f1f1;
 	}
 
 	.apply-content {

@@ -6,7 +6,7 @@
 		</view>
 
 		<view class="flex flex-direction margin-top">
-			<button class="cu-btn bg-green margin-tb-sm lg" @click="_dispatchComplaint()">提交</button>
+			<button class="cu-btn bg-blue margin-tb-sm lg" @click="_dispatchComplaint()">提交</button>
 		</view>
 	</view>
 </template>
@@ -31,7 +31,7 @@
 					replyContext:this.replyContext,
 					communityId:getCurrentCommunity().communityId,
 					appraiseId:this.appraiseId,
-				},this)
+				},this, true)
 				.then(function(res){
 					if (res.statusCode != 200) {
 						uni.showToast({

@@ -91,7 +91,7 @@
 					page: 1,
 					row: 100
 				};
-				queryResourceSupplier(this, _data)
+				queryResourceSupplier(this, _data, this.resourceSuppliers.length == 0)
 					.then(function(res) {
 						_that.resourceSuppliers = _that.resourceSuppliers.concat(res.data);
 					});

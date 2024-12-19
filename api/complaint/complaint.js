@@ -5,7 +5,7 @@ import url from '../../constant/url.js';
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function loadTodoCompaint(_that,_data){
+export function loadTodoCompaint(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listAuditComplaints,
@@ -15,12 +15,12 @@ export function loadTodoCompaint(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -29,7 +29,7 @@ export function loadTodoCompaint(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function auditComplaint(_that,_data){
+export function auditComplaint(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.auditComplaint,
@@ -39,12 +39,12 @@ export function auditComplaint(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -54,7 +54,7 @@ export function auditComplaint(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function loadCompaintFinish(_that,_data){
+export function loadCompaintFinish(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listAuditHistoryComplaints,
@@ -64,23 +64,23 @@ export function loadCompaintFinish(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function getComplaintEvent(_obj,_that){
+export function getComplaintEvent(_obj,_that, isShowLoad){
 	return new Promise((resolve, reject) => {
 		_that.context.get({
 			url: url.listComplaintEvent,
 		
 			data: _obj,
 			success: function(res) {
-				let data = res.data;
+				const data = res.data;
 				if (data.code == 0) {
 					resolve(data);
 				} else {
@@ -92,7 +92,7 @@ export function getComplaintEvent(_obj,_that){
 			fail: function(res) {
 				reject(res);
 			}
-		});
+		}, isShowLoad);
 	})
 }
 
@@ -101,13 +101,13 @@ export function getComplaintEvent(_obj,_that){
  * @param {Object} _obj
  * @param {Object} _that上下文
  */
-export function getComplaintAppraise(_obj,_that){
+export function getComplaintAppraise(_obj,_that, isShowLoad){
 	return new Promise((resolve, reject) => {
 		_that.context.get({
 			url: url.listComplaintAppraise,
 			data: _obj,
 			success: function(res) {
-				let data = res.data;
+				const data = res.data;
 				if (data.code == 0) {
 					resolve(data);
 				} else {
@@ -119,12 +119,12 @@ export function getComplaintAppraise(_obj,_that){
 			fail: function(res) {
 				reject(res);
 			}
-		});
+		}, isShowLoad);
 	})
 }
 
 
-export function replyComplaintAppraise(_data,_that){
+export function replyComplaintAppraise(_data,_that, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.post({
 			url: url.replyComplaintAppraise,
@@ -134,11 +134,11 @@ export function replyComplaintAppraise(_data,_that){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

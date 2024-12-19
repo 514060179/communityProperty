@@ -74,7 +74,7 @@
 							duration: 2000
 						});
 					}
-				});
+				}, this.puchaseAll == '');
 				
 			},
 			_doChangeFloor:function(_floor){

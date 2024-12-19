@@ -6,7 +6,7 @@
 				<input type="text" placeholder="请输入单元编号" v-model="unitNum" confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-gradual-green shadow-blur round" @tap="_searchUnit()">搜索</button>
+				<button class="cu-btn bg-gradual-blue shadow-blur round" @tap="_searchUnit()">搜索</button>
 			</view>
 		</view>
 		<view>
@@ -86,7 +86,7 @@
 							duration: 2000
 						});
 					}
-				});
+				}, this.units.length == 0);
 				
 			},
 			_searchUnit:function(){

@@ -2,14 +2,14 @@
 	<view>
 		<view class="q-query flex justify-start flex-wrap">
 			<view class="q-item">
-				<input type="text" class="q-input" placeholder="输入房屋号" v-model="objName"></input>
+				<input type="text" class="q-input" :placeholder="$t('enter_house_number')" v-model="objName"></input>
 			</view>
 			<view class="q-item">
 				<view class=" arrow q-input">
 					<picker mode="date" :value="startDate" class="" start="2020-09-01" end="2050-09-01"
 						@change="startDateChange">
 						<view class="picker">
-							{{startDate||'请选择'}}
+							{{startDate||$t('please_select')}}
 						</view>
 					</picker>
 				</view>
@@ -18,7 +18,7 @@
 				<view class=" arrow q-input">
 					<picker mode="date" :value="endDate" start="2020-09-01" end="2050-09-01" @change="endDateChange">
 						<view class="picker">
-							{{endDate||'请选择'}}
+							{{endDate||$t('please_select')}}
 						</view>
 					</picker>
 				</view>
@@ -41,20 +41,26 @@
 				</view>
 				<view class="apply-content flex justify-start flex-wrap">
 					<view class="item">
-						<text>总欠费:</text>
+						<!-- 总欠费 -->
+						<text>{{$t('total_arrears')}}:</text>
 						<text>{{item.oweFee || '0'}}</text>
 					</view>
 					<view class="item">
-						<text>总实收:</text>
+						<!-- 总实收 -->
+						<text>{{$t('gross_receipts')}}:</text>
 						<text>{{item.receivedFee || '0'}}</text>
 					</view>
 					<view class="item" v-for="(feeType,fIndex) in feeTypeCds" :key="fIndex">
-						<text>{{feeType.name}}欠费/实收:</text>
+						<!-- 欠费/实收 -->
+						<text>{{feeType.name}}{{$t('arrears_collected')}}:</text>
 						<text>{{item['oweFee'+feeType.statusCd] || 0}}/{{item['receivedFee'+feeType.statusCd] || 0}}</text>
 					</view>
 
 				</view>
 			</view>
+		</view>
+		<view v-else>
+			<no-data-page></no-data-page>
 		</view>
 	</view>
 </template>
@@ -63,8 +69,10 @@
 	import {
 		queryReportFeeDetailRoom
 	} from '@/api/report/feeReport.js';
-	import {queryDictInfo} from '@/api/apply/apply.js';
-	
+	import {
+		queryDictInfo
+	} from '@/api/apply/apply.js';
+
 	export default {
 		data() {
 			return {
@@ -72,7 +80,7 @@
 				endDate: '',
 				objName: '',
 				fees: [],
-				feeTypeCds:[],
+				feeTypeCds: [],
 			}
 		},
 		onLoad() {
@@ -94,12 +102,12 @@
 			}
 			this.endDate = _newDate;
 			let _that = this;
-			queryDictInfo(this,{
+			queryDictInfo(this, {
 				'name': "pay_fee_config",
 				'type': "fee_type_cd",
-			}).then(_data=>{
+			}, this.feeTypeCds.length == 0).then(_data => {
 				_that.feeTypeCds = _data;
-			}).then(_data=>{
+			}).then(_data => {
 				_that._loadRoomFees();
 			});
 		},
@@ -121,7 +129,7 @@
 					communityId: this.getCommunityId(),
 					page: 1,
 					row: 30
-				}).then(_data => {
+				}, this.fees.length == 0).then(_data => {
 					_that.fees = _data.data;
 				})
 			}
@@ -132,7 +140,7 @@
 
 <style lang="scss">
 	.q-query {
-		background-color: #FFF;
+		background-color: #fff;
 		padding: 15upx;
 
 		.q-item {
@@ -162,7 +170,7 @@
 	.apply-title {
 		height: 60upx;
 		line-height: 50upx;
-		border-bottom: 1upx solid #F1F1F1;
+		border-bottom: 1upx solid #f1f1f1;
 	}
 
 	.apply-content {

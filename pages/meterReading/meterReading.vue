@@ -3,11 +3,13 @@
 		<view class="cu-bar bg-white search myfixed">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="请填写房屋编号,如1-1-1123" v-model="roomNum" confirm-type="search"></input>
+				<input type="text" :placeholder="$t('writeHomeCode')" v-model="roomNum" confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-gradual-green shadow-blur round" @tap="_searchMeter()">搜索</button>
-				<button class="cu-btn bg-gradual-orange shadow-blur round" @tap="_addMeter()">开始抄表</button>
+				<button class="cu-btn bg-gradual-blue shadow-blur round" @tap="_searchMeter()">搜索</button>
+				<!-- 开始抄表 -->
+				<button class="cu-btn bg-gradual-orange shadow-blur round"
+					@tap="_addMeter()">{{$t('start_meter_reading')}}</button>
 			</view>
 		</view>
 		<view class="margin-top mytop">
@@ -17,13 +19,16 @@
 						<view class="text-black text-xs">
 							<text class="cuIcon-homefill text-blue "></text> {{item.objName}}
 						</view>
+						<!-- 本期读数 -->
 						<view class="text-gray text-sm">
-							<text>本期读数:</text> {{item.curDegrees}}
-							<text style="margin-left: 7px;">时间:</text> {{item.curReadingTime}}
+							<text>{{$t('current_reading')}}:</text> {{item.curDegrees}}
+							<!-- 时间 -->
+							<text style="margin-left: 7px;">{{$t('time')}}:</text> {{item.curReadingTime}}
 						</view>
 					</view>
 					<view class="action">
-						<text class="text-grey text-sm">{{item.meterType == 1010 ? '电表':'水电'}}</text>
+						<text
+							class="text-grey text-sm">{{item.meterType == 1010 ? $t('electric_meter'):$t('utilities')}}</text>
 					</view>
 				</view>
 			</view>
@@ -33,7 +38,9 @@
 
 <script>
 	import noDataPage from '@/components/no-data-page/no-data-page.vue'
-	import {getCurrentCommunity} from '../../api/community/community.js'
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
 	import url from '../../constant/url.js'
 	export default {
 		data() {
@@ -45,6 +52,11 @@
 		},
 		components: {
 			noDataPage
+		},
+		computed: {
+			getHomeCode() {
+				return this.$t('writeHomeCode')
+			}
 		},
 		onLoad() {
 			this.java110Context.onLoad();
@@ -97,19 +109,19 @@
 					},
 					fail: function(e) {
 						wx.showToast({
-							title: "服务器异常了",
+							title: $t('server_error'),
 							icon: 'none',
 							duration: 2000
 						});
 					}
-				});
+				}, this.meterReads.length == 0);
 			},
 			_searchMeter: function() {
 				this._loadMeterWaters();
 			},
-			_addMeter:function(){
+			_addMeter: function() {
 				uni.navigateTo({
-					url:'/pages/addmeter/addmeter'
+					url: '/pages/addmeter/addmeter'
 				});
 			}
 
@@ -125,16 +137,17 @@
 	.cu-list+.cu-list {
 		margin-top: 20upx;
 	}
-	
-	
-	.myfixed{
+
+
+	.myfixed {
 		position: fixed;
 		z-index: 99;
 		width: 100%;
 		height: 30px;
 		margin-top: -14px;
 	}
-	.mytop{
+
+	.mytop {
 		padding-top: 35px;
 	}
 </style>

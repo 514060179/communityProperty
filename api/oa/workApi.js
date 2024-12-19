@@ -4,7 +4,7 @@ import url from '../../constant/url.js'
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryStartWork(_that,_data){
+export function queryStartWork(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryStartWork,
@@ -14,7 +14,7 @@ export function queryStartWork(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -22,12 +22,12 @@ export function queryStartWork(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -36,7 +36,7 @@ export function queryStartWork(_that,_data){
  * @param {Object} _that 上下文对象
  * @param {Object} _data 请求报文
  */
-export function queryWorkType(_that,_data){
+export function queryWorkType(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listWorkType,
@@ -46,7 +46,7 @@ export function queryWorkType(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -54,12 +54,12 @@ export function queryWorkType(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -68,7 +68,7 @@ export function queryWorkType(_that,_data){
  * @param {Object} _that
  * @param {Object} _data
  */
-export function saveWorkPool(_that,_data){
+export function saveWorkPool(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		uni.showLoading({
 		  title: '提交中...',
@@ -91,16 +91,16 @@ export function saveWorkPool(_that,_data){
 			fail: function(e) {
 				uni.hideLoading();
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function updateWorkPool(_that,_data){
+export function updateWorkPool(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		uni.showLoading({
 		  title: '提交中...',
@@ -123,15 +123,15 @@ export function updateWorkPool(_that,_data){
 			fail: function(e) {
 				uni.hideLoading();
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function deleteWorkPool(_that,_data){
+export function deleteWorkPool(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		uni.showLoading({
 		  title: '提交中...',
@@ -154,15 +154,15 @@ export function deleteWorkPool(_that,_data){
 			fail: function(e) {
 				uni.hideLoading();
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function getWorkTask(_that,_data){
+export function getWorkTask(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listWorkTask,
@@ -172,7 +172,7 @@ export function getWorkTask(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -180,16 +180,16 @@ export function getWorkTask(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function getWorkPool(_that,_data){
+export function getWorkPool(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listWorkPool,
@@ -199,7 +199,7 @@ export function getWorkPool(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -207,15 +207,15 @@ export function getWorkPool(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function getWorkEvent(_that,_data){
+export function getWorkEvent(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listWorkEvent,
@@ -225,7 +225,7 @@ export function getWorkEvent(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -233,15 +233,15 @@ export function getWorkEvent(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function getWorkPoolFile(_that,_data){
+export function getWorkPoolFile(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listWorkPoolFile,
@@ -251,7 +251,7 @@ export function getWorkPoolFile(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -259,15 +259,15 @@ export function getWorkPoolFile(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function getWorkCopy(_that,_data){
+export function getWorkCopy(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listWorkCopy,
@@ -277,7 +277,7 @@ export function getWorkCopy(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -285,17 +285,17 @@ export function getWorkCopy(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 
-export function getWorkCycle(_that,_data){
+export function getWorkCycle(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.listWorkCycle,
@@ -305,7 +305,7 @@ export function getWorkCycle(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -313,15 +313,15 @@ export function getWorkCycle(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
-export function getTaskWork(_that,_data){
+export function getTaskWork(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryTaskWork,
@@ -331,7 +331,7 @@ export function getTaskWork(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -339,12 +339,12 @@ export function getTaskWork(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
@@ -353,7 +353,7 @@ export function getTaskWork(_that,_data){
  * @param {Object} _that
  * @param {Object} _data
  */
-export function finishWorkTask(_that,_data){
+export function finishWorkTask(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		uni.showLoading({
 		  title: '提交中...',
@@ -376,16 +376,16 @@ export function finishWorkTask(_that,_data){
 			fail: function(e) {
 				uni.hideLoading();
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
-export function getCopyWork(_that,_data){
+export function getCopyWork(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		_that.context.get({
 			url: url.queryCopyWork,
@@ -395,7 +395,7 @@ export function getCopyWork(_that,_data){
 					reslove(res.data);
 				}else{
 					wx.showToast({
-						title: "服务器异常了",
+						title:i18n.t('server_error'),
 						icon: 'none',
 						duration: 2000
 					})
@@ -403,17 +403,17 @@ export function getCopyWork(_that,_data){
 			},
 			fail: function(e) {
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }
 
 
-export function finishWorkCopy(_that,_data){
+export function finishWorkCopy(_that,_data, isShowLoad){
 	return new Promise(function(reslove,reject){
 		uni.showLoading({
 		  title: '提交中...',
@@ -436,11 +436,11 @@ export function finishWorkCopy(_that,_data){
 			fail: function(e) {
 				uni.hideLoading();
 				wx.showToast({
-					title: "服务器异常了",
+					title:i18n.t('server_error'),
 					icon: 'none',
 					duration: 2000
 				})
 			}
-		})
+		}, isShowLoad)
 	});
 }

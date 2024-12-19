@@ -42,7 +42,7 @@
 				<picker bindchange="PickerChange" :value="item.valueIndex" :range-key="'label'" :range="item.values"
 					@change="selectChange($event,item)">
 					<view class="picker">
-						{{item.values.length==0 ? "请选择" : item.values[item.valueIndex].label}}
+						{{item.values.length==0 ? $t('请选择') : item.values[item.valueIndex].label}}
 					</view>
 				</picker>
 			</view>
@@ -52,7 +52,7 @@
 				<picker bindchange="PickerChange" :value="item.valueIndex" :range-key="'label'" :range="item.values"
 					@change="selectChange($event,item)">
 					<view class="picker">
-						{{item.values.length==0 ? "请选择" : item.values[item.valueIndex].label}}
+						{{item.values.length==0 ? $t('请选择') : item.values[item.valueIndex].label}}
 					</view>
 				</picker>
 			</view>
@@ -69,14 +69,14 @@
 				<view class="button_up_blank"></view>
 				<view>{{fileName}}</view>
 				<view class="flex flex-direction">
-					<button class="cu-btn bg-white margin-tb-sm lg" @click="_doUploadFile()">上传附件</button>
+					<button class="cu-btn bg-white margin-tb-sm lg" @click="_doUploadFile()">{{$t('上传附件')}}</button>
 				</view>
 			</view>
 			<!--提交框-->
 			<view v-if="item.type== 'button' && item.action == 'submit'">
 				<view class="button_up_blank"></view>
 				<view class="flex flex-direction">
-					<button class="cu-btn bg-green margin-tb-sm lg" @click="_doSubmit()">{{item.label}}</button>
+					<button class="cu-btn bg-blue margin-tb-sm lg" @click="_doSubmit()">{{item.label}}</button>
 				</view>
 			</view>
 			<!--重置框-->
@@ -92,7 +92,9 @@
 </template>
 
 <script>
-	import {getHeaders} from '../../lib/java110/api/SystemApi.js'
+	import {
+		getHeaders
+	} from '../../lib/com/newland/property/api/SystemApi.js'
 	import {
 		queryOaWorkflowForm,
 		updateOaWorkflowFormData,
@@ -100,7 +102,7 @@
 	} from '../../api/oa/oa.js'
 	import {
 		isEmpty
-	} from '../../lib/java110/utils/StringUtil.js'
+	} from '../../lib/com/newland/property/utils/StringUtil.js'
 	export default {
 		data() {
 			return {
@@ -109,8 +111,8 @@
 				flowId: '',
 				flowName: '',
 				id: '',
-				fileName:'',
-				realFileName:''
+				fileName: '',
+				realFileName: ''
 			}
 		},
 		onLoad(options) {
@@ -127,14 +129,14 @@
 					page: 1,
 					row: 1,
 					flowId: this.flowId
-				}).then(_data => {
+				}, this.components.length == 0).then(_data => {
 					_that.formJson = JSON.parse(_data.data[0].formJson);
 					console.log(_that.formJson);
 					_that.components = _that.formJson.components;
 					_that.components.forEach(item => {
 						item.value = "";
 						if (item.type == 'textdate' || item.type == 'textdatetime') {
-							item.value = "请选择";
+							item.value = _that.$t('请选择');
 						}
 						if (item.type == "radio" || item.type == "select") {
 							item.valueIndex = 0;
@@ -153,7 +155,7 @@
 						item.value = _oaData[item.key];
 					})
 					console.log(_that.components);
-					if(_oaData.files){
+					if (_oaData.files) {
 						_that.fileName = _oaData.files[0].fileName;
 						_that.realFileName = _oaData.files[0].realFileName;
 					}
@@ -184,20 +186,21 @@
 				this.$forceUpdate();
 			},
 			_doSubmit: function() {
+				let _that = this
 				//做数据校验
 				let _components = this.components;
 				let _data = {
-					fileName:this.fileName,
-					realFileName:this.realFileName
+					fileName: this.fileName,
+					realFileName: this.realFileName
 				};
 				_components.forEach(item => {
 					if (item.validate && item.validate.required == true && isEmpty(item.value)) {
 						uni.showToast({
-							title: item.label + "不能为空",
+							title: item.label + _that.$t('不能为空'),
 							icon: 'none',
 							duration: 2000
 						})
-						throw Error(item.label + "不能为空");
+						throw Error(item.label + _that.$t('不能为空'));
 					}
 					if (item.type != 'button' && item.type != 'text') {
 						_data[item.key] = item.value;
@@ -208,11 +211,11 @@
 				});
 				_data.flowId = this.flowId;
 				_data.id = this.id;
-				updateOaWorkflowFormData(this, _data)
+				updateOaWorkflowFormData(this, _data, true)
 					.then(_data => {
 						if (_data.data.code == 0) {
 							uni.showToast({
-								title: "提交成功",
+								title: _that.$t('提交成功'),
 								icon: 'none',
 								duration: 2000
 							})
@@ -228,7 +231,7 @@
 						})
 					}, _err => {
 						uni.showToast({
-							title: '网络异常',
+							title: _that.$t('网络异常'),
 							icon: 'none',
 							duration: 2000
 						})
@@ -242,7 +245,7 @@
 				_that.components.forEach(item => {
 					item.value = "";
 					if (item.type == 'textdate' || item.type == 'textdatetime') {
-						item.value = "请选择";
+						item.value = _that.$t('请选择');
 					}
 
 					if (item.type == "radio" || item.type == "select") {
@@ -259,43 +262,43 @@
 						console.log(res);
 						if (res.tempFiles[0].size / 1024 / 1024 > 20) {
 							this.$refs.uToast.show({
-								title: '附件大小不能超过20M',
+								title: _that.$t('附件大小不能超过20M'),
 								type: 'warning',
 							})
 							return;
 						}
-				 	this.resultPath(res.tempFilePaths[0], res.tempFiles[0].name);
+						this.resultPath(res.tempFilePaths[0], res.tempFiles[0].name);
 					}
 				});
 			},
-			resultPath(path,fileName) {
-			    let _that = this;
-			    uni.showLoading({
-			      title: '上传中...',
-			    });
-			    uni.uploadFile({
-			        url: '/callComponent/upload/uploadVedio/upload', 
-			        filePath: path,
+			resultPath(path, fileName) {
+				let _that = this;
+				uni.showLoading({
+					title: _that.$t('上传中'),
+				});
+				uni.uploadFile({
+					url: '/callComponent/upload/uploadVedio/upload',
+					filePath: path,
 					name: 'uploadFile',
-			        header:getHeaders(),
-			        formData: {
-			            // 'user': 'test'
-			        },
-			        success: (uploadFileRes) => {
+					header: getHeaders(),
+					formData: {
+						// 'user': 'test'
+					},
+					success: (uploadFileRes) => {
 						uni.hideLoading();
-			             let obj = JSON.parse(uploadFileRes.data);
-			             _that.fileName = obj.fileName;
-						 _that.realFileName = obj.realFileName;
-						 
-			         },
-			         fail:(err) =>{
-			             this.$refs.uToast.show({
-			                 title: '上传失败',
-			                 type: 'error',
-			             });
-			             uni.hideLoading();
-			         }
-			    });
+						let obj = JSON.parse(uploadFileRes.data);
+						_that.fileName = obj.fileName;
+						_that.realFileName = obj.realFileName;
+
+					},
+					fail: (err) => {
+						this.$refs.uToast.show({
+							title: _that.$t('上传失败'),
+							type: 'error',
+						});
+						uni.hideLoading();
+					}
+				});
 			}
 		}
 	}

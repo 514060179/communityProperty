@@ -13,7 +13,7 @@
 			</view>
 
 			<view class="flex flex-direction margin">
-				<button class="cu-btn bg-green margin-tb-sm lg" @click="submitAppraiseRepair()">提交</button>
+				<button class="cu-btn bg-blue margin-tb-sm lg" @click="submitAppraiseRepair()">提交</button>
 			</view>
 
 		</view>
@@ -25,7 +25,7 @@
 		appraiseRepair
 	} from '../../api/repair/repair.js'
 	import SxRate from '@/components/sx-rate'
-	import {getUserInfo} from '../../lib/java110/api/Java110SessionApi.js'
+	import {getUserInfo} from '../../lib/com/newland/property/api/Java110SessionApi.js'
 	export default {
 		data() {
 			return {
@@ -66,7 +66,7 @@
 			},
 			submitAppraiseRepair: function() {
 				wx.showLoading();
-				appraiseRepair(this).then(function(res){
+				appraiseRepair(this, true).then(function(res){
 					let _data = res.data;
 					//成功情况下跳转
 					if (_data.code == 0) {

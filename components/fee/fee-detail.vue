@@ -7,43 +7,53 @@
 				<view class="text-gray">{{item.createTime}}</view>
 			</view>
 			<view class="flex margin-top justify-between">
-				<view class="text-gray">收费对象</view>
+				<!-- 收费对象 -->
+				<view class="text-gray">{{$t('charge_object')}}</view>
 				<view class="text-gray">{{item.objName}}</view>
 			</view>
 			<view class="flex margin-top-xs justify-between">
-				<view class="text-gray">缴费编码</view>
+				<!-- 缴费编码 -->
+				<view class="text-gray">{{$t('billing_code')}}</view>
 				<view class="text-gray">{{item.detailId}}</view>
 			</view>
 			<view class="flex margin-top-xs justify-between">
-				<view class="text-gray">支付方式</view>
+				<!-- 支付方式 -->
+				<view class="text-gray">{{$t('payment_method')}}</view>
 				<view class="text-gray">{{item.primeRate}}</view>
 			</view>
 			<view class="flex margin-top-xs justify-between">
-				<view class="text-gray">起始时间</view>
+				<!-- 起始时间 -->
+				<view class="text-gray">{{$t('start_time')}}</view>
 				<view class="text-gray">{{item.startTime}}</view>
 			</view>
 			<view class="flex margin-top-xs justify-between">
-				<view class="text-gray">结束时间</view>
+				<!-- 结束时间 -->
+				<view class="text-gray">{{$t('end_time')}}</view>
 				<view class="text-gray">{{item.endTime}}</view>
 			</view>
 			<view class="flex margin-top-xs justify-between">
-				<view class="text-gray">缴费金额</view>
-				<view class="text-gray">{{item.receivedAmount}}元</view>
+				<!-- 缴费金额 -->
+				<view class="text-gray">{{$t('payment_amount')}}</view>
+				<view class="text-gray">{{item.receivedAmount}}MOP</view>
 			</view>
 			<view class="flex margin-top-xs justify-between" v-if="item.preDegrees">
-				<view class="text-gray">上期度数</view>
+				<!-- 上期度数 -->
+				<view class="text-gray">{{$t('previous_degree')}}</view>
 				<view class="text-gray">{{item.preDegrees}}</view>
 			</view>
 			<view class="flex margin-top-xs justify-between" v-if="item.curDegrees">
-				<view class="text-gray">本期度数</view>
+				<!-- 本期度数 -->
+				<view class="text-gray">{{$t('current_degree')}}</view>
 				<view class="text-gray">{{item.curDegrees}}</view>
 			</view>
 			<view class="flex margin-top-xs justify-between" v-if="item.preDegrees">
-				<view class="text-gray">使用量</view>
+				<!-- 使用量 -->
+				<view class="text-gray">{{$t('usage_amount')}}</view>
 				<view class="text-gray">{{item.curDegrees-item.preDegrees}}</view>
 			</view>
 			<view class="flex margin-top-xs justify-between">
-				<view class="text-gray">备注</view>
+				<!-- 备注 -->
+				<view class="text-gray">{{$t('remark')}}</view>
 				<view class="text-gray">{{item.remark}}</view>
 			</view>
 		</view>
@@ -59,7 +69,7 @@
 	} from '@/api/fee/feeDetail.js';
 	import {
 		dateSubOneDay
-	} from '../../lib/java110/utils/DateUtil.js';
+	} from '../../lib/com/newland/property/utils/DateUtil.js';
 	import {
 		getCurrentCommunity
 	} from '../../api/community/community.js';
@@ -88,9 +98,9 @@
 				queryPayFeeDetail(this, {
 					objId: this.roomId,
 					communityId: this.communityId,
-					page:1,
-					row:50
-				}).then(_data => {
+					page: 1,
+					row: 50
+				}, this.feeDetails.length == 0).then(_data => {
 					let _feeDetails = _data.data;
 					if (_feeDetails == null || _feeDetails == undefined) {
 						_feeDetails = [];
@@ -101,7 +111,7 @@
 							_feeDetail.createTime = _tmpCreateTime;
 						});
 					}
-					
+
 					if (_feeDetails.length < 1) {
 						_that.noData = true;
 					}
@@ -110,7 +120,7 @@
 					//_that.feeDetails = _data;
 				});
 			},
-			
+
 
 		}
 	}
@@ -158,4 +168,3 @@
 
 	.uni-checkbox-input {}
 </style>
-

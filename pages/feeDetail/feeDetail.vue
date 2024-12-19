@@ -1,43 +1,56 @@
 <template>
 	<view>
-		<view class="block__title">费用信息</view>
+		<!-- 费用信息 -->
+		<view class="block__title">{{$t('cost_information')}}</view>
 		<view class="cu-form-group">
-			<view class="title">费用名称</view>
+			<!-- 费用名称 -->
+			<view class="title">{{$t('cost_name')}}</view>
 			{{feeInfo.feeName}}
 		</view>
 		<view class="cu-form-group">
-			<view class="title">费用类型</view>
+			<!-- 费用类型 -->
+			<view class="title">{{$t('cost_type')}}</view>
 			{{feeInfo.feeTypeCdName}}
 		</view>
 		<view class="cu-form-group">
-			<view class="title">到期时间</view>
+			<!-- 到期时间 -->
+			<view class="title">{{$t('expiration_date')}}</view>
 			{{feeInfo.deadlineTime}}
 		</view>
 		<view class="cu-form-group">
-			<view class="title">费用标识</view>
+			<!-- 费用标识 -->
+			<view class="title">{{$t('cost_identifier')}}</view>
 			{{feeInfo.feeFlagName}}
 		</view>
 		<view class="cu-form-group">
-			<view class="title">收费状态</view>
+			<!-- 收费状态 -->
+			<view class="title">{{$t('charge_status')}}</view>
 			{{feeInfo.stateName}}
 		</view>
 		<view v-if="noData == false">
-			<view class="block__title">缴费历史</view>
-			<view v-for="(item,index) in feeDetails" :key="index" class="bg-white margin-bottom margin-right-xs radius margin-left-xs padding">
+			<!-- 缴费历史 -->
+			<view class="block__title">{{$t('payment_history')}}</view>
+			<view v-for="(item,index) in feeDetails" :key="index"
+				class="bg-white margin-bottom margin-right-xs radius margin-left-xs padding">
 				<view class="flex padding-bottom-xs solid-bottom justify-between">
-					<view>缴费金额</view>
-					<view class="text-gray">{{item.receivedAmount}}元</view>
+					<!-- 缴费金额 -->
+					<view>{{$t('payment_amount')}}</view>
+					<view class="text-gray">{{item.receivedAmount}}MOP</view>
 				</view>
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">缴费编码</view>
+					<!-- 缴费编码 -->
+					<view class="text-gray">{{$t('payment_code')}}</view>
 					<view class="text-gray">{{item.detailId}}</view>
 				</view>
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">缴费周期</view>
-					<view class="text-gray">{{item.cycles}}个月</view>
+					<!-- 缴费周期 -->
+					<view class="text-gray">{{$t('payment_cycle')}}</view>
+					<!-- 个月 -->
+					<view class="text-gray">{{item.cycles}} </view>{{$t('months')}}
 				</view>
 				<view class="flex margin-top-xs justify-between">
-					<view class="text-gray">缴费时间</view>
+					<!-- 缴费时间 -->
+					<view class="text-gray">{{$t('payment_time')}}</view>
 					<view class="text-gray">{{item.createTime}}</view>
 				</view>
 			</view>
@@ -52,8 +65,10 @@
 		loadFees,
 		queryFeeDetail
 	} from '../../api/fee/fee.js';
-	import {getCurrentCommunity} from '../../api/community/community.js'
-	import dateUtil from '../../lib/java110/utils/date.js'
+	import {
+		getCurrentCommunity
+	} from '../../api/community/community.js'
+	import dateUtil from '../../lib/com/newland/property/utils/date.js'
 	export default {
 		data() {
 			return {
@@ -80,7 +95,7 @@
 					feeId: this.feeId,
 					communityId: getCurrentCommunity().communityId
 				}
-				queryFeeDetail(this, _objData)
+				queryFeeDetail(this, _objData, this.feeDetails.length == 0)
 					.then(function(res) {
 						if (res.statusCode == 200) {
 							//成功情况下跳转
@@ -111,7 +126,7 @@
 					communityId: getCurrentCommunity().communityId,
 					feeId: this.feeId
 				}
-				loadFees(this, _data)
+				loadFees(this, _data, true)
 					.then(function(res) {
 						if (res.statusCode != 200) {
 							return;
@@ -119,10 +134,11 @@
 						let _fees = res.data.fees;
 						_that.feeInfo = _fees[0];
 						// 周期费用 结束日期 -1 天； 其他不变
-						if(_that.feeInfo.feeFlag == '1003006'){
+						if (_that.feeInfo.feeFlag == '1003006') {
 							_that.feeInfo.deadlineTime = dateUtil.decSomeDays(_that.feeInfo.deadlineTime, 1);
-						}else{
-							_that.feeInfo.deadlineTime = dateUtil.formatDate(new Date(_that.feeInfo.deadlineTime.replace(/-/g, '/')));
+						} else {
+							_that.feeInfo.deadlineTime = dateUtil.formatDate(new Date(_that.feeInfo.deadlineTime
+								.replace(/-/g, '/')));
 						}
 					})
 			},

@@ -2,10 +2,10 @@
 	<view>
 		<scroll-view scroll-x class="bg-white nav">
 			<view class="flex text-center">
-				<view class="cu-item flex-sub" :class="active==1?'text-green cur':''" @tap="tabSelect(1)">
+				<view class="cu-item flex-sub" :class="active==1?'text-blue cur':''" @tap="tabSelect(1)">
 					待办
 				</view>
-				<view class="cu-item flex-sub" :class="active==2?'text-green cur':''" @tap="tabSelect(2)">
+				<view class="cu-item flex-sub" :class="active==2?'text-blue cur':''" @tap="tabSelect(2)">
 					已办
 				</view>
 			</view>
@@ -79,14 +79,14 @@
 					queryUndoItemRelease(this, {
 						page: 1,
 						row: 100,
-					}).then(_data => {
+					}, this.oaWorkflowFlows.length == 0).then(_data => {
 						_that.oaWorkflowFlows = _data.data;
 					})
 				}else{
 					queryFinishItemRelease(this, {
 						page: 1,
 						row: 100,
-					}).then(_data => {
+					}, this.oaWorkflowFlows.length == 0).then(_data => {
 						_that.oaWorkflowFlows = _data.data;
 					})
 				}

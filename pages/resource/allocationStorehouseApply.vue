@@ -151,7 +151,7 @@
 					flowId: this.flowId,
 					shId:this.shId
 				};
-				saveAllocationStorehouse(this, _data)
+				saveAllocationStorehouse(this, _data, true)
 					.then(function(res) {
 						if (res.code == 0) {
 							// uni.navigateTo({
@@ -177,7 +177,7 @@
 					row: 100,
 					//communityId: this.getCommunityId(),
 				};
-				listStoreHouses(this, param).then(_data => {
+				listStoreHouses(this, param, this.storehouses.length == 0).then(_data => {
 					_that.storehouses = _data.data;
 					_that.storehouses.unshift({
 						shId: '',

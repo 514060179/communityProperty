@@ -10,7 +10,7 @@
 				<input type="text" placeholder="输入用户名称" v-model="searchUserName" confirm-type="search"></input>
 			</view>
 			<view class="action">
-				<button class="cu-btn bg-gradual-green shadow-blur round" @tap="_searchResource()">搜索</button>
+				<button class="cu-btn bg-gradual-blue shadow-blur round" @tap="_searchResource()">搜索</button>
 			</view>
 		</view>
 		<view class="cu-bar bg-white">
@@ -29,7 +29,7 @@
 				<view class="cu-item">
 					<view class="content">
 						<view class="text-grey">
-							<text class="text-green margin-right-xs" v-if="hasPrivilege">{{item.userName}}</text>
+							<text class="text-blue margin-right-xs" v-if="hasPrivilege">{{item.userName}}</text>
 							<text class="ellip">{{item.resName}}({{item.parentRstName}} > {{item.rstName}})</text>
 						</view>
 						<view class="text-gray text-sm flex">
@@ -117,7 +117,7 @@
 					row: 10,
 					communityId: getCurrentCommunity().communityId
 				};
-				queryMyResourceStoreInfo(this, _objData)
+				queryMyResourceStoreInfo(this, _objData, this.resourceList.length == 0)
 					.then(function(res) {
 						if (res.code != 0) {
 							uni.showToast({

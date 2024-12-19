@@ -2,13 +2,14 @@
 	<view>
 		<view class="q-query flex justify-start flex-wrap margin-top-sm">
 			<view class="q-item">
-				<input type="text" class="q-input" placeholder="题目" v-model="workNameLike"></input>
+				<input type="text" class="q-input" :placeholder="$t('title')" v-model="workNameLike"></input>
 			</view>
 			<view class="q-item">
-				<input type="text" class="q-input" placeholder="处理人" v-model="staffNameLike"></input>
+				<input type="text" class="q-input" :placeholder="$t('processor')" v-model="staffNameLike"></input>
 			</view>
 			<view class="q-item-btn">
-				<button class="cu-btn  line-blue round q-input" @click="_loadStartWork">搜索</button>
+				<!-- 搜索 -->
+				<button class="cu-btn  line-blue round q-input" @click="_loadStartWork">{{$t('search')}}</button>
 			</view>
 		</view>
 		<view class="margin-top" v-if="works.length > 0">
@@ -20,31 +21,39 @@
 					</view>
 					<view class="flex justify-start">
 						<button class="cu-btn round sm line-black margin-left-sm"
-							@tap="_toWorkDetail(work)">详情</button>
+							@tap="_toWorkDetail(work)">{{$t('btn_details')}}</button>
 					</view>
 				</view>
 				<view class="apply-content flex justify-start flex-wrap">
 					<view class="item">
-						<text>题目:</text>
+						<!-- 题目 -->
+						<text>{{$t('title')}}:</text>
 						<text class="margin-left-sm">{{work.workName}}</text>
 					</view>
 					<view class="item-half">
-						<text>标识:</text>
-						<text class="margin-left-sm">{{work.workCycle == '1001'?'一次性工单':'周期性工单'}}</text>
+						<!-- 标识 -->
+						<text>{{$t('identifier')}}:</text>
+						<!-- 一次性工单 周期性工单 -->
+						<text
+							class="margin-left-sm">{{work.workCycle == '1001'?$t('one_time_work_order'):$t('periodic_work_order')}}</text>
 					</view>
 					<view class="item-half">
-						<text>处理人:</text>
-						<text class="margin-left-sm">{{work.staffName || '-'}}</text>
+						<!-- 处理人 -->
+						<text>{{$t('processor')}}:</text>
+						<!-- <text class="margin-left-sm">{{work.staffName || '-'}}</text> -->
+						<text class="margin-left-sm">{{work.curStaffName || '-'}}</text>
 					</view>
 					<view class="item">
-						<text>创建时间:</text>
+						<!-- 创建时间 -->
+						<text>{{$t('creation_time')}}:</text>
 						<text class="margin-left-sm">{{work.createTime}}</text>
 					</view>
-					<view class="item" >
-						<text>有效期:</text>
+					<view class="item">
+						<!-- 有效期 -->
+						<text>{{$t('validity_period')}}:</text>
 						<text class="margin-left-sm">{{work.startTime}}~{{work.endTime}}</text>
 					</view>
-		
+
 				</view>
 			</view>
 		</view>
@@ -56,40 +65,43 @@
 
 <script>
 	import noDataPage from '../no-data-page/no-data-page.vue';
-	import {queryStartWork} from '../../api/oa/workApi.js';
+	import {
+		queryStartWork
+	} from '../../api/oa/workApi.js';
 	export default {
-		name:"myWork",
+		name: "myWork",
 		data() {
 			return {
-				workNameLike:'',
-				staffNameLike:'',
-				works:[]
+				workNameLike: '',
+				staffNameLike: '',
+				works: []
 			};
 		},
+		computed: {},
 		created() {
 			this._loadStartWork();
 		},
-		components:{
+		components: {
 			noDataPage
 		},
-		methods:{
-			_loadStartWork:function(){
-				let _that =this;
-				queryStartWork(this,{
-					page:1,
-					row:100,
-					workNameLike:this.workNameLike,
-					staffNameLike:this.staffNameLike
-				}).then(_data=>{
+		methods: {
+			_loadStartWork: function() {
+				let _that = this;
+				queryStartWork(this, {
+					page: 1,
+					row: 100,
+					workNameLike: this.workNameLike,
+					staffNameLike: this.staffNameLike
+				}, this.works.length == 0).then(_data => {
 					_that.works = _data.data;
 				});
 			},
-			_toWorkDetail:function(_work){
-				
+			_toWorkDetail: function(_work) {
+
 				uni.navigateTo({
-					url:'/pages/work/workTask?workId='+_work.workId
+					url: '/pages/work/workTask?workId=' + _work.workId
 				})
-				
+
 			}
 		}
 	}
@@ -122,24 +134,26 @@
 			}
 		}
 	}
+
 	.apply-title {
 		height: 60upx;
 		line-height: 50upx;
 		border-bottom: 1upx solid #F1F1F1;
 	}
-	
+
 	.apply-content {
 		.item-half {
 			width: 50%;
 			margin-top: 20upx;
 		}
-		.item{
+
+		.item {
 			width: 100%;
 			margin-top: 20upx;
 		}
-		
+
 	}
-	
+
 	.radius-sm {
 		border-radius: 16upx;
 	}

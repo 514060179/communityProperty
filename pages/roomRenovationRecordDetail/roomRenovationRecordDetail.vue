@@ -3,7 +3,7 @@
 		<view class="cu-list menu margin-top">
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-deletefill text-green"></text>
+					<text class="cuIcon-deletefill text-blue"></text>
 					<text class="text-grey">操作</text>
 				</view>
 				<view class="action">
@@ -12,8 +12,9 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-time text-green"></text>
-					<text class="text-grey">申请房间</text>
+					<text class="cuIcon-time text-blue"></text>
+					<!-- 申请房间 -->
+					<text class="text-grey">{{$t('application_room')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{recordInfo.roomName}}</text>
@@ -21,25 +22,29 @@
 			</view>
 			<view class="cu-item">
 				<view class="content">
-					<text class="cuIcon-footprint text-green"></text>
-					<text class="text-grey">跟踪备注</text>
+					<text class="cuIcon-footprint text-blue"></text>
+					<!-- 跟踪备注 -->
+					<text class="text-grey">{{$t('tracking_remark')}}</text>
 				</view>
 				<view class="action">
 					<text class="text-grey text-sm">{{recordList.length>0 ? recordList[0].remark : ''}}</text>
 				</view>
 			</view>
 			<view v-if="imgRecordList.length>0">
-				<view class="text-grey">图片</view>
+				<!-- 图片 -->
+				<view class="text-grey">{{$t('image')}}</view>
 				<view class="cu-item">
-					<view class="grid text-center col-4 grid-square" >
+					<view class="grid text-center col-4 grid-square">
 						<view class="" v-for="(item,index) in imgRecordList" :key="index">
-							<image mode="widthFix" :data-url="item.url" :data-index="index" :src="item.url" @tap="preview"></image>
+							<image mode="widthFix" :data-url="item.url" :data-index="index" :src="item.url"
+								@tap="preview"></image>
 						</view>
 					</view>
 				</view>
 			</view>
 			<view v-if="videoRecordList.length>0">
-			<view class="text-grey">视频</view>
+				<!-- 视频 -->
+				<view class="text-grey">{{$t('video')}}</view>
 				<view v-for="(item,index) in videoRecordList" :key="index">
 					<video class="record-video" object-fit="contain" :src="item.url" controls></video>
 				</view>
@@ -49,7 +54,10 @@
 </template>
 
 <script>
-	import {queryRoomRenovationRecordDetail,deleteRoomRenovationRecord} from '../../api/renovation/renovation.js'
+	import {
+		queryRoomRenovationRecordDetail,
+		deleteRoomRenovationRecord
+	} from '../../api/renovation/renovation.js'
 	import conf from '../../conf/config.js'
 	export default {
 		data() {
@@ -85,12 +93,12 @@
 		 * 生命周期函数--监听页面显示
 		 */
 		onShow: function() {},
-		
+
 		methods: {
 			/**
 			 * 加载数据
 			 */
-			loadRecordDetail: function(){
+			loadRecordDetail: function() {
 				let _that = this;
 				let _objData = {
 					page: 1,
@@ -100,20 +108,20 @@
 					roomName: this.recordInfo.roomName,
 					roomId: this.recordInfo.roomId
 				};
-				queryRoomRenovationRecordDetail(this,_objData)
-				.then(function(res){
-					_that.recordList = res
-					res.forEach((item) => {
-						if(item.relTypeCd == 19000){
-							_that.imgRecordList.push(item);
-						}else if(item.relTypeCd == 21000){
-							_that.videoRecordList.push(item);
-						}
+				queryRoomRenovationRecordDetail(this, _objData, this.recordList.length == 0)
+					.then(function(res) {
+						_that.recordList = res
+						res.forEach((item) => {
+							if (item.relTypeCd == 19000) {
+								_that.imgRecordList.push(item);
+							} else if (item.relTypeCd == 21000) {
+								_that.videoRecordList.push(item);
+							}
+						})
 					})
-				})
 			},
-			
-			preview: function(e){
+
+			preview: function(e) {
 				let index = e.target.dataset.index;
 				let urls = [];
 				this.imgRecordList.forEach((item) => {
@@ -124,21 +132,22 @@
 					urls: urls
 				})
 			},
-			
-			deleteRecord: function(){
+
+			deleteRecord: function() {
+				let _that = this
 				uni.showModal({
 					title: '提示',
-					content: '是否确认删除？',
+					content: _that.$t('confirm_delete'),
 					success: (res) => {
-						if(res.confirm) {  
-							deleteRoomRenovationRecord(this,this.recordInfo)
-							.then(function(res){
-								uni.navigateBack({
-									delta:1
+						if (res.confirm) {
+							deleteRoomRenovationRecord(this, this.recordInfo, true)
+								.then(function(res) {
+									uni.navigateBack({
+										delta: 1
+									})
 								})
-							})
 						}
-					} 
+					}
 				})
 			}
 		}
@@ -146,7 +155,7 @@
 </script>
 
 <style>
-	uni-video{
+	uni-video {
 		width: 100%;
 	}
 </style>

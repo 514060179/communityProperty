@@ -2,13 +2,13 @@
 	<view>
 		<scroll-view scroll-x class="bg-white nav">
 			<view class="flex text-center">
-				<view class="cu-item flex-sub" :class="active==0?'text-green cur':''" @tap="tabSelect(0)">
+				<view class="cu-item flex-sub" :class="active==0?'text-blue cur':''" @tap="tabSelect(0)">
 					待处理
 				</view>
-				<view class="cu-item flex-sub" :class="active==1?'text-green cur':''" @tap="tabSelect(1)">
+				<view class="cu-item flex-sub" :class="active==1?'text-blue cur':''" @tap="tabSelect(1)">
 					接单中
 				</view>
-				<view class="cu-item flex-sub" :class="active==2?'text-green cur':''" @tap="tabSelect(2)">
+				<view class="cu-item flex-sub" :class="active==2?'text-blue cur':''" @tap="tabSelect(2)">
 					完成
 				</view>
 			</view>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-	import context from '../../lib/java110/Java110Context.js'
+	import context from '../../lib/com/newland/property/Java110Context.js'
 
 	export default {
 		data() {

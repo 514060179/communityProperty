@@ -1,11 +1,11 @@
 <template name="modal">
-	<view class="modalInputBg" v-show="showModal" >
+	<view class="modalInputBg" v-show="modalData.showModal" @tap="modalData.showModal = false">
 		<view class="modalInput">
 			<view class="modalDiv" @tap.stop="Bubbling">
 				<view class="title">{{modalData.title}}</view>
 				<view class="body"><input type="text" v-model="inputVal" value="" :placeholder="modalData.text"/></view>
 				<view class="bottom">
-					<view class="bottomCancel" @tap.stop="showModal = false">取消</view>						
+					<view class="bottomCancel" @tap.stop="modalData.showModal = false">取消</view>						
 					<view class="bottomDefine" @tap.stop="onDefine">确定</view>
 				</view>
 			</view>
@@ -22,15 +22,11 @@
 		},
 		data() {
 			return {
-				inputVal: '',
-				showModal:false,
+				inputVal: ''
 			}
 		},
 
 		methods: {
-			openModal:function(){
-				this.showModal = true;
-			},
 			onDefine(){
 				if(!this.inputVal){
 					uni.showToast({
@@ -39,7 +35,7 @@
 					})
 					return;
 				}
-				this.showModal = false
+				this.modalData.showModal = false
 				this.$emit('dataInput', this.inputVal);
 				this.inputVal = ''
 			},

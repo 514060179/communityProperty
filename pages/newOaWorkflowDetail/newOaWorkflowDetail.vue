@@ -6,49 +6,52 @@
 				<view class="text-gray">{{oaWorkflowData.create_time}}</view>
 			</view>
 			<view class="flex margin-top justify-between">
-				<view class="text-gray">工单状态</view>
+				<view class="text-gray">{{$t('工单状态')}}</view>
 				<view class="text-gray">{{_getNewOaWorkflowDetailState(oaWorkflowData)}}</view>
 			</view>
-			<view class="flex margin-top-xs justify-between" v-for="(item,index) in components"
-				v-if="item.type != 'text' && item.type != 'button' ">
-				<view class="text-gray">{{item.label}}</view>
-				<view class="text-gray">{{oaWorkflowData[item.key]}}</view>
-			</view>
+			<template v-for="(item,index) in components">
+				<view :key="index" class="flex margin-top-xs justify-between"
+					v-if="item.type != 'text' && item.type != 'button' ">
+					<view class="text-gray">{{item.label}}</view>
+					<view class="text-gray">{{oaWorkflowData[item.key]}}</view>
+				</view>
+			</template>
 
 			<view class="solid-top flex justify-end margin-top padding-top-sm ">
-				<button class="cu-btn sm bg-orange margin-left" @click="doEditOaWorkflow()" v-if="isMe()">编辑</button>
-				<button class="cu-btn sm bg-green margin-left" @click="doDealOaWorkflow()"
-					v-if="action=='Audit'">处理</button>
+				<button class="cu-btn sm bg-orange margin-left" @click="doEditOaWorkflow()"
+					v-if="isMe()">{{$t('编辑')}}</button>
+				<button class="cu-btn sm bg-blue margin-left" @click="doDealOaWorkflow()"
+					v-if="action=='Audit'">{{$t('处理')}}</button>
 				<!-- #ifdef H5 -->
-				<a class="table-btn" v-if="oaWorkflowData.files && oaWorkflowData.files.length >0" 
-				 :href="oaWorkflowData.files[0].realFileName" target='_blank'>下载</a>
+				<a class="table-btn" v-if="oaWorkflowData.files && oaWorkflowData.files.length >0"
+					:href="oaWorkflowData.files[0].realFileName" target='_blank'>{{$t('下载')}}</a>
 				<!-- #endif -->
 
 				<!-- #ifdef MP-WEIXIN -->
 				<button class="cu-btn sm bg-orange margin-left" @click="downLoadOaWorkflowFile()"
-					v-if="oaWorkflowData.files && oaWorkflowData.files.length >0">下载</button>
+					v-if="oaWorkflowData.files && oaWorkflowData.files.length >0">{{$t('下载')}}</button>
 				<!-- #endif -->
 
 			</view>
 		</view>
 
 		<view class="cu-timeline bg-white margin-top margin-right-xs radius margin-left-xs padding">
-			<view class="cu-time">工单</view>
-			<view class="cu-item " v-for="(item,index) in comments" :key="key">
+			<view class="cu-time">{{$t('工单')}}</view>
+			<view class="cu-item " v-for="(item,index) in comments" :key="index">
 				<view class="bg-cyan content">
-					<text>{{item.startTime}} </text> 到达 {{item.staffName}} 工位
+					<text>{{item.startTime}} </text> {{$t('到达')}} {{item.staffName}} {{$t('工位')}}
 				</view>
 				<view class="bg-cyan content" v-if="item.endTime != undefined">
-					<text>{{item.endTime}} </text> 处理完成
+					<text>{{item.endTime}} </text> {{$t('处理完成')}}
 				</view>
 				<view class="bg-cyan content" v-if="item.endTime != undefined">
-					<text>处理意见：</text> {{item.context}}
+					<text>{{$t('处理意见')}}：</text> {{item.context}}
 				</view>
 			</view>
 		</view>
 
 		<view class="cu-timeline bg-white margin-top margin-right-xs radius margin-left-xs padding">
-			<view class="cu-time">流程图</view>
+			<view class="cu-time">{{$t('流程图')}}</view>
 			<view class="">
 				<image :src="flowImage" :data-url="flowImage" mode="widthFix"></image>
 			</view>
@@ -65,7 +68,7 @@
 	} from '../../api/oa/oa.js'
 	import {
 		getUserInfo
-	} from '../../lib/java110/api/Java110SessionApi.js'
+	} from '../../lib/com/newland/property/api/Java110SessionApi.js'
 	export default {
 		data() {
 			return {
@@ -97,7 +100,7 @@
 						page: 1,
 						row: 10,
 						flowId: this.flowId
-					})
+					}, this.components.length == 0)
 					.then(_data => {
 						_that.formJson = JSON.parse(_data.data[0].formJson);
 						_that.components = _that.formJson.components;
@@ -117,7 +120,7 @@
 					row: 1,
 					flowId: this.flowId,
 					id: this.id
-				}).then(_data => {
+				}, JSON.stringify(this.oaWorkflowData) == '{}').then(_data => {
 					_that.oaWorkflowData = _data.data[0];
 				})
 			},
@@ -128,7 +131,7 @@
 					row: 100,
 					flowId: this.flowId,
 					id: this.id
-				}).then(_data => {
+				}, this.comments.length == 0).then(_data => {
 					_that.comments = _data.data;
 				})
 			},
@@ -137,7 +140,7 @@
 				listRunWorkflowImage(this, {
 					communityId: '',
 					businessKey: this.id
-				}).then(_data => {
+				}, this.flowImage == '').then(_data => {
 					_that.flowImage = 'data:image/png;base64,' + _data.data;
 				})
 			},
@@ -159,25 +162,26 @@
 				 * 1001 申请 1002 待审核 1003 退回 1004 委托 1005 办结
 				 */
 				if (!_finish.hasOwnProperty('state')) {
-					return "未知";
+					return this.$t('未知');
 				}
 
 				switch (_finish.state) {
 					case '1001':
-						return "申请";
+						return this.$t('申请');
 					case '1002':
-						return "待审核";
+						return this.$t('待审核');
 					case '1003':
-						return "退回";
+						return this.$t('退回');
 					case '1004':
-						return "委托";
+						return this.$t('委托');
 					case '1005':
-						return "办结";
+						return this.$t('办结');
 				}
 
-				return "未知"
+				return this.$t('未知')
 			},
 			downLoadOaWorkflowFile: function() {
+				let _that = this
 				// #ifndef H5
 				uni.downloadFile({
 					url: this.oaWorkflowData.files[0].realFileName, //文件链接
@@ -195,7 +199,7 @@
 									//res.savedFilePath文件的保存路径
 									uni.showToast({
 										icon: 'none',
-										title: '文件保存至' + res.savedFilePath
+										title: _that.$t('文件保存至') + res.savedFilePath
 									})
 								},
 								fail: () => console.log('下载失败')
