@@ -116,7 +116,7 @@
 					height: 100rpx;
 					line-height: 100rpx;
 					font-size: 64rpx;
-					color: #368cfe;
+					color: #39bbd2;
 					background: url("../../static/img/work/back.png") no-repeat;
 					background-size: 100% 100%;
 				}

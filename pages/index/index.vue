@@ -185,7 +185,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(180deg, #606ef0 0%, #008cd7 99%);
+    background: linear-gradient(180deg, #2fab81 0%, #39bbd2 99%);
   }
 }
 </style>

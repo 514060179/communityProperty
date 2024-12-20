@@ -389,7 +389,7 @@
 
 	.page-login {
 		height: 100vh;
-		background: linear-gradient(180deg, #606EF0 0%, #008CD7 99%);
+        background: linear-gradient(180deg, #2fab81 0%, #39bbd2 99%);
 
 		.login-content {
 			padding-top: 150rpx;
@@ -484,7 +484,7 @@
 				width: 100%;
 				height: 100rpx;
 				border-radius: 40rpx;
-				background: #153D81;
+				background: #167888;
 				color: #fff;
 				border-radius: 40rpx;
 			}

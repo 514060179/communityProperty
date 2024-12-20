@@ -619,7 +619,7 @@ export default {
 
     &::after {
       height: calc(400rpx + var(--height));
-      background: linear-gradient(180deg, #606ef0 0%, #008cd7 100%);
+      background: linear-gradient(180deg, #2fab81 0%, #39bbd2 99%);
     }
   }
 

@@ -23,7 +23,7 @@ module.exports = {
     "wz_ma": "吗",
     "please_input_phone": "请输入正确的手机号",
     "not_data": "暂无数据",
-    "artery": "动脉",
+    "artery": "安智",
     "员工头像": "员工头像",
     "正在上传": "正在上传",
     "服务器异常了": "服务器异常了",
