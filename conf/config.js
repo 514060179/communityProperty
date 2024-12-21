@@ -49,7 +49,7 @@ if (isRelease) {
 	// #endif
 
 	// #ifdef APP
-	baseUrl = 'https://property.newlandgo.com/'
+	baseUrl = 'http://property.hoiba.tech/'
 	// #endif
 
 } else { // 测试、开发
@@ -59,7 +59,7 @@ if (isRelease) {
 
 	// #ifdef APP
 	// TODO： 待替换
-	baseUrl = 'https://propertyuatmo.newlandgo.com/'
+	baseUrl = 'http://property.hoiba.tech/'
 	// baseUrl = 'http://192.168.8.213:8008/'
 	// #endif
 }

@@ -280,7 +280,7 @@
 
 	.photo_icon {
 		font-size: 40upx;
-		color: #0081ff;
+		color: #36b4b2;
 		margin-right: 60upx;
 	}
 
@@ -380,7 +380,7 @@
 		right: -29rpx !important;
 
 		.cu-btn {
-			background: #606ef0;
+			background: #36b4b2;
 		}
 	}
 

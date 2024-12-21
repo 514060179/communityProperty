@@ -172,7 +172,7 @@
                     //开发
                     //"target": "http://192.168.8.213:8008/",
                     //测试
-                    "target" : "https://propertyuatmo.newlandgo.com/",
+                    "target" : "http://property.hoiba.tech/",
                     //正式
                     //"target": "https://property.newlandgo.com/",
                     "changeOrigin" : true, //是否跨域
@@ -182,7 +182,7 @@
                     //开发
                     //"target": "http://192.168.8.213:8008/",
                     //测试
-                    "target" : "https://propertyuatmo.newlandgo.com/",
+                    "target" : "http://property.hoiba.tech/",
                     //正式
                     //"target": "https://property.newlandgo.com/",
                     "changeOrigin" : true, //是否跨域
